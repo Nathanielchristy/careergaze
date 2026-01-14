@@ -45,7 +45,7 @@ export default function Hero() {
               </Button>
             </div>
 
-            {/* Trust indicators */}
+            {/* Trust indicators
             <div className="mt-12 grid grid-cols-3 gap-6">
               <div className="animate-fade-in-up">
                 <div className="text-2xl font-bold text-primary">500+</div>
@@ -59,7 +59,7 @@ export default function Hero() {
                 <div className="text-2xl font-bold text-secondary">150+</div>
                 <div className="text-sm text-muted-foreground">Businesses Built</div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Right image */}
