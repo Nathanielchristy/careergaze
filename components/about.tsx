@@ -26,7 +26,7 @@ export default function About() {
             </p>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 gap-6 mt-8">
+            {/* <div className="grid grid-cols-2 gap-6 mt-8">
               <div className="animate-slide-in animation-delay-100">
                 <div className="text-3xl font-bold text-primary">10+</div>
                 <p className="text-sm text-muted-foreground">Years Experience</p>
@@ -35,7 +35,7 @@ export default function About() {
                 <div className="text-3xl font-bold text-accent">100+</div>
                 <p className="text-sm text-muted-foreground">Team Members</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
