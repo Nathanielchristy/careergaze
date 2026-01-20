@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, CheckCircle2, Users, Award, Lightbulb } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Users, Award, Lightbulb, Briefcase, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 
 export default function CollegeAdmissionPage() {
@@ -32,9 +32,9 @@ export default function CollegeAdmissionPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="animate-fade-in-up">
-              <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">College Admission Guidance</h1>
+              <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">College Admission & Internships</h1>
               <p className="text-xl text-muted-foreground mb-6">
-                Your pathway to success in higher education. We provide comprehensive guidance for college selection, course planning, and admission support across top Indian institutions.
+                Your pathway to success in higher education and professional growth. We provide comprehensive guidance for college selection, course planning, admission support, and exclusive internship opportunities across top Indian institutions.
               </p>
               <div className="flex gap-4">
                 <Link href="/#services" onClick={() => window.scrollTo(0, 0)}>
@@ -86,6 +86,12 @@ export default function CollegeAdmissionPage() {
                 description:
                   'Complete assistance with application forms, entrance exams, interviews, and documentation.',
               },
+              {
+                icon: Briefcase,
+                title: 'Internship Programs',
+                description:
+                  'Gain real-world experience with our exclusive internship opportunities across various industries and companies.',
+              },
             ].map((item, index) => {
               const Icon = item.icon
               return (
@@ -106,6 +112,56 @@ export default function CollegeAdmissionPage() {
         </div>
       </section>
 
+
+      {/* Internship Section */}
+      <section className="py-16 sm:py-24">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="animate-fade-in-up">
+              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Internship Programs</h2>
+              <p className="text-lg text-muted-foreground mb-6">
+                Bridge the gap between academics and industry. Our internship programs provide hands-on experience with leading companies, helping you build a competitive resume and develop professional skills that employers value.
+              </p>
+              <div className="space-y-4 mb-8">
+                <div className="flex gap-3">
+                  <CheckCircle2 className="text-primary flex-shrink-0 mt-1" size={20} />
+                  <div>
+                    <h4 className="font-semibold text-foreground">Industry-Leading Companies</h4>
+                    <p className="text-muted-foreground text-sm">Work with top organizations across tech, finance, marketing, and more.</p>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <CheckCircle2 className="text-primary flex-shrink-0 mt-1" size={20} />
+                  <div>
+                    <h4 className="font-semibold text-foreground">Mentorship & Training</h4>
+                    <p className="text-muted-foreground text-sm">Learn from experienced professionals and gain valuable industry insights.</p>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <CheckCircle2 className="text-primary flex-shrink-0 mt-1" size={20} />
+                  <div>
+                    <h4 className="font-semibold text-foreground">Certificate & References</h4>
+                    <p className="text-muted-foreground text-sm">Earn recognized certifications and professional references for future opportunities.</p>
+                  </div>
+                </div>
+              </div>
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSfpA4ajtRN0COtNdj6TslXQcaEtSt8Flwt6gh2uHx9qZ6hppw/viewform" target="_blank" rel="noopener noreferrer">
+                <Button size="lg" className="bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg gap-2">
+                  Join Internship Program
+                  <ExternalLink size={18} />
+                </Button>
+              </a>
+            </div>
+            <div className="relative animate-fade-in-right">
+              <img
+                src="/team-support-mentoring-professional-guidance.jpg"
+                alt="Internship Program"
+                className="w-full rounded-2xl shadow-2xl object-cover h-96"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
       {/* Benefits */}
       <section className="py-16 sm:py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -140,7 +196,7 @@ export default function CollegeAdmissionPage() {
       <section className="py-16 sm:py-24 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Ready to Begin Your Journey?</h2>
-          <p className="text-lg text-muted-foreground mb-8">Connect with our experts for personalized college admission guidance.</p>
+          <p className="text-lg text-muted-foreground mb-8">Connect with our experts for personalized college admission and career guidance.</p>
           <Link href="/">
             <Button size="lg" className="bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg">
               Get Free Consultation

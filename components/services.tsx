@@ -8,9 +8,9 @@ import { BookOpen, Rocket, Code, ArrowRight } from "lucide-react"
 const services = [
   {
     icon: BookOpen,
-    title: "College Admission Guidance",
+    title: "College Admission & Internships",
     description:
-      "Expert career counseling, college & course selection, and comprehensive admission support across Indian institutions.",
+      "Expert career counseling, college & course selection, admission support, and internship opportunities across Indian institutions.",
     image: "/student-studying-and-college-admission-process.jpg",
     link: "/services/college-admission",
   },
