@@ -5,7 +5,7 @@ FROM node:20-slim AS deps
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
 ########################################
 # 2️⃣ Build
@@ -26,7 +26,6 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Copy only what is needed
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
