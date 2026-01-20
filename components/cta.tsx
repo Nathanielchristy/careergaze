@@ -123,7 +123,7 @@ export default function CTA() {
           </form>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-border flex flex-col sm:flex-row gap-4 justify-center text-sm text-muted-foreground">
+        {/* <div className="mt-8 pt-8 border-t border-border flex flex-col sm:flex-row gap-4 justify-center text-sm text-muted-foreground">
           <div className="flex items-center gap-2 justify-center">
             <Phone size={16} className="text-accent" />
             <a href="tel:+916282744675" className="hover:text-foreground transition">
@@ -142,7 +142,7 @@ export default function CTA() {
               info@careergize.com
             </a>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   )
