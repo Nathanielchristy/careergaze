@@ -197,7 +197,7 @@ export default function CollegeAdmissionPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Ready to Begin Your Journey?</h2>
           <p className="text-lg text-muted-foreground mb-8">Connect with our experts for personalized college admission and career guidance.</p>
-          <Link href="/">
+          <Link href="/#services">
             <Button size="lg" className="bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg">
               Get Free Consultation
             </Button>

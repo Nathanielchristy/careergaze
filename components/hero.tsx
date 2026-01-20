@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import Link from "next/link"
 
 export default function Hero() {
   return (
@@ -29,13 +30,16 @@ export default function Hero() {
 
             {/* CTA Button */}
             <div className="flex flex-col sm:flex-row gap-4">
+              <Link href="/#cta">
               <Button
                 size="lg"
                 className="bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-primary/30 text-primary-foreground rounded-full text-base"
               >
+                
                 Get Free Consultation
                 <ArrowRight size={20} className="ml-2" />
               </Button>
+              </Link>
               <Button
                 size="lg"
                 variant="outline"
