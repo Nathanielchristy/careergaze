@@ -1,5 +1,9 @@
+'use client'
+
+import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { BookOpen, Rocket, Code } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { BookOpen, Rocket, Code, ArrowRight } from "lucide-react"
 
 const services = [
   {
@@ -8,6 +12,7 @@ const services = [
     description:
       "Expert career counseling, college & course selection, and comprehensive admission support across Indian institutions.",
     image: "/student-studying-and-college-admission-process.jpg",
+    link: "/services/college-admission",
   },
   {
     icon: Rocket,
@@ -15,6 +20,7 @@ const services = [
     description:
       "Social media marketing, SEO optimization, lead generation, and strategic paid ads for your online growth.",
     image: "/digital-marketing-strategy-and-social-media-analyt.jpg",
+    link: "/services/digital-marketing",
   },
   {
     icon: Code,
@@ -22,6 +28,7 @@ const services = [
     description:
       "Modern, responsive, and SEO-friendly websites built with React and Next.js tailored to your business needs.",
     image: "/web-developer-coding-modern-responsive-website.jpg",
+    link: "/services/web-development",
   },
 ]
 
@@ -41,7 +48,7 @@ export default function Services() {
             const Icon = service.icon
             return (
               <div key={index} className={`animate-fade-in-up animation-delay-${index * 100}`}>
-                <Card className="border-border hover:shadow-lg transition-all duration-300 hover:border-primary/20 overflow-hidden h-full">
+                <Card className="border-border hover:shadow-lg transition-all duration-300 hover:border-primary/20 overflow-hidden h-full flex flex-col">
                   <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10">
                     <img
                       src={service.image || "/placeholder.svg"}
@@ -56,8 +63,14 @@ export default function Services() {
                     </div>
                     <CardTitle className="text-foreground">{service.title}</CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-muted-foreground">{service.description}</CardDescription>
+                  <CardContent className="flex-grow flex flex-col justify-between">
+                    <CardDescription className="text-muted-foreground mb-4">{service.description}</CardDescription>
+                    <Link href={service.link}>
+                      <Button variant="outline" className="w-full gap-2 group bg-transparent">
+                        Learn More
+                        <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                      </Button>
+                    </Link>
                   </CardContent>
                 </Card>
               </div>
