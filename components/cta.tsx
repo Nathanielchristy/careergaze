@@ -46,8 +46,9 @@ export default function CTA() {
   return (
     <section id="cta" className="relative py-16 sm:py-24 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10" />
-      <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-fade-in-right" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-fade-in-left animation-delay-200" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-blob" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-blob animation-delay-300" />
+      <div className="absolute top-1/2 right-1/3 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-blob animation-delay-600" />
 
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="animate-fade-in-up text-center mb-8">
@@ -57,7 +58,7 @@ export default function CTA() {
           </p>
         </div>
 
-        <div className="bg-white/80 backdrop-blur rounded-2xl shadow-xl p-8 animate-fade-in-up">
+        <div className="bg-white/80 backdrop-blur rounded-2xl shadow-2xl p-8 animate-fade-in-up card-hover border border-primary/10">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
@@ -115,15 +116,16 @@ export default function CTA() {
 
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-primary/30 text-primary-foreground rounded-lg py-3 font-semibold"
+              className="w-full bg-gradient-to-r from-primary to-accent hover:shadow-2xl hover:shadow-primary/40 text-primary-foreground rounded-lg py-3 font-semibold hover:scale-105 transition-transform duration-300 group"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Sending..." : "Get Free Consultation"}
+              {!isSubmitting && <span className="ml-2 group-hover:animate-icon-bounce inline-block">→</span>}
             </Button>
           </form>
         </div>
 
-        {/* <div className="mt-8 pt-8 border-t border-border flex flex-col sm:flex-row gap-4 justify-center text-sm text-muted-foreground">
+        <div className="mt-8 pt-8 border-t border-border flex flex-col sm:flex-row gap-4 justify-center text-sm text-muted-foreground">
           <div className="flex items-center gap-2 justify-center">
             <Phone size={16} className="text-accent" />
             <a href="tel:+916282744675" className="hover:text-foreground transition">
@@ -142,7 +144,7 @@ export default function CTA() {
               info@careergize.com
             </a>
           </div>
-        </div> */}
+        </div>
       </div>
     </section>
   )

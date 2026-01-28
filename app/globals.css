@@ -184,6 +184,95 @@
     }
   }
 
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(27, 126, 143, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(27, 126, 143, 0.8);
+    }
+  }
+
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes bounce-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+    70% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes wiggle {
+    0%, 100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(-1deg);
+    }
+    75% {
+      transform: rotate(1deg);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  @keyframes blob {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    25% {
+      transform: translate(20px, -50px) scale(1.1);
+    }
+    50% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    75% {
+      transform: translate(50px, 50px) scale(1.05);
+    }
+  }
+
+  @keyframes icon-bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
   .animate-fade-in-up {
     animation: fadeInUp 0.6s ease-out forwards;
   }
@@ -204,6 +293,40 @@
     animation: scaleIn 0.6s ease-out forwards;
   }
 
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 8s linear infinite;
+  }
+
+  .animate-bounce-in {
+    animation: bounce-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .animate-wiggle {
+    animation: wiggle 0.5s ease-in-out infinite;
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+
+  .animate-icon-bounce {
+    animation: icon-bounce 2s ease-in-out infinite;
+  }
+
   .animation-delay-100 {
     animation-delay: 100ms;
   }
@@ -218,5 +341,28 @@
 
   .animation-delay-400 {
     animation-delay: 400ms;
+  }
+
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+
+  .animation-delay-600 {
+    animation-delay: 600ms;
+  }
+
+  /* Hover effects */
+  .group:hover .group-hover\:scale-110 {
+    transform: scale(1.1);
+  }
+
+  /* Interactive card animations */
+  .card-hover {
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(27, 126, 143, 0.2);
   }
 }

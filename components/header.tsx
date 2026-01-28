@@ -19,24 +19,33 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <Image src="/logo.jpeg" alt="Careergize logo" width={40} height={40} priority />
-            <span className="font-bold text-lg text-foreground">Careergize</span>
+          <div className="flex items-center gap-2 group cursor-pointer hover:scale-105 transition-transform">
+            <Image 
+              src="/logo.svg" 
+              alt="Careergize logo" 
+              width={40} 
+              height={40} 
+              priority
+              className="group-hover:animate-spin-slow"
+            />
+            <span className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">Careergize</span>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex gap-8">
             <button
               onClick={() => scrollToSection("services")}
-              className="text-sm text-foreground hover:text-primary transition-colors"
+              className="text-sm text-foreground hover:text-primary transition-colors relative group"
             >
               Services
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
             </button>
             <button
               onClick={() => scrollToSection("why")}
-              className="text-sm text-foreground hover:text-primary transition-colors"
+              className="text-sm text-foreground hover:text-primary transition-colors relative group"
             >
               Why Us
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
             </button>
             <button
               onClick={() => scrollToSection("how")}
