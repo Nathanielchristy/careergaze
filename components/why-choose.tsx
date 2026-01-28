@@ -33,7 +33,7 @@ export default function WhyChoose() {
     <section id="why" className="py-16 sm:py-24 bg-blue-50/40">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mb-12 animate-fade-in-up">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Why Choose Careergize</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Why Careergize</h2>
           <p className="text-lg text-muted-foreground">Here's what sets us apart from the rest.</p>
         </div>
 
