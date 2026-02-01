@@ -17,18 +17,18 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <div className="flex items-center gap-2 group cursor-pointer hover:scale-105 transition-transform">
+          <div className="flex items-center gap-3 group cursor-pointer hover:scale-105 transition-transform">
             <Image 
-              src="/logo.svg" 
+              src="/logo.jpeg" 
               alt="Careergize logo" 
-              width={40} 
-              height={40} 
+              width={60} 
+              height={60} 
               priority
               className="group-hover:animate-spin-slow"
             />
-            <span className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">Careergize</span>
+            <span className="font-bold text-xl text-foreground group-hover:text-primary transition-colors">Careergize</span>
           </div>
 
           {/* Desktop Navigation */}

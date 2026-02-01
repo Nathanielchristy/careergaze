@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, CheckCircle2, Users, Award, Lightbulb, Briefcase, ExternalLink } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Users, Award, Lightbulb, Briefcase, ExternalLink, Cpu, Stethoscope, BookOpen, Building2, DollarSign, Palette } from 'lucide-react'
 import Link from 'next/link'
 
 export default function CollegeAdmissionPage() {
@@ -112,6 +112,110 @@ export default function CollegeAdmissionPage() {
         </div>
       </section>
 
+      {/* College Admission Tracks */}
+      <section className="py-16 sm:py-24 bg-gradient-to-b from-accent/5 to-secondary/5">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 animate-fade-in-up">
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">College Admission Tracks</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Choose your path and get expert guidance for your dream college and course</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: Cpu,
+                title: 'Engineering',
+                description: 'Get into top engineering colleges (IITs, NITs, state universities). Guidance on JEE preparation, college selection, and specializations.',
+                highlights: ['JEE/GATE Guidance', 'IIT Selection Strategy', 'Branch Counseling', 'Placement Support'],
+              },
+              {
+                icon: Stethoscope,
+                title: 'Medical',
+                description: 'Expert counseling for medical aspirants. Complete support for NEET, college selection, and admission to AIIMS/Government Medical Colleges.',
+                highlights: ['NEET Preparation', 'Medical College Selection', 'Government vs Private', 'Specialization Guidance'],
+              },
+              {
+                icon: BookOpen,
+                title: 'Nursing',
+                description: 'Comprehensive guidance for nursing education. Help with entrance exams, college selection, and career advancement opportunities.',
+                highlights: ['Entrance Exam Prep', 'Top Nursing Colleges', 'Career Pathways', 'Specialization Options'],
+              },
+              {
+                icon: Building2,
+                title: 'Commerce',
+                description: 'Strategic guidance for commerce stream students. Explore accounting, economics, and business courses at top institutions.',
+                highlights: ['Course Selection', 'CA/CS Preparation', 'University Rankings', 'Career Planning'],
+              },
+              {
+                icon: DollarSign,
+                title: 'Management',
+                description: 'Pursue MBA and management courses from premier institutions. Guidance on entrance exams, college selection, and specializations.',
+                highlights: ['CAT/GMAT Guidance', 'Business School Selection', 'Internship Placement', 'Corporate Connections'],
+              },
+              {
+                icon: Palette,
+                title: 'Arts & Humanities',
+                description: 'Explore diverse career options in arts. Guidance on humanities, social sciences, languages, and professional programs.',
+                highlights: ['Course Exploration', 'University Selection', 'Career Counseling', 'Higher Studies Options'],
+              },
+            ].map((track, index) => {
+              const Icon = track.icon
+              return (
+                <div 
+                  key={index} 
+                  className={`group animate-fade-in-up animation-delay-${index * 100} card-hover`}
+                >
+                  <div className="bg-white border border-border rounded-xl p-6 h-full flex flex-col hover:border-primary/30">
+                    <div className="w-14 h-14 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                      <Icon className="text-primary group-hover:animate-icon-bounce" size={28} />
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{track.title}</h3>
+                    <p className="text-muted-foreground text-sm mb-4 flex-grow">{track.description}</p>
+                    <div className="space-y-2">
+                      {track.highlights.map((highlight, i) => (
+                        <div key={i} className="flex items-center gap-2 text-sm text-foreground">
+                          <CheckCircle2 size={16} className="text-accent flex-shrink-0" />
+                          <span>{highlight}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits */}
+      <section className="py-16 sm:py-24">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-12">Why Choose Us</h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: 'Personalized Approach',
+                description: 'We understand that every student is unique. Our counselors tailor guidance based on your individual profile.',
+              },
+              {
+                title: 'Proven Track Record',
+                description: 'Hundreds of students have successfully gained admission to their dream colleges with our support.',
+              },
+              {
+                title: 'End-to-End Support',
+                description:
+                  'From initial counseling to final admission, we guide you at every step of your academic journey.',
+              },
+            ].map((item, index) => (
+              <div key={index} className="relative p-8 bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10 rounded-xl">
+                <h3 className="text-xl font-bold text-foreground mb-3">{item.title}</h3>
+                <p className="text-muted-foreground">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Internship Section */}
       <section className="py-16 sm:py-24">
@@ -162,42 +266,13 @@ export default function CollegeAdmissionPage() {
           </div>
         </div>
       </section>
-      {/* Benefits */}
-      <section className="py-16 sm:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-12">Why Choose Us</h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Personalized Approach',
-                description: 'We understand that every student is unique. Our counselors tailor guidance based on your individual profile.',
-              },
-              {
-                title: 'Proven Track Record',
-                description: 'Hundreds of students have successfully gained admission to their dream colleges with our support.',
-              },
-              {
-                title: 'End-to-End Support',
-                description:
-                  'From initial counseling to final admission, we guide you at every step of your academic journey.',
-              },
-            ].map((item, index) => (
-              <div key={index} className="relative p-8 bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10 rounded-xl">
-                <h3 className="text-xl font-bold text-foreground mb-3">{item.title}</h3>
-                <p className="text-muted-foreground">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="py-16 sm:py-24 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Ready to Begin Your Journey?</h2>
           <p className="text-lg text-muted-foreground mb-8">Connect with our experts for personalized college admission and career guidance.</p>
-          <Link href="/#services">
+          <Link href="/">
             <Button size="lg" className="bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg">
               Get Free Consultation
             </Button>
