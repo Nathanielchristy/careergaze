@@ -1,284 +1,237 @@
 'use client'
 
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, CheckCircle2, Users, Award, Lightbulb, Briefcase, ExternalLink, Cpu, Stethoscope, BookOpen, Building2, DollarSign, Palette } from 'lucide-react'
+import Image from 'next/image'
+import { 
+  ArrowLeft, CheckCircle2, Cpu, Stethoscope, BookOpen, 
+  Building2, DollarSign, Palette, ExternalLink, ShieldCheck, 
+  Target, Zap 
+} from 'lucide-react'
 import Link from 'next/link'
+
+// --- TypeScript Interface Fix ---
+interface FadeInProps {
+  children: React.ReactNode;
+  delay?: number;
+}
+
+const FadeIn: React.FC<FadeInProps> = ({ children, delay = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6, delay }}
+  >
+    {children}
+  </motion.div>
+)
 
 export default function CollegeAdmissionPage() {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
 
+  const tracks = [
+    { icon: Cpu, title: 'Engineering', desc: 'Strategy for IITs, NITs, and IIITs. JEE/GATE specialized counseling.', highlights: ['IIT Strategy', 'Branch Selection'] },
+    { icon: Stethoscope, title: 'Medical', desc: 'Expert NEET guidance for AIIMS and top Government Medical Colleges.', highlights: ['NEET Analysis', 'MBBS/BDS Path'] },
+    { icon: DollarSign, title: 'Management', desc: 'IIM-focused profile building and roadmap for elite MBA/BBA programs.', highlights: ['CAT/GMAT Prep', 'B-School Selection'] },
+    { icon: Building2, title: 'Commerce', desc: 'Strategic entry into SRCC and premier finance and accounting institutions.', highlights: ['CA/CS Guidance', 'Eco/Commerce'] },
+    { icon: BookOpen, title: 'Nursing', desc: 'Comprehensive guidance for nursing education and career advancement.', highlights: ['B.Sc Nursing', 'Clinical Path'] },
+    { icon: Palette, title: 'Arts & Design', desc: 'Portfolio audit and coaching for NID, NIFT, and leading Liberal Arts.', highlights: ['Portfolio Audit', 'NIFT/NID Prep'] },
+  ]
+
+  const benefits = [
+    {
+      icon: Target,
+      title: 'Personalized Approach',
+      description: 'We understand that every student is unique. Our counselors tailor guidance based on your individual profile.',
+    },
+    {
+      icon: ShieldCheck,
+      title: 'Proven Track Record',
+      description: 'Hundreds of students have successfully gained admission to their dream colleges with our support.',
+    },
+    {
+      icon: Zap,
+      title: 'End-to-End Support',
+      description: 'From initial counseling to final admission, we guide you at every step of your academic journey.',
+    },
+  ]
+
   return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <div className="bg-white/50 backdrop-blur border-b border-border sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div className="min-h-screen bg-white text-[#0A4D68] font-sans">
+      
+      {/* 1. NAVIGATION */}
+      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 px-6 py-4">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <Link href="/" className="flex items-center gap-4 group">
+            <div className="relative w-10 h-10 md:w-12 md:h-12 p-0.5 rounded-2xl bg-gradient-to-tr from-blue-600 to-blue-400 shadow-blue-200 shadow-lg group-hover:shadow-blue-300 transition-all duration-500 group-hover:rotate-3">
+              <div className="relative w-full h-full overflow-hidden rounded-[14px] bg-white">
+                <Image 
+                  src="/logo.jpeg" 
+                  alt="Careergize logo" 
+                  fill
+                  priority
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+              </div>
+              <span className="absolute inset-0 rounded-2xl bg-blue-400 animate-ping opacity-0 group-hover:opacity-20 transition-opacity duration-700"></span>
+            </div>
+            <div className="flex flex-col">
+              <span className="font-black text-xl md:text-2xl tracking-tighter text-slate-900 leading-none">
+                Careergize<span className="text-blue-600">.</span>
+              </span>
+            </div>
+          </Link>
           <Link href="/">
-            <Button variant="outline" size="sm" className="gap-2 bg-transparent">
-              <ArrowLeft size={16} />
-              Back to Home
+            <Button variant="ghost" size="sm" className="font-bold text-[#0A4D68] hover:text-[#86C232] gap-2">
+              <ArrowLeft size={16} /> BACK
             </Button>
           </Link>
         </div>
-      </div>
+      </nav>
 
-      {/* Hero Section */}
-      <section className="relative py-12 sm:py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
-
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="animate-fade-in-up">
-              <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">College Admission & Internships</h1>
-              <p className="text-xl text-muted-foreground mb-6">
-                Your pathway to success in higher education and professional growth. We provide comprehensive guidance for college selection, course planning, admission support, and exclusive internship opportunities across top Indian institutions.
-              </p>
-              <div className="flex gap-4">
-                <Link href="/#services" onClick={() => window.scrollTo(0, 0)}>
-                  <Button size="lg" className="bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg">
-                    Get Started Today
-                  </Button>
-                </Link>
-              </div>
+      {/* 2. HERO SECTION */}
+      <section className="relative pt-20 pb-24 overflow-hidden px-6">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-[#86C232]/5 -skew-x-12 translate-x-1/4" />
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-10">
+          <FadeIn>
+            <div className="inline-block px-3 py-1 mb-6 rounded bg-[#86C232]/10 text-[#86C232] text-[10px] font-bold uppercase tracking-[0.2em] border border-[#86C232]/20">
+              Authorized Partner 2026
             </div>
-            <div className="relative animate-fade-in-left">
+            <h1 className="text-5xl lg:text-7xl font-bold tracking-tighter leading-[1.1] mb-8 text-[#0A4D68]">
+              Strategize Your <span className="text-[#86C232]">Future.</span>
+            </h1>
+            <p className="text-lg text-slate-500 mb-10 leading-relaxed max-w-lg">
+              Professional, end-to-end guidance for college admissions and elite internships. We turn academic goals into career milestones.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Button size="lg" className="bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white px-8 rounded-xl h-14 font-bold shadow-lg shadow-[#0A4D68]/20">
+                Book Consultation
+              </Button>
+            </div>
+          </FadeIn>
+          <FadeIn delay={0.2}>
+            <div className="relative">
+              <div className="absolute -inset-4 bg-[#86C232]/20 rounded-[2.5rem] blur-3xl" />
               <img
                 src="/student-studying-and-college-admission-process.jpg"
-                alt="College Admission Process"
-                className="w-full rounded-2xl shadow-2xl object-cover h-96"
+                alt="Success"
+                className="relative rounded-[2rem] shadow-2xl border-4 border-white object-cover aspect-[4/3]"
               />
             </div>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
-      {/* What We Offer */}
-      <section className="py-16 sm:py-24 bg-white/30 backdrop-blur">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-12 text-center">What We Offer</h2>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                icon: Users,
-                title: 'Expert Counseling',
-                description:
-                  'One-on-one sessions with experienced counselors to understand your strengths, interests, and career goals.',
-              },
-              {
-                icon: Award,
-                title: 'College Selection',
-                description:
-                  'Comprehensive analysis of top colleges matching your profile, preferences, and future aspirations.',
-              },
-              {
-                icon: Lightbulb,
-                title: 'Course Planning',
-                description:
-                  'Strategic guidance on choosing the right courses and specializations aligned with your career path.',
-              },
-              {
-                icon: CheckCircle2,
-                title: 'Admission Support',
-                description:
-                  'Complete assistance with application forms, entrance exams, interviews, and documentation.',
-              },
-              {
-                icon: Briefcase,
-                title: 'Internship Programs',
-                description:
-                  'Gain real-world experience with our exclusive internship opportunities across various industries and companies.',
-              },
-            ].map((item, index) => {
-              const Icon = item.icon
-              return (
-                <div key={index} className="bg-background border border-border rounded-xl p-6 hover:shadow-lg transition-shadow">
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0">
-                      <Icon className="w-8 h-8 text-primary mt-1" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-foreground mb-2">{item.title}</h3>
-                      <p className="text-muted-foreground">{item.description}</p>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
+      {/* 3. TRACKS GRID */}
+      <section className="py-24 bg-slate-50/50 px-6 border-y border-slate-100">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16">
+            <h2 className="text-xs font-bold text-[#86C232] uppercase tracking-[0.4em] mb-4 text-center lg:text-left">Admissions</h2>
+            <h3 className="text-4xl font-bold tracking-tight text-[#0A4D68] text-center lg:text-left">Expert Guidance Tracks</h3>
           </div>
-        </div>
-      </section>
-
-      {/* College Admission Tracks */}
-      <section className="py-16 sm:py-24 bg-gradient-to-b from-accent/5 to-secondary/5">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">College Admission Tracks</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Choose your path and get expert guidance for your dream college and course</p>
-          </div>
-
           <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                icon: Cpu,
-                title: 'Engineering',
-                description: 'Get into top engineering colleges (IITs, NITs, state universities). Guidance on JEE preparation, college selection, and specializations.',
-                highlights: ['JEE/GATE Guidance', 'IIT Selection Strategy', 'Branch Counseling', 'Placement Support'],
-              },
-              {
-                icon: Stethoscope,
-                title: 'Medical',
-                description: 'Expert counseling for medical aspirants. Complete support for NEET, college selection, and admission to AIIMS/Government Medical Colleges.',
-                highlights: ['NEET Preparation', 'Medical College Selection', 'Government vs Private', 'Specialization Guidance'],
-              },
-              {
-                icon: BookOpen,
-                title: 'Nursing',
-                description: 'Comprehensive guidance for nursing education. Help with entrance exams, college selection, and career advancement opportunities.',
-                highlights: ['Entrance Exam Prep', 'Top Nursing Colleges', 'Career Pathways', 'Specialization Options'],
-              },
-              {
-                icon: Building2,
-                title: 'Commerce',
-                description: 'Strategic guidance for commerce stream students. Explore accounting, economics, and business courses at top institutions.',
-                highlights: ['Course Selection', 'CA/CS Preparation', 'University Rankings', 'Career Planning'],
-              },
-              {
-                icon: DollarSign,
-                title: 'Management',
-                description: 'Pursue MBA and management courses from premier institutions. Guidance on entrance exams, college selection, and specializations.',
-                highlights: ['CAT/GMAT Guidance', 'Business School Selection', 'Internship Placement', 'Corporate Connections'],
-              },
-              {
-                icon: Palette,
-                title: 'Arts & Humanities',
-                description: 'Explore diverse career options in arts. Guidance on humanities, social sciences, languages, and professional programs.',
-                highlights: ['Course Exploration', 'University Selection', 'Career Counseling', 'Higher Studies Options'],
-              },
-            ].map((track, index) => {
-              const Icon = track.icon
-              return (
-                <div 
-                  key={index} 
-                  className={`group animate-fade-in-up animation-delay-${index * 100} card-hover`}
-                >
-                  <div className="bg-white border border-border rounded-xl p-6 h-full flex flex-col hover:border-primary/30">
-                    <div className="w-14 h-14 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <Icon className="text-primary group-hover:animate-icon-bounce" size={28} />
-                    </div>
-                    <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{track.title}</h3>
-                    <p className="text-muted-foreground text-sm mb-4 flex-grow">{track.description}</p>
-                    <div className="space-y-2">
-                      {track.highlights.map((highlight, i) => (
-                        <div key={i} className="flex items-center gap-2 text-sm text-foreground">
-                          <CheckCircle2 size={16} className="text-accent flex-shrink-0" />
-                          <span>{highlight}</span>
-                        </div>
-                      ))}
-                    </div>
+            {tracks.map((track, i) => (
+              <FadeIn key={i} delay={i * 0.1}>
+                <div className="bg-white p-8 rounded-2xl border border-slate-200/60 hover:border-[#86C232]/30 hover:shadow-xl transition-all group flex flex-col h-full">
+                  <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-[#86C232] transition-colors duration-300">
+                    <track.icon className="text-[#0A4D68] group-hover:text-white" size={24} />
+                  </div>
+                  <h4 className="text-xl font-bold mb-3 text-[#0A4D68]">{track.title}</h4>
+                  <p className="text-slate-500 text-sm mb-6 flex-grow leading-relaxed">{track.desc}</p>
+                  <div className="space-y-2 pt-4 border-t border-slate-50">
+                    {track.highlights.map((h, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase tracking-wide">
+                        <CheckCircle2 size={14} className="text-[#86C232]" /> {h}
+                      </div>
+                    ))}
                   </div>
                 </div>
-              )
-            })}
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+        {/* 5. INTERNSHIP BRIDGE */}
+      <section className="py-24 px-6">
+        <div className="max-w-7xl mx-auto bg-[#0A4D68] rounded-[3rem] p-12 lg:p-20 relative overflow-hidden shadow-2xl shadow-[#0A4D68]/20">
+          <div className="absolute top-0 right-0 w-1/3 h-full bg-[#86C232] opacity-10 -skew-x-12 translate-x-1/2" />
+          <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10">
+            <div className="text-white space-y-8">
+              <h2 className="text-4xl lg:text-6xl font-bold leading-tight">
+                Elite <span className="text-[#86C232]">Internship</span> Hub.
+              </h2>
+              <p className="text-white/70 text-lg leading-relaxed">
+                Bridge the gap between academics and industry. Gain competitive advantage with real-world exposure.
+              </p>
+              <Button size="lg" className="bg-[#86C232] hover:bg-white hover:text-[#0A4D68] text-white font-bold rounded-xl h-16 px-10 transition-all border-none">
+                Apply for Internship <ExternalLink className="ml-2" size={20} />
+              </Button>
+            </div>
+            <img
+              src="/team-support-mentoring-professional-guidance.jpg"
+              className="rounded-[2rem] shadow-2xl opacity-90 border-4 border-white/10"
+              alt="Team Mentoring"
+            />
           </div>
         </div>
       </section>
 
-      {/* Benefits */}
-      <section className="py-16 sm:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-12">Why Choose Us</h2>
-
+      {/* 4. WHY CHOOSE US */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <FadeIn>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#0A4D68] mb-12 text-center lg:text-left tracking-tight">Why Choose Us</h2>
+          </FadeIn>
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Personalized Approach',
-                description: 'We understand that every student is unique. Our counselors tailor guidance based on your individual profile.',
-              },
-              {
-                title: 'Proven Track Record',
-                description: 'Hundreds of students have successfully gained admission to their dream colleges with our support.',
-              },
-              {
-                title: 'End-to-End Support',
-                description:
-                  'From initial counseling to final admission, we guide you at every step of your academic journey.',
-              },
-            ].map((item, index) => (
-              <div key={index} className="relative p-8 bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10 rounded-xl">
-                <h3 className="text-xl font-bold text-foreground mb-3">{item.title}</h3>
-                <p className="text-muted-foreground">{item.description}</p>
-              </div>
+            {benefits.map((item, index) => (
+              <FadeIn key={index} delay={index * 0.1}>
+                <div className="relative p-8 bg-gradient-to-br from-slate-50 to-white border border-slate-100 rounded-2xl hover:border-[#86C232]/20 transition-all h-full">
+                  <div className="w-10 h-10 bg-[#86C232]/10 rounded-lg flex items-center justify-center mb-6">
+                    <item.icon className="text-[#86C232]" size={20} />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#0A4D68] mb-3">{item.title}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">{item.description}</p>
+                </div>
+              </FadeIn>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Internship Section */}
-      <section className="py-16 sm:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="animate-fade-in-up">
-              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Internship Programs</h2>
-              <p className="text-lg text-muted-foreground mb-6">
-                Bridge the gap between academics and industry. Our internship programs provide hands-on experience with leading companies, helping you build a competitive resume and develop professional skills that employers value.
-              </p>
-              <div className="space-y-4 mb-8">
-                <div className="flex gap-3">
-                  <CheckCircle2 className="text-primary flex-shrink-0 mt-1" size={20} />
-                  <div>
-                    <h4 className="font-semibold text-foreground">Industry-Leading Companies</h4>
-                    <p className="text-muted-foreground text-sm">Work with top organizations across tech, finance, marketing, and more.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <CheckCircle2 className="text-primary flex-shrink-0 mt-1" size={20} />
-                  <div>
-                    <h4 className="font-semibold text-foreground">Mentorship & Training</h4>
-                    <p className="text-muted-foreground text-sm">Learn from experienced professionals and gain valuable industry insights.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <CheckCircle2 className="text-primary flex-shrink-0 mt-1" size={20} />
-                  <div>
-                    <h4 className="font-semibold text-foreground">Certificate & References</h4>
-                    <p className="text-muted-foreground text-sm">Earn recognized certifications and professional references for future opportunities.</p>
-                  </div>
-                </div>
-              </div>
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSfpA4ajtRN0COtNdj6TslXQcaEtSt8Flwt6gh2uHx9qZ6hppw/viewform" target="_blank" rel="noopener noreferrer">
-                <Button size="lg" className="bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg gap-2">
-                  Join Internship Program
-                  <ExternalLink size={18} />
+    
+
+      {/* 6. READY TO BEGIN JOURNEY (CTA) */}
+      <section className="py-24 px-6 text-center">
+        <div className="max-w-4xl mx-auto">
+          <FadeIn>
+            <div className="p-12 rounded-[2.5rem] bg-slate-50 border border-slate-100 relative overflow-hidden">
+               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#86C232] to-transparent" />
+               <h2 className="text-4xl font-bold text-[#0A4D68] mb-4 tracking-tight">Ready to Begin Your Journey?</h2>
+               <p className="text-lg text-slate-500 mb-10 max-w-xl mx-auto">
+                 Connect with our experts for personalized college admission and career guidance today.
+               </p>
+               <Link href="/">
+                <Button size="lg" className="bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white px-12 rounded-full h-16 font-bold text-lg shadow-xl shadow-[#0A4D68]/20">
+                  Get Free Consultation
                 </Button>
-              </a>
+              </Link>
             </div>
-            <div className="relative animate-fade-in-right">
-              <img
-                src="/team-support-mentoring-professional-guidance.jpg"
-                alt="Internship Program"
-                className="w-full rounded-2xl shadow-2xl object-cover h-96"
-              />
-            </div>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 sm:py-24 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Ready to Begin Your Journey?</h2>
-          <p className="text-lg text-muted-foreground mb-8">Connect with our experts for personalized college admission and career guidance.</p>
-          <Link href="/">
-            <Button size="lg" className="bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg">
-              Get Free Consultation
-            </Button>
-          </Link>
+      {/* 7. FOOTER */}
+      <footer className="py-12 text-center">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-slate-300">
+            © 2026 CAREERGIZE ELITE. PROFESSIONAL ADMISSION SYSTEMS.
+          </p>
         </div>
-      </section>
+      </footer>
     </div>
   )
 }
