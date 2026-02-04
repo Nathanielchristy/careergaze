@@ -155,31 +155,67 @@ export default function CollegeAdmissionPage() {
           </div>
         </div>
       </section>
-        {/* 5. INTERNSHIP BRIDGE */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto bg-[#0A4D68] rounded-[3rem] p-12 lg:p-20 relative overflow-hidden shadow-2xl shadow-[#0A4D68]/20">
-          <div className="absolute top-0 right-0 w-1/3 h-full bg-[#86C232] opacity-10 -skew-x-12 translate-x-1/2" />
-          <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10">
-            <div className="text-white space-y-8">
-              <h2 className="text-4xl lg:text-6xl font-bold leading-tight">
-                Elite <span className="text-[#86C232]">Internship</span> Hub.
-              </h2>
-              <p className="text-white/70 text-lg leading-relaxed">
-                Bridge the gap between academics and industry. Gain competitive advantage with real-world exposure.
-              </p>
-              <Button size="lg" className="bg-[#86C232] hover:bg-white hover:text-[#0A4D68] text-white font-bold rounded-xl h-16 px-10 transition-all border-none">
-                Apply for Internship <ExternalLink className="ml-2" size={20} />
-              </Button>
-            </div>
-            <img
-              src="/team-support-mentoring-professional-guidance.jpg"
-              className="rounded-[2rem] shadow-2xl opacity-90 border-4 border-white/10"
-              alt="Team Mentoring"
-            />
-          </div>
+     {/* 5. INTERNSHIP BRIDGE */}
+<section className="py-24 px-6" aria-labelledby="internship-heading">
+  <div className="max-w-7xl mx-auto bg-[#0A4D68] rounded-[3rem] p-12 lg:p-20 relative overflow-hidden shadow-2xl shadow-[#0A4D68]/20">
+    {/* Decorative Background Element */}
+    <div className="absolute top-0 right-0 w-1/3 h-full bg-[#86C232] opacity-10 -skew-x-12 translate-x-1/2" />
+    
+    <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10">
+      <div className="text-white space-y-8">
+        {/* SEO Optimized Heading: Uses keywords like "2026", "Elite", and "Program" */}
+        <h2 id="internship-heading" className="text-4xl lg:text-6xl font-black leading-tight tracking-tighter">
+          Launch Your Career: <br />
+          <span className="text-[#86C232]">Careergize intership 2026 </span>
+        </h2>
+        
+        {/* Meaningful Content: Focuses on benefits (Mentorship, Projects, Certification) */}
+        <div className="space-y-4">
+          <p className="text-white/80 text-lg leading-relaxed max-w-md">
+            Stop just learning—start building. Our 2026 internship offers <strong>hands-on industry projects</strong>, 1-on-1 <strong>mentorship from experts</strong>, and a path to <strong>pre-placement offers (PPO)</strong>.
+          </p>
+          
+          <ul className="grid grid-cols-1 gap-3">
+            <li className="flex items-center gap-3 text-sm font-semibold text-[#86C232]">
+              <div className="w-5 h-5 rounded-full bg-[#86C232]/20 flex items-center justify-center">✓</div>
+              Industry-Recognized Certifications
+            </li>
+            <li className="flex items-center gap-3 text-sm font-semibold text-[#86C232]">
+              <div className="w-5 h-5 rounded-full bg-[#86C232]/20 flex items-center justify-center">✓</div>
+              Real-world Tech Stack Exposure
+            </li>
+            <li className="flex items-center gap-3 text-sm font-semibold text-[#86C232]">
+              <div className="w-5 h-5 rounded-full bg-[#86C232]/20 flex items-center justify-center">✓</div>
+              Networking with Top-tier Professionals
+            </li>
+          </ul>
         </div>
-      </section>
+        
+        <div className="flex flex-col sm:flex-row gap-4 pt-4">
+          <Link href="/internship-2026">
+            <Button size="lg" className="bg-[#86C232] hover:bg-white hover:text-[#0A4D68] text-[#0A4D68] font-black rounded-2xl h-16 px-10 transition-all border-none shadow-xl shadow-[#86C232]/20">
+              Apply Now <ExternalLink className="ml-2" size={20} />
+            </Button>
+          </Link>
+          <p className="text-white/40 text-[10px] uppercase tracking-widest self-center font-bold">
+            Limited Seats Available <br /> Application Deadline Approaching
+          </p>
+        </div>
 
+      </div>
+
+      {/* Optimized Image with Alt Text for SEO */}
+      <div className="relative group">
+        <div className="absolute -inset-1 bg-gradient-to-r from-[#86C232] to-transparent rounded-[2.2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+        <img
+          src="/team-support-mentoring-professional-guidance.jpg"
+          className="relative rounded-[2rem] shadow-2xl grayscale-[20%] hover:grayscale-0 transition-all duration-500 border border-white/10"
+          alt="Students collaborating in the Careergize 2026 Internship Program mentorship session"
+        />
+      </div>
+    </div>
+  </div>
+</section>
       {/* 4. WHY CHOOSE US */}
       <section className="py-24 px-6 bg-white">
         <div className="max-w-7xl mx-auto">

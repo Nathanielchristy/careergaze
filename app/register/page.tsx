@@ -6,24 +6,21 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { 
-  User, Mail, Phone, ArrowRight, 
-  Sparkles, ShieldCheck, Zap, Loader2, CheckCircle2
+  User, Mail, Lock, Eye, EyeOff, 
+  Loader2, CheckCircle2, ShieldCheck, Sparkles
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default function BrandedRegistration() {
-  // State to track the submission process
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [showPassword, setShowPassword] = useState(false);
 
-  // 3D PARALLAX LOGIC
+  // 3D PARALLAX EFFECT
   const x = useMotionValue(0)
   const y = useMotionValue(0)
-  const mouseXSpring = useSpring(x)
-  const mouseYSpring = useSpring(y)
-  
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"])
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"])
+  const rotateX = useTransform(useSpring(y), [-0.5, 0.5], ["7deg", "-7deg"])
+  const rotateY = useTransform(useSpring(x), [-0.5, 0.5], ["-7deg", "7deg"])
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
@@ -31,7 +28,6 @@ export default function BrandedRegistration() {
     y.set((e.clientY - rect.top) / rect.height - 0.5)
   }
 
-  // UPDATED: Submit Handler with your specific URL
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('loading');
@@ -40,33 +36,31 @@ export default function BrandedRegistration() {
     const data = {
       name: formData.get('name'),
       email: formData.get('email'),
-      phone: formData.get('phone'),
+      password: formData.get('password'), // New password field
+      date: new Date().toLocaleString()
     };
 
     try {
-      // YOUR UPDATED WEB APP URL
-      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxDT0Wer2TNoQXgcHkVMs-q8JX1du_gx5tfKgu-MFyXHwfVQgOiwOTw_F22ZXEUi61T/exec';
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrRTnz03T-H9YGKquwnnv17eAK-EnBhhBKMDgptF3rjiVw6c6yWykpdanornPRsRDs/exec';
       
       await fetch(SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors', // Essential for Google Apps Script redirects
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
 
-      // Since 'no-cors' doesn't return status, we trigger success state
       setStatus('success');
     } catch (error) {
-      console.error('Submission error:', error);
       setStatus('error');
       setTimeout(() => setStatus('idle'), 3000);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] flex items-center justify-center p-6 overflow-hidden">
+    <div className="min-h-screen bg-[#FDFDFD] flex items-center justify-center p-6 overflow-hidden relative">
       
-      {/* BRANDED BACKGROUND BLURS */}
+      {/* BACKGROUND DECOR */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-[#86C232]/10 rounded-full blur-[120px]" />
         <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-[#0A4D68]/10 rounded-full blur-[120px]" />
@@ -76,101 +70,85 @@ export default function BrandedRegistration() {
         onMouseMove={handleMouseMove}
         onMouseLeave={() => { x.set(0); y.set(0); }}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="relative z-10 w-full max-w-[480px]"
+        className="relative z-10 w-full max-w-[460px]"
       >
-        <div 
-          style={{ transform: "translateZ(40px)" }}
-          className="bg-white/90 backdrop-blur-2xl border border-slate-100 p-8 md:p-12 rounded-[3rem] shadow-[0_40px_80px_-15px_rgba(10,77,104,0.12)]"
-        >
+        <div className="bg-white/90 backdrop-blur-2xl border border-slate-100 p-8 md:p-10 rounded-[3rem] shadow-[0_40px_80px_-15px_rgba(10,77,104,0.15)]">
           <AnimatePresence mode="wait">
             {status !== 'success' ? (
-              <motion.div
-                key="form"
-                exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-              >
-                {/* LOGO SECTION */}
-                <div className="flex flex-col items-center mb-10 text-center" style={{ transform: "translateZ(60px)" }}>
-                  <div className="relative w-24 h-24 p-1 rounded-[2rem] bg-gradient-to-tr from-[#0A4D68] via-[#86C232] to-[#0A4D68] shadow-2xl mb-6">
-                    <div className="w-full h-full bg-white rounded-[1.8rem] overflow-hidden relative">
-                       <Image src="/logo.jpeg" alt="Careergize" fill className="object-cover" priority />
-                    </div>
+              <motion.div key="form" exit={{ opacity: 0, scale: 0.95 }}>
+                
+                {/* HEADER */}
+                <div className="text-center mb-8">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#86C232]/10 rounded-full mb-4">
+                    <ShieldCheck size={14} className="text-[#86C232]" />
+                    <span className="text-[10px] font-black uppercase text-[#86C232] tracking-widest">Secure Registration</span>
                   </div>
-                  <h1 className="text-3xl font-black text-[#0A4D68] tracking-tighter">
-                    Careergize<span className="text-[#86C232]">.</span>
-                  </h1>
+                  <h1 className="text-3xl font-black text-[#0A4D68]">Create Account</h1>
+                  <p className="text-slate-400 text-sm mt-1">Join the Careergize community today</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-5" style={{ transform: "translateZ(20px)" }}>
-                  {/* FULL NAME */}
-                  <div className="group space-y-2">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  {/* NAME */}
+                  <div className="space-y-1.5">
                     <Label className="text-[10px] font-black uppercase text-slate-400 ml-1">Full Name</Label>
                     <div className="relative">
                       <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
-                      <Input 
-                        name="name" 
-                        type="text" 
-                        placeholder="John Doe" 
-                        className="h-14 pl-12 bg-slate-50/50 rounded-2xl border-slate-100 focus:border-[#86C232] focus:ring-4 focus:ring-[#86C232]/10 transition-all"
-                        required
-                      />
+                      <Input name="name" placeholder="Alex Morgan" className="h-12 pl-12 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-[#86C232]/50" required />
                     </div>
                   </div>
 
                   {/* EMAIL */}
-                  <div className="group space-y-2">
-                    <Label className="text-[10px] font-black uppercase text-slate-400 ml-1">Email Address</Label>
+                  <div className="space-y-1.5">
+                    <Label className="text-[10px] font-black uppercase text-slate-400 ml-1">Email</Label>
                     <div className="relative">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
-                      <Input 
-                        name="email" 
-                        type="email" 
-                        placeholder="john@example.com" 
-                        className="h-14 pl-12 bg-slate-50/50 rounded-2xl border-slate-100 focus:border-[#86C232] focus:ring-4 focus:ring-[#86C232]/10 transition-all"
-                        required
-                      />
+                      <Input name="email" type="email" placeholder="alex@careergize.com" className="h-12 pl-12 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-[#86C232]/50" required />
                     </div>
                   </div>
 
-                  {/* PHONE */}
-                  <div className="group space-y-2">
-                    <Label className="text-[10px] font-black uppercase text-slate-400 ml-1">Phone Number</Label>
+                  {/* PASSWORD */}
+                  <div className="space-y-1.5">
+                    <Label className="text-[10px] font-black uppercase text-slate-400 ml-1">Password</Label>
                     <div className="relative">
-                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
                       <Input 
-                        name="phone" 
-                        type="tel" 
-                        placeholder="+91 00000 00000" 
-                        className="h-14 pl-12 bg-slate-50/50 rounded-2xl border-slate-100 focus:border-[#86C232] focus:ring-4 focus:ring-[#86C232]/10 transition-all"
-                        required
+                        name="password" 
+                        type={showPassword ? "text" : "password"} 
+                        placeholder="••••••••" 
+                        className="h-12 pl-12 pr-12 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-[#86C232]/50" 
+                        required 
                       />
+                      <button 
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-[#0A4D68] transition-colors"
+                      >
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
                     </div>
                   </div>
 
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button 
-                      type="submit"
-                      disabled={status === 'loading'}
-                      className="w-full h-15 bg-[#0A4D68] hover:bg-[#0A4D68]/95 text-white font-bold text-lg rounded-2xl border-none"
-                    >
-                      {status === 'loading' ? <Loader2 className="animate-spin mr-2" /> : "Apply for Access"}
-                    </Button>
-                  </motion.div>
+                  <Button 
+                    disabled={status === 'loading'}
+                    className="w-full h-14 bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white font-bold rounded-2xl mt-4 shadow-lg shadow-[#0A4D68]/20 transition-all hover:scale-[1.02]"
+                  >
+                    {status === 'loading' ? <Loader2 className="animate-spin" /> : "Sign Up Now"}
+                  </Button>
+
+                  <p className="text-center text-xs text-slate-400 mt-4">
+                    Already have an account? <Link href="/login" className="text-[#0A4D68] font-bold hover:underline">Log in</Link>
+                  </p>
                 </form>
               </motion.div>
             ) : (
-              /* SUCCESS VIEW */
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="py-12 text-center"
-              >
-                <div className="w-24 h-24 bg-[#86C232]/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <CheckCircle2 size={48} className="text-[#86C232]" />
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-10">
+                <div className="w-20 h-20 bg-[#86C232]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle2 size={40} className="text-[#86C232]" />
                 </div>
-                <h2 className="text-3xl font-black text-[#0A4D68] mb-4">Application Sent!</h2>
-                <p className="text-slate-500 mb-8">Data saved successfully. We will contact you shortly.</p>
-                <Link href="/">
-                  <Button className="rounded-xl bg-[#0A4D68]">Return Home</Button>
+                <h2 className="text-2xl font-black text-[#0A4D68]">Welcome Aboard!</h2>
+                <p className="text-slate-400 mt-2 mb-8">Your account has been created successfully.</p>
+                <Link href="/dashboard">
+                  <Button className="bg-[#0A4D68] rounded-xl px-8">Go to Dashboard</Button>
                 </Link>
               </motion.div>
             )}
