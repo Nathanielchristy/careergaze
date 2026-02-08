@@ -3,11 +3,12 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
+import WhatsAppChat from "@/components/WhatsAppChat"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
-export const metadata: Metadata ={
+export const metadata: Metadata = {
   title: "Careergize - College Admission & Digital Growth",
   description:
     "Expert guidance for college admissions, digital marketing, and web development services. Transform your education and business goals.",
@@ -21,13 +22,17 @@ export const metadata: Metadata ={
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`font-sans antialiased`}>
+      <body className="font-sans antialiased">
         {children}
+
+        {/* WhatsApp Floating Chat */}
+        <WhatsAppChat />
+
         <Analytics />
       </body>
     </html>

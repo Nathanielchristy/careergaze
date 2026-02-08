@@ -55,9 +55,12 @@ export default function Hero() {
               </h1>
             </header>
 
-            <p className="text-lg sm:text-xl text-slate-600 mb-10 text-balance leading-relaxed font-medium">
-              Achieve <span className="text-slate-900 font-bold">elite college admissions</span> and build a powerful <span className="text-slate-900 font-bold">digital presence</span> with architecture inspired by your growth.
-            </p>
+           <p className="text-lg sm:text-xl text-slate-600 mb-10 text-balance leading-relaxed font-medium">
+  <span className="text-slate-900 font-bold">Empowering students and businesses</span> with 
+  <span className="text-slate-900 font-bold"> elite college admissions</span>, 
+  <span className="text-slate-900 font-bold"> web development</span>, and 
+  <span className="text-slate-900 font-bold"> digital growth solutions</span> designed to fuel your success.
+</p>
 
             {/* CTAs - Utilizing the vibrant Lime Green for primary action */}
             <div className="flex flex-col sm:flex-row gap-4 mb-16 justify-center lg:justify-start">

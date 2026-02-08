@@ -1,13 +1,13 @@
 'use client'
 
-import React, { useEffect } from 'react'
-import { motion } from 'framer-motion'
+import React, { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import { 
   ArrowLeft, CheckCircle2, Cpu, Stethoscope, BookOpen, 
   Building2, DollarSign, Palette, ExternalLink, ShieldCheck, 
-  Target, Zap 
+  Target, Zap, X 
 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -27,6 +27,71 @@ const FadeIn: React.FC<FadeInProps> = ({ children, delay = 0 }) => (
     {children}
   </motion.div>
 )
+
+// --- Internship Popup Component ---
+const InternshipPopup = () => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  useEffect(() => {
+    // Show popup after 1.5 seconds
+    const timer = setTimeout(() => setIsOpen(true), 1500)
+    return () => clearTimeout(timer)
+  }, [])
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center px-6">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsOpen(false)}
+            className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+          />
+          <motion.div 
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+            className="relative bg-white rounded-[2rem] p-8 md:p-10 max-w-md w-full shadow-2xl overflow-hidden border border-slate-100"
+          >
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 transition-colors"
+            >
+              <X size={20} />
+            </button>
+            
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#86C232]/10 text-[#86C232] text-[10px] font-bold uppercase tracking-widest mb-6">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#86C232] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#86C232]"></span>
+                </span>
+                Registration Live
+              </div>
+
+              <h2 className="text-3xl font-black text-[#0A4D68] leading-tight mb-4">
+                Internships <br />
+                <span className="text-[#86C232]">Started!</span>
+              </h2>
+              
+              <p className="text-slate-500 mb-8 text-sm leading-relaxed">
+                Join the Careergize Elite Internship 2026. Hands-on projects, expert mentorship, and industry certification await.
+              </p>
+
+              <Link href="/internship-2026" className="w-full">
+                <Button className="w-full bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white h-14 rounded-xl font-bold text-lg shadow-lg">
+                  Register Now
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  )
+}
 
 export default function CollegeAdmissionPage() {
   useEffect(() => {
@@ -63,6 +128,8 @@ export default function CollegeAdmissionPage() {
   return (
     <div className="min-h-screen bg-white text-[#0A4D68] font-sans">
       
+      <InternshipPopup />
+
       {/* 1. NAVIGATION */}
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -77,7 +144,6 @@ export default function CollegeAdmissionPage() {
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
-              <span className="absolute inset-0 rounded-2xl bg-blue-400 animate-ping opacity-0 group-hover:opacity-20 transition-opacity duration-700"></span>
             </div>
             <div className="flex flex-col">
               <span className="font-black text-xl md:text-2xl tracking-tighter text-slate-900 leading-none">
@@ -107,11 +173,11 @@ export default function CollegeAdmissionPage() {
             <p className="text-lg text-slate-500 mb-10 leading-relaxed max-w-lg">
               Professional, end-to-end guidance for college admissions and elite internships. We turn academic goals into career milestones.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Button size="lg" className="bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white px-8 rounded-xl h-14 font-bold shadow-lg shadow-[#0A4D68]/20">
+            <Link href="/book-consultation">
+              <Button size="lg" className="bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white px-8 rounded-xl h-14 font-bold shadow-lg flex items-center gap-2">
                 Book Consultation
               </Button>
-            </div>
+            </Link>
           </FadeIn>
           <FadeIn delay={0.2}>
             <div className="relative">
@@ -155,68 +221,50 @@ export default function CollegeAdmissionPage() {
           </div>
         </div>
       </section>
-     {/* 5. INTERNSHIP BRIDGE */}
-<section className="py-24 px-6" aria-labelledby="internship-heading">
-  <div className="max-w-7xl mx-auto bg-[#0A4D68] rounded-[3rem] p-12 lg:p-20 relative overflow-hidden shadow-2xl shadow-[#0A4D68]/20">
-    {/* Decorative Background Element */}
-    <div className="absolute top-0 right-0 w-1/3 h-full bg-[#86C232] opacity-10 -skew-x-12 translate-x-1/2" />
-    
-    <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10">
-      <div className="text-white space-y-8">
-        {/* SEO Optimized Heading: Uses keywords like "2026", "Elite", and "Program" */}
-        <h2 id="internship-heading" className="text-4xl lg:text-6xl font-black leading-tight tracking-tighter">
-          Launch Your Career: <br />
-          <span className="text-[#86C232]">Careergize intership 2026 </span>
-        </h2>
-        
-        {/* Meaningful Content: Focuses on benefits (Mentorship, Projects, Certification) */}
-        <div className="space-y-4">
-          <p className="text-white/80 text-lg leading-relaxed max-w-md">
-            Stop just learning—start building. Our 2026 internship offers <strong>hands-on industry projects</strong>, 1-on-1 <strong>mentorship from experts</strong>, and a path to <strong>pre-placement offers (PPO)</strong>.
-          </p>
-          
-          <ul className="grid grid-cols-1 gap-3">
-            <li className="flex items-center gap-3 text-sm font-semibold text-[#86C232]">
-              <div className="w-5 h-5 rounded-full bg-[#86C232]/20 flex items-center justify-center">✓</div>
-              Industry-Recognized Certifications
-            </li>
-            <li className="flex items-center gap-3 text-sm font-semibold text-[#86C232]">
-              <div className="w-5 h-5 rounded-full bg-[#86C232]/20 flex items-center justify-center">✓</div>
-              Real-world Tech Stack Exposure
-            </li>
-            <li className="flex items-center gap-3 text-sm font-semibold text-[#86C232]">
-              <div className="w-5 h-5 rounded-full bg-[#86C232]/20 flex items-center justify-center">✓</div>
-              Networking with Top-tier Professionals
-            </li>
-          </ul>
-        </div>
-        
-        <div className="flex flex-col sm:flex-row gap-4 pt-4">
-          <Link href="/internship-2026">
-            <Button size="lg" className="bg-[#86C232] hover:bg-white hover:text-[#0A4D68] text-[#0A4D68] font-black rounded-2xl h-16 px-10 transition-all border-none shadow-xl shadow-[#86C232]/20">
-              Apply Now <ExternalLink className="ml-2" size={20} />
-            </Button>
-          </Link>
-          <p className="text-white/40 text-[10px] uppercase tracking-widest self-center font-bold">
-            Limited Seats Available <br /> Application Deadline Approaching
-          </p>
-        </div>
 
-      </div>
+      {/* 4. INTERNSHIP BRIDGE */}
+      <section className="py-24 px-6">
+        <div className="max-w-7xl mx-auto bg-[#0A4D68] rounded-[3rem] p-12 lg:p-20 relative overflow-hidden shadow-2xl">
+          <div className="absolute top-0 right-0 w-1/3 h-full bg-[#86C232] opacity-10 -skew-x-12 translate-x-1/2" />
+          <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10">
+            <div className="text-white space-y-8">
+              <h2 className="text-4xl lg:text-6xl font-black leading-tight tracking-tighter">
+                Launch Your Career: <br />
+                <span className="text-[#86C232]">Careergize Internship 2026</span>
+              </h2>
+              <div className="space-y-4">
+                <p className="text-white/80 text-lg leading-relaxed max-w-md">
+                  Stop just learning—start building. Our 2026 internship offers hands-on industry projects and 1-on-1 mentorship.
+                </p>
+                <ul className="grid grid-cols-1 gap-3">
+                  {['Industry Certifications', 'Real-world Tech Exposure', 'Professional Networking'].map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-sm font-semibold text-[#86C232]">
+                      <div className="w-5 h-5 rounded-full bg-[#86C232]/20 flex items-center justify-center">✓</div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Link href="/internship-2026">
+                  <Button size="lg" className="bg-[#86C232] hover:bg-white hover:text-[#0A4D68] text-[#0A4D68] font-black rounded-2xl h-16 px-10 transition-all border-none">
+                    Apply Now <ExternalLink className="ml-2" size={20} />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            <div className="relative group">
+              <img
+                src="/team-support-mentoring-professional-guidance.jpg"
+                className="relative rounded-[2rem] shadow-2xl border border-white/10"
+                alt="Mentorship"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* Optimized Image with Alt Text for SEO */}
-      <div className="relative group">
-        <div className="absolute -inset-1 bg-gradient-to-r from-[#86C232] to-transparent rounded-[2.2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-        <img
-          src="/team-support-mentoring-professional-guidance.jpg"
-          className="relative rounded-[2rem] shadow-2xl grayscale-[20%] hover:grayscale-0 transition-all duration-500 border border-white/10"
-          alt="Students collaborating in the Careergize 2026 Internship Program mentorship session"
-        />
-      </div>
-    </div>
-  </div>
-</section>
-      {/* 4. WHY CHOOSE US */}
+      {/* 5. WHY CHOOSE US */}
       <section className="py-24 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <FadeIn>
@@ -238,9 +286,7 @@ export default function CollegeAdmissionPage() {
         </div>
       </section>
 
-    
-
-      {/* 6. READY TO BEGIN JOURNEY (CTA) */}
+      {/* 6. CTA */}
       <section className="py-24 px-6 text-center">
         <div className="max-w-4xl mx-auto">
           <FadeIn>
@@ -250,7 +296,7 @@ export default function CollegeAdmissionPage() {
                <p className="text-lg text-slate-500 mb-10 max-w-xl mx-auto">
                  Connect with our experts for personalized college admission and career guidance today.
                </p>
-               <Link href="/">
+               <Link href="/book-consultation">
                 <Button size="lg" className="bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white px-12 rounded-full h-16 font-bold text-lg shadow-xl shadow-[#0A4D68]/20">
                   Get Free Consultation
                 </Button>
