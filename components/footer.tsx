@@ -1,10 +1,34 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import React from 'react';
 import Link from "next/link";
 import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram, ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
+  const [isOpen, setIsOpen] = useState(false)
   const currentYear = new Date().getFullYear();
+  const scrollToSection = (id: string) => {
+    setIsOpen(false)
+    if (id === "about" || id === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+      return
+    }
 
+    const element = document.getElementById(id)
+    if (element) {
+      const offset = 90 
+      const bodyRect = document.body.getBoundingClientRect().top
+      const elementRect = element.getBoundingClientRect().top
+      const elementPosition = elementRect - bodyRect
+      const offsetPosition = elementPosition - offset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      })
+    }
+  }
   return (
     <footer className="relative bg-slate-900 text-slate-300 py-16 sm:py-20 overflow-hidden font-sans border-t border-slate-800">
       
@@ -76,18 +100,32 @@ export default function Footer() {
 
 
           {/* Quick Links - Company */}
-          <div>
-            <h4 className="text-white font-semibold text-lg mb-6">Company</h4>
-            <ul className="space-y-3">
-              {['About Us', 'Success Stories', 'Blog', 'Contact Us'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-sm text-slate-400 hover:text-purple-400 transition-colors block hover:translate-x-1 duration-200">
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+       <div>
+  <h4 className="text-white font-black text-xl tracking-tighter mb-6 uppercase">
+    Company<span className="text-blue-500">.</span>
+  </h4>
+  <ul className="space-y-3">
+    {['Home', 'Services', 'Why Us', 'How it works'].map((item) => (
+      <li key={item}>
+        <button
+          onClick={() => {
+            // Mapping names to the IDs used in your page sections
+            const idMap: Record<string, string> = {
+              'Home': 'about', // or 'hero'
+              'Services': 'services',
+              'Why Us': 'why',
+              'How it works': 'how'
+            };
+            scrollToSection(idMap[item] || item.toLowerCase().replace(/\s+/g, ""));
+          }}
+          className="text-sm font-black text-slate-400 hover:text-blue-500 transition-all duration-300 block hover:translate-x-2 text-left lowercase tracking-tighter"
+        >
+          {item}
+        </button>
+      </li>
+    ))}
+  </ul>
+</div>
 
           {/* Contact Info */}
           <div>
