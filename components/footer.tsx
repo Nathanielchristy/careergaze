@@ -57,7 +57,7 @@ export default function Footer() {
             <div className="flex gap-3">
               {[
                 { icon: Linkedin, href: "#" },
-                { icon: Instagram, href: "https://www.instagram.com/careergize?igsh=ZzN1ZGh6OHA1Mmc4" },
+                { icon: Instagram, href: "https://www.instagram.com/careergize?igsh=OGUxc25xMThzbTVz" },
                 { icon: Twitter, href: "#" },
                 { icon: Facebook, href: "#" }
               ].map((social, index) => (
