@@ -193,7 +193,7 @@ const [isOpen, setIsOpen] = useState(false)
             <p className="text-white/70 text-lg mb-10 max-w-xl mx-auto">
               Let us build a beautiful, high-performing website that drives business results.
             </p>
-            <Link href="/">
+             <Link href="/start-project">
               <Button size="lg" className="bg-[#86C232] hover:bg-white hover:text-[#0A4D68] text-[#0A4D68] px-12 rounded-full h-16 font-bold text-lg transition-all"
               
                onClick={() => scrollToSection("cta")}

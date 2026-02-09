@@ -93,6 +93,12 @@ export default function Hero() {
                 <dd className="text-4xl font-black text-[#22C55E] tracking-tighter">95%</dd>
                 <div className="h-1 w-12 bg-[#A7FF00] rounded-full mt-1" />
               </div>
+              {/* Countries Tab - Blue Accent */}
+  <div className="flex flex-col gap-1">
+    <dt className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Countries</dt>
+    <dd className="text-4xl font-black text-[#005A8D] tracking-tighter">10+</dd>
+    <div className="h-1 w-12 bg-[#005A8D]/20 rounded-full mt-1" />
+  </div>
             </dl>
           </article>
 
