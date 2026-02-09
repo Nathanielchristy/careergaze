@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { CheckCircle2, Sparkles, Users2, LineChart, ShieldCheck, Cpu, Zap, ArrowUpRight } from "lucide-react"
+import Link from 'next/link'
 
 const reasons = [
   {
@@ -127,12 +128,12 @@ export default function WhyChoose() {
                 Join 100+ high-achievers scaling their growth with our blueprint.
               </p>
             </div>
-
-            <button className="group relative z-10 px-10 py-5 bg-white hover:bg-[#A7FF00] text-slate-900 font-black rounded-2xl transition-all flex items-center gap-3 shadow-xl hover:scale-105 active:scale-95">
-              Get Your Free Blueprint
-              <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </button>
-            
+           <Link href="/get-blueprint">
+  <button className="group relative z-10 px-10 py-5 bg-white hover:bg-[#A7FF00] text-slate-900 font-black rounded-2xl transition-all flex items-center gap-3 shadow-xl hover:scale-105 active:scale-95 lowercase tracking-tighter">
+    get your free blueprint
+    <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+  </button>
+</Link>
           </div>
         </div>
       </div>

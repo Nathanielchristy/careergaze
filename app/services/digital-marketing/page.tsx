@@ -80,9 +80,12 @@ export default function DigitalMarketingPage() {
               Maximize your ROI with precision-targeted campaigns. We combine creative storytelling with rigorous analytics to scale your brand effectively.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button size="lg" className="bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white px-8 rounded-xl h-14 font-bold shadow-lg shadow-[#0A4D68]/20">
-                Start Campaign
-              </Button>
+              {/* Find this in your DigitalMarketingPage */}
+<Link href="/start-campaign">
+  <Button size="lg" className="bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white px-8 rounded-xl h-14 font-bold shadow-lg shadow-[#0A4D68]/20">
+    Start Campaign
+  </Button>
+</Link>
             </div>
           </FadeIn>
           <FadeIn delay={0.2}>

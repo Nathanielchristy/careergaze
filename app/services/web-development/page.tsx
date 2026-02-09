@@ -105,12 +105,16 @@ const [isOpen, setIsOpen] = useState(false)
               We build high-performance, responsive websites using React and Next.js. Elevate your digital presence with enterprise-grade architecture.
             </p>
             <div className="flex flex-wrap gap-4">
+              <Link href="/start-project">
               <Button size="lg" className="bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white px-8 rounded-xl h-14 font-bold shadow-lg shadow-[#0A4D68]/20">
                 Start Project
               </Button>
+              </Link>
+              <Link href="/portfolio">
               <Button size="lg" variant="outline" className="border-slate-200 text-[#0A4D68] px-8 rounded-xl h-14 font-bold hover:bg-slate-50">
                 View Portfolio
               </Button>
+              </Link>
             </div>
           </FadeIn>
           <FadeIn delay={0.2}>
