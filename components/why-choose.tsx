@@ -62,7 +62,7 @@ export default function WhyChoose() {
             </div>
             <h3 className="text-5xl md:text-6xl font-black text-slate-900 tracking-tighter leading-[0.95]">
               Why leading minds <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#005A8D] to-[#22C55E]">choose Careergize.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#005A8D] to-[#22C55E]">Choose Careergize.</span>
             </h3>
           </div>
           <div className="max-w-sm">
