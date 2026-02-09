@@ -1,15 +1,16 @@
-'use client' // Changed to client to manage the loading state
+'use client'
 
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { AnimatePresence, motion } from "framer-motion"
 import "./globals.css"
 import WhatsAppChat from "@/components/WhatsAppChat"
-import SplashScreen from "@/components/SplashScreen" // Create this component next
+import SplashScreen from "@/components/SplashScreen"
+import FloatingBot from "@/components/FloatingBot" // Import the bot here
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const geist = Geist({ subsets: ["latin"] })
+const geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export default function RootLayout({
   children,
@@ -32,6 +33,10 @@ export default function RootLayout({
               transition={{ duration: 0.8 }}
             >
               {children}
+              
+              {/* BRAND BOT - Cycles through messages */}
+              <FloatingBot /> 
+              
               <WhatsAppChat />
               <Analytics />
             </motion.div>

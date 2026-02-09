@@ -60,7 +60,7 @@ export default function SplashScreen({ finishLoading }: { finishLoading: () => v
           {/* LOGO */}
           <div className="relative w-48 h-48 md:w-64 md:h-64">
             <Image
-              src="/logo.jpeg"
+              src="/logotwo.png"
               alt="Careergize Logo"
               fill
               priority
