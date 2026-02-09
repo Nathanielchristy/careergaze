@@ -27,7 +27,7 @@ export default function About() {
             </div>
             
             <h2 className="text-6xl lg:text-8xl font-black text-slate-900 tracking-tighter leading-[0.9] mb-10">
-              excellence <br />
+              Excellence <br />
               is <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#005A8D] to-[#22C55E]">non-negotiable.</span>
             </h2>
 
