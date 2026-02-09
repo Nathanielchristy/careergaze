@@ -73,13 +73,18 @@ export default function Hero() {
                 Get Started
                 <ArrowRight size={20} />
               </Button>
+
               <Button
+               onClick={() => scrollToSection("why")}
                 size="lg"
                 variant="outline"
                 className="rounded-2xl px-8 h-16 text-lg font-bold border-2 border-[#A7FF00] text-slate-900 hover:bg-[#A7FF00] transition-all"
               >
                 Learn More
               </Button>
+
+
+
             </div>
 
             {/* Trust Indicators - Styled with brand accents */}
