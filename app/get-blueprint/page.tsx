@@ -24,7 +24,7 @@ export default function GetBlueprintPage() {
       const timers = [
         setTimeout(() => setLoadingText('matching admission benchmarks...'), 1200),
         setTimeout(() => setLoadingText('calculating growth trajectory...'), 2400),
-        setTimeout(() => setLoadingText('finalizing your 15-page pdf...'), 3600),
+        setTimeout(() => setLoadingText('finalizing your blueprint...'), 3600),
         setTimeout(() => setStatus('success'), 4800),
       ]
       return () => timers.forEach(clearTimeout)
