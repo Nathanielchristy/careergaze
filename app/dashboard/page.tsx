@@ -1,111 +1,45 @@
 'use client'
 
-import React, { useEffect, useMemo, useReducer, useCallback } from 'react'
+import React, { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Users, Search, RefreshCw, Sparkles, GraduationCap,
-  ArrowRight, LayoutGrid, List, ShieldCheck, AlertCircle
+  BookOpen, Calendar, CheckCircle, GraduationCap,
+  LayoutGrid, Clock, Bell, LogOut, FileText, 
+  CheckSquare, MessageSquare, Award, ExternalLink
 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 
 /* =====================
-   TYPES
+   MOCK DATA & TYPES
 ===================== */
 
-type User = {
-  id?: string
-  name?: string
-  email?: string
-  status?: 'verified' | 'pending' | 'blocked'
+type InternshipTask = {
+  id: string
+  title: string
+  deadline: string
+  status: 'pending' | 'submitted' | 'reviewed'
 }
 
-type State = {
-  users: User[]
-  isLoading: boolean
-  error: string | null
-  search: string
-  view: 'table' | 'grid'
-}
-
-type Action =
-  | { type: 'FETCH_START' }
-  | { type: 'FETCH_SUCCESS'; payload: User[] }
-  | { type: 'FETCH_ERROR'; payload: string }
-  | { type: 'SET_SEARCH'; payload: string }
-  | { type: 'SET_VIEW'; payload: 'table' | 'grid' }
-
-/* =====================
-   REDUCER
-===================== */
-
-const initialState: State = {
-  users: [],
-  isLoading: true,
-  error: null,
-  search: '',
-  view: 'table'
-}
-
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case 'FETCH_START':
-      return { ...state, isLoading: true, error: null }
-    case 'FETCH_SUCCESS':
-      return { ...state, isLoading: false, users: action.payload }
-    case 'FETCH_ERROR':
-      return { ...state, isLoading: false, error: action.payload }
-    case 'SET_SEARCH':
-      return { ...state, search: action.payload }
-    case 'SET_VIEW':
-      return { ...state, view: action.payload }
-    default:
-      return state
-  }
-}
+const TASKS: InternshipTask[] = [
+  { id: '1', title: 'Weekly Progress Report', deadline: 'Today, 5:00 PM', status: 'pending' },
+  { id: '2', title: 'React Performance Audit', deadline: 'Oct 24', status: 'submitted' },
+  { id: '3', title: 'UI Component Library', deadline: 'Oct 20', status: 'reviewed' },
+]
 
 /* =====================
    MAIN COMPONENT
 ===================== */
 
-export default function CareergizeDashboardAdvanced() {
-  const [state, dispatch] = useReducer(reducer, initialState)
+export default function InternDashboard() {
+  const [attendanceMarked, setAttendanceMarked] = useState(false)
+  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString())
 
-  const fetchUsers = useCallback(async () => {
-    dispatch({ type: 'FETCH_START' })
-    try {
-      const res = await fetch('/api/users', { cache: 'no-store' })
-      const data = await res.json()
-
-      if (data?.error === 'ACCESS_DENIED') {
-        throw new Error('Google Access Denied: Set Script to Anyone')
-      }
-
-      dispatch({
-        type: 'FETCH_SUCCESS',
-        payload: Array.isArray(data) ? data : []
-      })
-    } catch (err: any) {
-      dispatch({ type: 'FETCH_ERROR', payload: err.message || 'Unknown error' })
-    }
+  // Update clock every second
+  React.useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date().toLocaleTimeString()), 1000)
+    return () => clearInterval(timer)
   }, [])
-
-  useEffect(() => {
-    fetchUsers()
-  }, [fetchUsers])
-
-  const filteredUsers = useMemo(() => {
-    const q = state.search.toLowerCase()
-    return state.users.filter(u =>
-      u.name?.toLowerCase().includes(q) ||
-      u.email?.toLowerCase().includes(q)
-    )
-  }, [state.users, state.search])
-
-  /* =====================
-     RENDER
-  ===================== */
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#0A4D68]">
@@ -114,42 +48,136 @@ export default function CareergizeDashboardAdvanced() {
       <aside className="fixed left-0 top-0 h-full w-64 bg-[#0A4D68] text-white hidden lg:flex flex-col p-6">
         <Brand />
         <nav className="space-y-2 flex-1">
-          <SidebarItem icon={<LayoutGrid size={20} />} label="Overview" active />
-          <SidebarItem icon={<Users size={20} />} label="Students" />
-          <SidebarItem icon={<ShieldCheck size={20} />} label="Verification" />
+          <SidebarItem icon={<LayoutGrid size={20} />} label="My Workspace" active />
+          <SidebarItem icon={<FileText size={20} />} label="Learning Notes" />
+          <SidebarItem icon={<CheckSquare size={20} />} label="Tasks & Projects" />
+          <SidebarItem icon={<MessageSquare size={20} />} label="Mentor Chat" />
+          <SidebarItem icon={<Award size={20} />} label="Final Certification" />
         </nav>
-        <SystemStatus error={state.error} />
+        <SidebarItem icon={<LogOut size={20} />} label="Logout" />
       </aside>
 
-      {/* MAIN */}
+      {/* MAIN CONTENT */}
       <main className="lg:ml-64 p-6 lg:p-12">
-        <Header loading={state.isLoading} onRefresh={fetchUsers} />
+        
+        {/* HEADER SECTION */}
+        <header className="flex flex-col md:flex-row justify-between items-start gap-4 mb-10">
+          {/* Replace the h1 in your Header section with this */}
+<div>
+  <h1 className="text-3xl font-extrabold text-[#0A4D68]">
+    Welcome back, <span className="text-[#86C232]">John Doe</span> 👋
+  </h1>
+  <p className="text-slate-500 text-sm">Intern ID: #CG-2026-042</p>
+</div>
+          {/* DIGITAL ATTENDANCE CARD */}
+          <Card className="p-4 bg-white border-none shadow-sm flex items-center gap-6 rounded-2xl">
+            <div>
+              <p className="text-xs font-bold text-slate-400 uppercase">Current Time</p>
+              <p className="text-lg font-mono font-bold">{currentTime}</p>
+            </div>
+            <Button 
+              disabled={attendanceMarked}
+              onClick={() => setAttendanceMarked(true)}
+              className={`${attendanceMarked ? 'bg-green-100 text-green-600' : 'bg-[#86C232] text-[#0A4D68]'} rounded-xl font-bold px-6`}
+            >
+              {attendanceMarked ? <><CheckCircle size={18} className="mr-2"/> Present</> : 'Mark Attendance'}
+            </Button>
+          </Card>
+        </header>
 
-        {state.error && <ErrorBox message={state.error} />}
+        {/* TOP STATS */}
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-10">
+          <StatBox title="Days Completed" value="18/45" icon={<Calendar className="text-[#86C232]" />} />
+          <StatBox title="Tasks Done" value="12" icon={<CheckSquare className="text-[#86C232]" />} />
+          <StatBox title="Current Grade" value="A-" icon={<Award className="text-[#86C232]" />} />
+          <StatBox title="Learning Hours" value="92h" icon={<Clock className="text-[#86C232]" />} />
+        </div>
 
-        <Stats users={state.users.length} />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          {/* LEFT COL: TASKS & NOTES */}
+          <div className="lg:col-span-2 space-y-8">
+            <section>
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <FileText size={20} className="text-[#86C232]" /> Latest Study Notes
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <NoteCard title="Advanced Next.js Routing" date="Updated 2h ago" tag="Technical" />
+                <NoteCard title="Effective Communication" date="Yesterday" tag="Soft Skills" />
+              </div>
+            </section>
 
-        <Card className="rounded-[2rem] overflow-hidden">
-          <Toolbar
-            search={state.search}
-            onSearch={v => dispatch({ type: 'SET_SEARCH', payload: v })}
-            view={state.view}
-            onView={v => dispatch({ type: 'SET_VIEW', payload: v })}
-          />
+            <section>
+              <h2 className="text-xl font-bold mb-4">Upcoming Deadlines</h2>
+              <Card className="rounded-[2rem] overflow-hidden border-none shadow-sm bg-white">
+                <table className="w-full text-left">
+                  <thead className="bg-slate-50">
+                    <tr>
+                      <th className="px-6 py-4 text-xs uppercase font-bold text-slate-400">Task Name</th>
+                      <th className="px-6 py-4 text-xs uppercase font-bold text-slate-400">Deadline</th>
+                      <th className="px-6 py-4 text-xs uppercase font-bold text-slate-400">Status</th>
+                      <th className="px-6 py-4"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {TASKS.map((task) => (
+                      <tr key={task.id} className="border-t border-slate-50">
+                        <td className="px-6 py-4 font-bold">{task.title}</td>
+                        <td className="px-6 py-4 text-slate-500 text-sm">{task.deadline}</td>
+                        <td className="px-6 py-4">
+                          <StatusBadge status={task.status} />
+                        </td>
+                        <td className="px-6 py-4">
+                          <Button variant="ghost" size="sm" className="text-[#0A4D68]">Submit</Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </Card>
+            </section>
+          </div>
 
-          {state.view === 'table' ? (
-            <UserTable loading={state.isLoading} users={filteredUsers} />
-          ) : (
-            <UserGrid loading={state.isLoading} users={filteredUsers} />
-          )}
-        </Card>
+          {/* RIGHT COL: PROGRESS & MENTOR */}
+          <div className="space-y-8">
+            <Card className="p-6 rounded-[2rem] bg-[#0A4D68] text-white border-none">
+              <h3 className="font-bold text-lg mb-4">Internship Progress</h3>
+              <div className="space-y-6">
+                <div>
+                  <div className="flex justify-between text-sm mb-2 text-white/80">
+                    <span>Program Completion</span>
+                    <span>40%</span>
+                  </div>
+                  <div className="h-2 bg-white/10 rounded-full">
+                    <div className="h-full bg-[#86C232] w-[40%] rounded-full shadow-[0_0_10px_#86C232]" />
+                  </div>
+                </div>
+                <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+                  <p className="text-xs text-white/60 mb-1">Assigned Mentor</p>
+                  <p className="font-bold">Engr. Sarah Connor</p>
+                  <Button variant="link" className="p-0 h-auto text-[#86C232] text-xs">Book 1:1 Session</Button>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6 rounded-[2rem] border-none shadow-sm bg-white">
+              <h3 className="font-bold text-lg mb-4">Quick Links</h3>
+              <div className="space-y-3">
+                <LinkItem title="Program Syllabus" />
+                <LinkItem title="Submission Portal" />
+                <LinkItem title="Slack Community" />
+                <LinkItem title="Leave Request" />
+              </div>
+            </Card>
+          </div>
+        </div>
       </main>
     </div>
   )
 }
 
 /* =====================
-   SUB COMPONENTS
+   SUB-COMPONENTS
 ===================== */
 
 function Brand() {
@@ -158,164 +186,58 @@ function Brand() {
       <div className="bg-[#86C232] p-2 rounded-lg">
         <GraduationCap className="text-[#0A4D68]" size={24} />
       </div>
-      <span className="text-xl font-bold">Careergize</span>
-    </div>
-  )
-}
-
-function Header({ loading, onRefresh }: any) {
-  return (
-    <header className="flex flex-col md:flex-row justify-between gap-4 mb-10">
-      <div>
-        <h1 className="text-3xl font-extrabold">Student Management</h1>
-        <p className="text-slate-500">Real-time enrollment monitoring</p>
-      </div>
-      <Button onClick={onRefresh} className="bg-[#86C232] text-[#0A4D68] rounded-xl">
-        <RefreshCw className={`mr-2 ${loading ? 'animate-spin' : ''}`} />
-        Sync
-      </Button>
-    </header>
-  )
-}
-
-function Toolbar({ search, onSearch, view, onView }: any) {
-  return (
-    <div className="p-6 flex justify-between gap-4 border-b">
-      <div className="relative w-full max-w-md">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
-        <Input
-          value={search}
-          onChange={e => onSearch(e.target.value)}
-          placeholder="Search students"
-          className="pl-12 h-12 rounded-xl"
-        />
-      </div>
-      <div className="flex gap-2">
-        <Button size="icon" variant={view === 'table' ? 'default' : 'ghost'} onClick={() => onView('table')}>
-          <List />
-        </Button>
-        <Button size="icon" variant={view === 'grid' ? 'default' : 'ghost'} onClick={() => onView('grid')}>
-          <LayoutGrid />
-        </Button>
-      </div>
-    </div>
-  )
-}
-
-function UserTable({ users, loading }: any) {
-  return (
-    <table className="w-full">
-      <thead className="bg-slate-50 text-xs uppercase">
-        <tr>
-          <th className="px-8 py-4">Student</th>
-          <th className="px-8 py-4">Email</th>
-          <th className="px-8 py-4">College</th>
-          <th className="px-8 py-4">Phone</th>
-          <th className="px-8 py-4">Status</th>
-          <th className="px-8 py-4">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <AnimatePresence>
-          {loading ? <LoadingRows /> : users.map((u: User, i: number) => (
-            <motion.tr key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <td className="px-8 py-4 font-bold">{u.name}</td>
-              <td className="px-8 py-4 text-slate-500">{u.email}</td>
-              <td className="px-8 py-4">ABC University</td>
-              <td className="px-8 py-4">+1 234 567 8901</td>
-              <td className="px-8 py-4"><StatusBadge status={u.status} /></td>
-              <td className="px-8 py-4"><Button variant="ghost">Details</Button></td>
-            </motion.tr>
-          ))}
-        </AnimatePresence>
-      </tbody>
-    </table>
-  )
-}
-
-function UserGrid({ users, loading }: any) {
-  if (loading) return <div className="p-10">Loading...</div>
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-      {users.map((u: User, i: number) => (
-        <motion.div key={i} whileHover={{ scale: 1.03 }} className="p-6 bg-slate-50 rounded-2xl">
-          <h3 className="font-bold text-lg">{u.name}</h3>
-          <p className="text-sm text-slate-500">{u.email}</p>
-          <StatusBadge status={u.status} />
-        </motion.div>
-      ))}
-    </div>
-  )
-}
-
-function StatusBadge({ status = 'verified' }: any) {
-  const map: any = {
-    verified: 'bg-green-100 text-green-700',
-    pending: 'bg-yellow-100 text-yellow-700',
-    blocked: 'bg-red-100 text-red-700'
-  }
-  return (
-    <span className={`px-3 py-1 text-xs font-bold rounded-full ${map[status]}`}>{status}</span>
-  )
-}
-
-function Stats({ users }: any) {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-      <StatBox title="Total Students" value={users} icon={<Users />} />
-      <StatBox title="Active" value="12" icon={<Sparkles />} />
-      <StatBox title="Pending" value="0" icon={<RefreshCw />} />
+      <span className="text-xl font-bold tracking-tight">Careergize</span>
     </div>
   )
 }
 
 function StatBox({ title, value, icon }: any) {
   return (
-    <div className="bg-white p-6 rounded-2xl border flex justify-between items-center">
+    <Card className="p-6 rounded-2xl border-none shadow-sm flex justify-between items-center bg-white">
       <div>
-        <p className="text-xs uppercase text-slate-400">{title}</p>
-        <p className="text-3xl font-black">{value}</p>
+        <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">{title}</p>
+        <p className="text-2xl font-black text-[#0A4D68]">{value}</p>
       </div>
-      <div>{icon}</div>
-    </div>
+      <div className="bg-slate-50 p-3 rounded-xl">{icon}</div>
+    </Card>
   )
 }
 
-function SystemStatus({ error }: any) {
+function NoteCard({ title, date, tag }: any) {
   return (
-    <div className="bg-white/10 p-4 rounded-xl">
-      <div className="flex items-center gap-2">
-        <div className={`w-2 h-2 rounded-full ${error ? 'bg-red-400' : 'bg-green-400 animate-pulse'}`} />
-        <span className="text-xs uppercase">{error ? 'Error' : 'Live'}</span>
-      </div>
-    </div>
+    <Card className="p-5 border-none shadow-sm bg-white rounded-2xl hover:ring-2 ring-[#86C232] transition-all cursor-pointer">
+      <span className="px-2 py-1 bg-slate-100 text-[#0A4D68] text-[10px] font-bold rounded uppercase">{tag}</span>
+      <h4 className="font-bold mt-3 mb-1">{title}</h4>
+      <p className="text-xs text-slate-400">{date}</p>
+    </Card>
   )
 }
 
-function ErrorBox({ message }: any) {
+function StatusBadge({ status }: any) {
+  const styles: any = {
+    pending: 'bg-yellow-100 text-yellow-700',
+    submitted: 'bg-blue-100 text-blue-700',
+    reviewed: 'bg-green-100 text-green-700',
+  }
+  return <span className={`px-3 py-1 text-[10px] font-bold rounded-full uppercase ${styles[status]}`}>{status}</span>
+}
+
+function LinkItem({ title }: { title: string }) {
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-6 p-4 bg-red-50 text-red-600 rounded-xl flex gap-2">
-      <AlertCircle size={18} />
-      {message}
-    </motion.div>
+    <div className="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 cursor-pointer group">
+      <span className="text-sm font-medium text-slate-600 group-hover:text-[#0A4D68]">{title}</span>
+      <ExternalLink size={14} className="text-slate-300 group-hover:text-[#86C232]" />
+    </div>
   )
 }
 
 function SidebarItem({ icon, label, active }: any) {
   return (
-    <div className={`flex items-center gap-4 px-4 py-3 rounded-xl cursor-pointer ${active ? 'bg-[#86C232] text-[#0A4D68]' : 'text-white/60 hover:bg-white/10'}`}>
+    <div className={`flex items-center gap-4 px-4 py-3 rounded-xl cursor-pointer transition-colors ${
+      active ? 'bg-[#86C232] text-[#0A4D68] font-bold' : 'text-white/60 hover:bg-white/10'
+    }`}>
       {icon}
-      {label}
+      <span className="text-sm">{label}</span>
     </div>
   )
-}
-
-function LoadingRows() {
-  return [1, 2, 3].map(i => (
-    <tr key={i} className="animate-pulse">
-      <td colSpan={4} className="px-8 py-6">
-        <div className="h-6 bg-slate-100 rounded" />
-      </td>
-    </tr>
-  ))
 }
