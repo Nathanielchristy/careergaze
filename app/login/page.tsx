@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { 
   Lock, Mail, Eye, EyeOff, Loader2, 
-  ArrowRight, ShieldCheck, Fingerprint, Sparkles, AlertCircle 
+  ArrowRight, AlertCircle 
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -38,7 +38,7 @@ export default function CareergizeLogin() {
     y.set((e.clientY - rect.top) / rect.height - 0.5)
   }
 
-  // LOGIN HANDLER (Using the new doGet URL)
+  // LOGIN HANDLER
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -47,7 +47,6 @@ export default function CareergizeLogin() {
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw88Ck1hh6Z78G5wYYvEtD9mlvEv-U4eQ7NrRmDjRsl2WbPKBdhgqCVpt7tqJucDAG0/exec'
 
     try {
-      // Sending request to your rewritten doGet function
       const response = await fetch(
         `${SCRIPT_URL}?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
       )
@@ -55,12 +54,20 @@ export default function CareergizeLogin() {
       const data = await response.json()
 
       if (data.result === 'success') {
-        // Save user name for the dashboard
+        // 1. Save Session Data
         localStorage.setItem('userName', data.name)
+        localStorage.setItem('userEmail', email)
         localStorage.setItem('isLoggedIn', 'true')
         
-        // Redirect to dashboard
-        router.push('/dashboard')
+        // 2. ROLE-BASED ROUTING
+        // Check if the name in the Google Sheet is exactly "Varun"
+       if (data.name && (data.name.toLowerCase() === 'varun' || data.name.toLowerCase() === 'adithyan')) {
+    localStorage.setItem('userRole', 'admin')
+    router.push('/dashboard/admin') // Redirect to Admin Page
+} else {
+    localStorage.setItem('userRole', 'intern')
+    router.push('/dashboard') // Redirect to Normal Dashboard
+}
       } else {
         setError(data.message || 'Access Denied. Please check your credentials.')
       }
@@ -93,7 +100,7 @@ export default function CareergizeLogin() {
         >
           {/* LOGO & BRANDING */}
           <div className="flex flex-col items-center mb-10 text-center" style={{ transform: "translateZ(40px)" }}>
-            <div className="w-20 h-20 relative p-1 rounded-3xl bg-gradient-to-tr from-[#0A4D68] to-[#86C232] shadow-lg mb-6 transition-transform">
+            <div className="w-20 h-20 relative p-1 rounded-3xl bg-gradient-to-tr from-[#0A4D68] to-[#86C232] shadow-lg mb-6">
               <div className="w-full h-full bg-white rounded-[22px] overflow-hidden relative">
                  <Image src="/logo.jpeg" alt="Careergize" fill className="object-cover" />
               </div>
@@ -106,7 +113,6 @@ export default function CareergizeLogin() {
 
           <form onSubmit={handleLogin} className="space-y-6" style={{ transform: "translateZ(30px)" }}>
             
-            {/* ERROR ALERT */}
             {error && (
               <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -118,7 +124,6 @@ export default function CareergizeLogin() {
               </motion.div>
             )}
 
-            {/* EMAIL FIELD */}
             <div className="group space-y-2">
               <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-focus-within:text-[#0A4D68] ml-1">Email</Label>
               <div className="relative">
@@ -134,7 +139,6 @@ export default function CareergizeLogin() {
               </div>
             </div>
 
-            {/* PASSWORD FIELD */}
             <div className="group space-y-2">
               <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-focus-within:text-[#0A4D68] ml-1">Password</Label>
               <div className="relative">
@@ -157,7 +161,6 @@ export default function CareergizeLogin() {
               </div>
             </div>
 
-            {/* SUBMIT BUTTON */}
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button 
                 type="submit" 
@@ -173,7 +176,6 @@ export default function CareergizeLogin() {
             </motion.div>
           </form>
 
-          {/* BOTTOM ACTIONS */}
           <div className="mt-10 pt-6 border-t border-slate-50 flex flex-col items-center gap-4" style={{ transform: "translateZ(20px)" }}>
             <Link href="/register" className="text-xs font-bold text-[#86C232] hover:text-[#0A4D68] transition-colors">
               Request Portal Access →
