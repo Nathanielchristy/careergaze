@@ -147,8 +147,8 @@ export default function BrandedRegistration() {
                 </div>
                 <h2 className="text-2xl font-black text-[#0A4D68]">Welcome Aboard!</h2>
                 <p className="text-slate-400 mt-2 mb-8">Your account has been created successfully.</p>
-                <Link href="/dashboard">
-                  <Button className="bg-[#0A4D68] rounded-xl px-8">Go to Dashboard</Button>
+                <Link href="/login">
+                  <Button className="bg-[#0A4D68] rounded-xl px-8">Login</Button>
                 </Link>
               </motion.div>
             )}
