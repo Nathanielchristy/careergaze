@@ -3,11 +3,12 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  BookOpen, Calendar, CheckCircle, GraduationCap,
-  LayoutGrid, Clock, Bell, LogOut, FileText, 
-  CheckSquare, MessageSquare, Award, ExternalLink,
-  Search, Download, PlayCircle, Star, ArrowLeft,
-  Plus, Paperclip, Send, ChevronRight, Layout, Flag, Target
+  Calendar, CheckCircle, GraduationCap,
+  LayoutGrid, Clock, LogOut, FileText, 
+  CheckSquare, MessageSquare, Award,
+  Search, PlayCircle, Star, ArrowLeft,
+  Plus, Paperclip, Send, ChevronRight, Layout, Flag, Target,
+  Menu, X, ExternalLink
 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -30,11 +31,12 @@ const NOTES = [
 ]
 
 /* =====================
-   MAIN DASHBOARD COMPONENT
+   MAIN COMPONENT
 ===================== */
 
 export default function InternDashboard() {
   const [activeTab, setActiveTab] = useState('Workspace')
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [attendanceMarked, setAttendanceMarked] = useState(false)
   const [currentTime, setCurrentTime] = useState('')
 
@@ -44,45 +46,73 @@ export default function InternDashboard() {
     return () => clearInterval(timer)
   }, [])
 
+  // Navigation handler for mobile
+  const navigateTo = (tab: string) => {
+    setActiveTab(tab)
+    setIsMobileMenuOpen(false)
+  }
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#0A4D68]">
 
+      {/* MOBILE HEADER (Visible only on mobile/tablet) */}
+      <div className="lg:hidden flex items-center justify-between p-4 bg-[#0A4D68] text-white sticky top-0 z-[60] shadow-md">
+        <div className="flex items-center gap-2">
+          <div className="bg-[#86C232] p-1.5 rounded-lg">
+            <GraduationCap className="text-[#0A4D68]" size={20} />
+          </div>
+          <span className="font-bold tracking-tight">Careergize</span>
+        </div>
+        <button 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
       {/* SIDEBAR */}
-      <aside className="fixed left-0 top-0 h-full w-64 bg-[#0A4D68] text-white hidden lg:flex flex-col p-6 z-50">
-        <div className="flex items-center gap-3 mb-10">
-          <div className="bg-[#86C232] p-2 rounded-lg"><GraduationCap className="text-[#0A4D68]" size={24} /></div>
+      <aside className={`
+        fixed left-0 top-0 h-full w-72 bg-[#0A4D68] text-white flex flex-col p-6 z-[70] transition-transform duration-300 ease-in-out
+        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} 
+        lg:translate-x-0 lg:w-64
+      `}>
+        <div className="items-center gap-3 mb-10 hidden lg:flex">
+          <div className="bg-[#86C232] p-2 rounded-lg">
+            <GraduationCap className="text-[#0A4D68]" size={24} />
+          </div>
           <span className="text-xl font-bold tracking-tight text-white">Careergize</span>
         </div>
 
-        <nav className="space-y-2 flex-1">
+        <nav className="space-y-2 flex-1 mt-8 lg:mt-0">
           <SidebarItem 
             icon={<LayoutGrid size={20} />} 
             label="My Workspace" 
             active={activeTab === 'Workspace'} 
-            onClick={() => setActiveTab('Workspace')}
+            onClick={() => navigateTo('Workspace')}
           />
           <SidebarItem 
             icon={<FileText size={20} />} 
             label="Learning Notes" 
             active={activeTab === 'Learning Notes'} 
-            onClick={() => setActiveTab('Learning Notes')}
+            onClick={() => navigateTo('Learning Notes')}
           />
           <SidebarItem 
             icon={<CheckSquare size={20} />} 
             label="Tasks & Projects" 
             active={activeTab === 'Tasks & Projects'}
-            onClick={() => setActiveTab('Tasks & Projects')}
+            onClick={() => navigateTo('Tasks & Projects')}
           />
           <SidebarItem icon={<MessageSquare size={20} />} label="Mentor Chat" />
           <SidebarItem icon={<Award size={20} />} label="Final Certification" />
         </nav>
         
-        {/* PROFILE SECTION */}
+        {/* SIDEBAR PROFILE SECTION */}
         <div className="mt-auto pt-6 border-t border-white/10">
-          <div className="flex items-center gap-3 p-2 mb-4 bg-white/5 rounded-xl">
-            <div className="h-10 w-10 rounded-full bg-[#86C232] flex items-center justify-center font-bold text-[#0A4D68]">JD</div>
+          <div className="flex items-center gap-3 p-3 mb-4 bg-white/5 rounded-2xl">
+            <div className="h-10 w-10 rounded-full bg-[#86C232] flex items-center justify-center font-bold text-[#0A4D68] shrink-0">JD</div>
             <div className="overflow-hidden">
-              <p className="text-sm font-bold truncate">John Doe</p>
+              <p className="text-sm font-bold truncate text-white">John Doe</p>
               <p className="text-[10px] text-white/40 truncate">john.doe@email.com</p>
             </div>
           </div>
@@ -90,49 +120,65 @@ export default function InternDashboard() {
         </div>
       </aside>
 
+      {/* MOBILE OVERLAY */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[65] lg:hidden"
+          />
+        )}
+      </AnimatePresence>
+
       {/* MAIN CONTENT AREA */}
-      <main className="lg:ml-64 p-6 lg:p-12">
+      <main className={`transition-all duration-300 lg:ml-64 p-4 md:p-8 lg:p-12`}>
         <AnimatePresence mode="wait">
           
-          {/* TAB 1: WORKSPACE / OVERVIEW */}
+          {/* TAB: WORKSPACE */}
           {activeTab === 'Workspace' && (
             <motion.div key="workspace" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-              <header className="flex flex-col md:flex-row justify-between items-start gap-4 mb-10">
+              <header className="flex flex-col md:flex-row justify-between items-start gap-4 mb-8">
                 <div>
-                  <h1 className="text-3xl font-extrabold text-[#0A4D68]">
+                  <h1 className="text-2xl md:text-3xl font-extrabold text-[#0A4D68]">
                     Welcome back, <span className="text-[#86C232]">John Doe</span> 👋
                   </h1>
                   <p className="text-slate-500 text-sm">Intern ID: #CG-2026-042</p>
                 </div>
 
-                <Card className="p-4 bg-white border-none shadow-sm flex items-center gap-6 rounded-2xl">
+                <Card className="w-full md:w-auto p-4 bg-white border-none shadow-sm flex items-center justify-between md:justify-start gap-6 rounded-2xl">
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase">Current Time</p>
-                    <p className="text-lg font-mono font-bold">{currentTime}</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Time</p>
+                    <p className="text-md font-mono font-bold">{currentTime}</p>
                   </div>
                   <Button 
                     disabled={attendanceMarked}
                     onClick={() => setAttendanceMarked(true)}
-                    className={`${attendanceMarked ? 'bg-green-100 text-green-600' : 'bg-[#86C232] text-[#0A4D68]'} rounded-xl font-bold px-6`}
+                    className={`${attendanceMarked ? 'bg-green-100 text-green-600' : 'bg-[#86C232] text-[#0A4D68]'} rounded-xl font-bold px-4 h-11`}
                   >
-                    {attendanceMarked ? <><CheckCircle size={18} className="mr-2"/> Present</> : 'Mark Attendance'}
+                    {attendanceMarked ? <><CheckCircle size={16} className="mr-2"/> Present</> : 'Check In'}
                   </Button>
                 </Card>
               </header>
 
-              <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-10">
-                <StatBox title="Days Completed" value="18/45" icon={<Calendar className="text-[#86C232]" />} />
-                <StatBox title="Tasks Done" value="12" icon={<CheckSquare className="text-[#86C232]" />} />
-                <StatBox title="Current Grade" value="A-" icon={<Award className="text-[#86C232]" />} />
-                <StatBox title="Learning Hours" value="92h" icon={<Clock className="text-[#86C232]" />} />
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
+                <StatBox title="Progress" value="18/45" icon={<Calendar className="text-[#86C232]" size={18}/>} />
+                <StatBox title="Tasks" value="12" icon={<CheckSquare className="text-[#86C232]" size={18}/>} />
+                <StatBox title="Grade" value="A-" icon={<Award className="text-[#86C232]" size={18}/>} />
+                <StatBox title="Hours" value="92h" icon={<Clock className="text-[#86C232]" size={18}/>} />
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 space-y-8">
                   <section>
-                    <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                      <FileText size={20} className="text-[#86C232]" /> Recent Study Notes
-                    </h2>
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-lg font-bold flex items-center gap-2">
+                          <FileText size={20} className="text-[#86C232]" /> Study Hub
+                        </h2>
+                        <Button variant="link" onClick={() => setActiveTab('Learning Notes')} className="text-[#86C232] text-xs">View all</Button>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {NOTES.slice(0, 2).map(note => (
                         <NoteCardMini key={note.id} note={note} onClick={() => setActiveTab('Learning Notes')} />
@@ -140,48 +186,54 @@ export default function InternDashboard() {
                     </div>
                   </section>
                   <section>
-                    <h2 className="text-xl font-bold mb-4">Upcoming Deadlines</h2>
-                    <Card className="rounded-[2rem] overflow-hidden border-none shadow-sm bg-white p-2">
-                      <table className="w-full text-left">
-                        <thead className="bg-slate-50">
-                          <tr>
-                            <th className="px-6 py-4 text-xs uppercase font-bold text-slate-400">Task Name</th>
-                            <th className="px-6 py-4 text-xs uppercase font-bold text-slate-400">Status</th>
-                            <th className="px-6 py-4"></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {TASKS.map((task) => (
-                            <tr key={task.id} className="border-t border-slate-50 hover:bg-slate-50/50 transition-colors">
-                              <td className="px-6 py-4 font-bold">{task.title}</td>
-                              <td className="px-6 py-4"><StatusBadge status={task.status} /></td>
-                              <td className="px-6 py-4 text-right">
-                                <Button variant="ghost" size="sm" onClick={() => setActiveTab('Tasks & Projects')} className="text-[#0A4D68]">View</Button>
-                              </td>
+                    <h2 className="text-lg font-bold mb-4">Upcoming Deadlines</h2>
+                    <Card className="rounded-[1.5rem] overflow-hidden border-none shadow-sm bg-white">
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left min-w-[400px]">
+                          <thead className="bg-slate-50 border-b border-slate-100">
+                            <tr>
+                              <th className="px-6 py-4 text-[10px] uppercase font-bold text-slate-400">Task</th>
+                              <th className="px-6 py-4 text-[10px] uppercase font-bold text-slate-400">Status</th>
+                              <th className="px-6 py-4"></th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody className="divide-y divide-slate-50">
+                            {TASKS.map((task) => (
+                              <tr key={task.id} className="hover:bg-slate-50/50 transition-colors">
+                                <td className="px-6 py-4 font-bold text-sm">{task.title}</td>
+                                <td className="px-6 py-4"><StatusBadge status={task.status} /></td>
+                                <td className="px-6 py-4 text-right">
+                                  <Button variant="ghost" size="sm" onClick={() => setActiveTab('Tasks & Projects')} className="text-[#0A4D68] h-8">Submit</Button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </Card>
                   </section>
                 </div>
 
-                <div className="space-y-8">
-                  <Card className="p-6 rounded-[2rem] bg-[#0A4D68] text-white border-none">
-                    <h3 className="font-bold text-lg mb-4">Internship Progress</h3>
+                <div className="space-y-6">
+                  <Card className="p-6 rounded-[2rem] bg-[#0A4D68] text-white border-none shadow-xl">
+                    <h3 className="font-bold text-lg mb-6">Program Progress</h3>
                     <div className="space-y-6">
                       <div>
-                        <div className="flex justify-between text-sm mb-2 text-white/80">
-                          <span>Completion</span>
+                        <div className="flex justify-between text-xs mb-2 text-white/60 font-medium">
+                          <span>Overall Completion</span>
                           <span>40%</span>
                         </div>
                         <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                          <div className="h-full bg-[#86C232] w-[40%] rounded-full shadow-[0_0_10px_#86C232]" />
+                          <motion.div 
+                            initial={{ width: 0 }}
+                            animate={{ width: '40%' }}
+                            className="h-full bg-[#86C232] rounded-full shadow-[0_0_15px_#86C232]" 
+                          />
                         </div>
                       </div>
                       <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
-                        <p className="text-xs text-white/60 mb-1">Assigned Mentor</p>
-                        <p className="font-bold">Engr. Sarah Connor</p>
+                        <p className="text-[10px] text-white/40 uppercase font-bold mb-1">Mentor</p>
+                        <p className="font-bold text-sm">Engr. Sarah Connor</p>
                       </div>
                     </div>
                   </Card>
@@ -190,12 +242,12 @@ export default function InternDashboard() {
             </motion.div>
           )}
 
-          {/* TAB 2: LEARNING NOTES */}
+          {/* TAB: LEARNING NOTES */}
           {activeTab === 'Learning Notes' && (
             <LearningNotesContent onBack={() => setActiveTab('Workspace')} />
           )}
 
-          {/* TAB 3: TASKS & PROJECTS */}
+          {/* TAB: TASKS & PROJECTS */}
           {activeTab === 'Tasks & Projects' && (
             <TasksProjectsContent />
           )}
@@ -207,17 +259,17 @@ export default function InternDashboard() {
 }
 
 /* =====================
-   SUB-COMPONENTS & VIEWS
+   COMPONENTS
 ===================== */
 
 function SidebarItem({ icon, label, active, onClick }: any) {
   return (
     <div 
       onClick={onClick}
-      className={`flex items-center gap-4 px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 ${
-      active ? 'bg-[#86C232] text-[#0A4D68] font-bold shadow-lg shadow-[#86C232]/20' : 'text-white/60 hover:bg-white/10 hover:text-white'
+      className={`flex items-center gap-4 px-4 py-3.5 rounded-xl cursor-pointer transition-all duration-200 ${
+      active ? 'bg-[#86C232] text-[#0A4D68] font-bold shadow-lg shadow-[#86C232]/10' : 'text-white/60 hover:bg-white/10 hover:text-white'
     }`}>
-      {icon}
+      <span className={active ? 'text-[#0A4D68]' : 'text-inherit'}>{icon}</span>
       <span className="text-sm">{label}</span>
     </div>
   )
@@ -225,12 +277,12 @@ function SidebarItem({ icon, label, active, onClick }: any) {
 
 function StatBox({ title, value, icon }: any) {
   return (
-    <Card className="p-6 rounded-2xl border-none shadow-sm flex justify-between items-center bg-white">
+    <Card className="p-4 md:p-6 rounded-2xl border-none shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center bg-white gap-2">
       <div>
         <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">{title}</p>
-        <p className="text-2xl font-black text-[#0A4D68]">{value}</p>
+        <p className="text-xl md:text-2xl font-black text-[#0A4D68] leading-none">{value}</p>
       </div>
-      <div className="bg-slate-50 p-3 rounded-xl">{icon}</div>
+      <div className="bg-slate-50 p-2 md:p-3 rounded-xl">{icon}</div>
     </Card>
   )
 }
@@ -241,55 +293,55 @@ function StatusBadge({ status }: any) {
     submitted: 'bg-blue-100 text-blue-700',
     reviewed: 'bg-green-100 text-green-700',
   }
-  return <span className={`px-3 py-1 text-[10px] font-bold rounded-full uppercase ${styles[status]}`}>{status}</span>
+  return <span className={`px-2.5 py-0.5 text-[9px] font-black rounded-full uppercase tracking-wider ${styles[status]}`}>{status}</span>
 }
 
 function NoteCardMini({ note, onClick }: any) {
   return (
-    <Card onClick={onClick} className="p-5 border-none shadow-sm bg-white rounded-2xl hover:ring-2 ring-[#86C232] transition-all cursor-pointer group">
-      <span className="px-2 py-1 bg-slate-100 text-[#0A4D68] text-[10px] font-bold rounded uppercase group-hover:bg-[#86C232] group-hover:text-white transition-colors">{note.category}</span>
-      <h4 className="font-bold mt-3 mb-1">{note.title}</h4>
-      <p className="text-xs text-slate-400">{note.updated}</p>
+    <Card onClick={onClick} className="p-5 border-none shadow-sm bg-white rounded-2xl hover:shadow-md transition-all cursor-pointer group border-l-4 border-l-transparent hover:border-l-[#86C232]">
+      <span className="px-2 py-0.5 bg-slate-100 text-[#0A4D68] text-[9px] font-black rounded uppercase">{note.category}</span>
+      <h4 className="font-bold mt-3 mb-1 group-hover:text-[#86C232] transition-colors">{note.title}</h4>
+      <p className="text-[10px] text-slate-400">{note.updated}</p>
     </Card>
   )
 }
 
 /* =====================
-   LEARNING NOTES VIEW
+   PAGE CONTENT WRAPPERS
 ===================== */
 
 function LearningNotesContent({ onBack }: { onBack: () => void }) {
   return (
     <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-      <Button onClick={onBack} variant="ghost" className="mb-6 hover:bg-white gap-2 text-slate-500">
-        <ArrowLeft size={18} /> Back to Workspace
+      <Button onClick={onBack} variant="ghost" className="mb-6 h-9 px-0 hover:bg-transparent text-slate-500 font-bold gap-2">
+        <ArrowLeft size={16} /> Dashboard
       </Button>
 
-      <header className="mb-10 flex flex-col md:flex-row justify-between items-end gap-6">
+      <header className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <h1 className="text-4xl font-black text-[#0A4D68]">Learning Notes</h1>
-          <p className="text-slate-500 mt-2">Exclusive study materials for your internship path.</p>
+          <h1 className="text-3xl font-black text-[#0A4D68]">Knowledge Base</h1>
+          <p className="text-slate-500 text-sm mt-1">Access all your internship resources here.</p>
         </div>
-        <div className="relative w-full md:w-80">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-          <Input placeholder="Search topics..." className="pl-12 h-12 bg-white border-none shadow-sm rounded-xl" />
+        <div className="relative w-full md:w-72">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+          <Input placeholder="Search modules..." className="pl-10 h-11 bg-white border-none shadow-sm rounded-xl focus-visible:ring-1 ring-[#86C232]" />
         </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {NOTES.map((note) => (
-          <Card key={note.id} className="border-none shadow-sm bg-white rounded-[2rem] p-6 flex flex-col hover:shadow-xl transition-shadow">
-            <div className="flex justify-between mb-4">
-              <div className={`p-3 rounded-xl ${note.color} text-white`}>
+          <Card key={note.id} className="border-none shadow-sm bg-white rounded-[1.5rem] p-6 flex flex-col hover:translate-y-[-4px] transition-all">
+            <div className="flex justify-between items-start mb-6">
+              <div className={`p-3 rounded-2xl ${note.color} text-white shadow-lg shadow-black/5`}>
                 {note.type === 'Video' ? <PlayCircle size={20} /> : <FileText size={20} />}
               </div>
-              {note.featured && <span className="text-[10px] font-bold text-amber-500 bg-amber-50 px-2 py-1 rounded-full flex items-center gap-1"><Star size={10} fill="currentColor"/> ESSENTIAL</span>}
+              {note.featured && <span className="text-[10px] font-bold text-amber-500 bg-amber-50 px-2 py-1 rounded-lg flex items-center gap-1">CORE MATERIAL</span>}
             </div>
-            <h3 className="text-lg font-bold mb-2">{note.title}</h3>
-            <p className="text-sm text-slate-500 mb-6 flex-1 line-clamp-2">{note.description}</p>
-            <div className="flex items-center justify-between pt-4 border-t border-slate-50">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{note.category}</span>
-              <Button size="sm" className="bg-[#F8FAFC] text-[#0A4D68] hover:bg-[#86C232] rounded-lg font-bold border-none">View Note</Button>
+            <h3 className="text-lg font-bold mb-2 leading-tight">{note.title}</h3>
+            <p className="text-xs text-slate-500 mb-6 flex-1 line-clamp-2 leading-relaxed">{note.description}</p>
+            <div className="flex items-center justify-between pt-4 border-t border-slate-50 mt-auto">
+              <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{note.category}</span>
+              <Button size="sm" className="bg-[#F8FAFC] text-[#0A4D68] hover:bg-[#86C232] hover:text-[#0A4D68] rounded-xl font-bold border-none transition-all shadow-none h-8">Open</Button>
             </div>
           </Card>
         ))}
@@ -298,69 +350,67 @@ function LearningNotesContent({ onBack }: { onBack: () => void }) {
   )
 }
 
-/* =====================
-   TASKS & PROJECTS VIEW
-===================== */
-
 function TasksProjectsContent() {
   const [selected, setSelected] = useState(TASKS[0])
   
   return (
     <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}>
-      <header className="flex flex-col md:flex-row justify-between items-start gap-4 mb-10">
+      <header className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
         <div>
-          <h1 className="text-4xl font-black text-[#0A4D68]">Tasks & Projects</h1>
-          <p className="text-slate-500 mt-2">Manage your deliverables and track milestones.</p>
+          <h1 className="text-3xl font-black text-[#0A4D68]">Deliverables</h1>
+          <p className="text-slate-500 text-sm mt-1">Submit your code and track your milestones.</p>
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline" className="rounded-xl bg-white border-slate-200"><Flag size={18} className="mr-2 text-red-500"/> Roadmap</Button>
-          <Button className="bg-[#86C232] text-[#0A4D68] font-bold rounded-xl"><Plus size={18} className="mr-2"/> New Submission</Button>
+        <div className="flex gap-2 w-full md:w-auto">
+          <Button variant="outline" className="flex-1 md:flex-none rounded-xl bg-white border-slate-200 h-11 font-bold text-xs"><Flag size={16} className="mr-2 text-red-500"/> Roadmap</Button>
+          <Button className="flex-1 md:flex-none bg-[#86C232] text-[#0A4D68] font-bold rounded-xl h-11 text-xs shadow-lg shadow-[#86C232]/10"><Plus size={16} className="mr-2"/> Request Leave</Button>
         </div>
       </header>
 
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
-        <div className="xl:col-span-8 space-y-4">
-          <h2 className="text-xl font-bold mb-4 flex items-center gap-2"><Layout size={20} className="text-[#86C232]"/> Active Board</h2>
+        <div className="xl:col-span-8 space-y-4 order-2 xl:order-1">
+          <h2 className="text-lg font-bold mb-4 flex items-center gap-2"><Layout size={18} className="text-[#86C232]"/> Project List</h2>
           {TASKS.map((task) => (
             <Card 
               key={task.id} 
               onClick={() => setSelected(task)}
-              className={`p-6 border-none shadow-sm cursor-pointer transition-all rounded-[2rem] ${selected.id === task.id ? 'ring-2 ring-[#86C232] bg-white' : 'bg-white/60 opacity-70'}`}
+              className={`p-5 border-none shadow-sm cursor-pointer transition-all rounded-[1.5rem] ${selected.id === task.id ? 'ring-2 ring-[#86C232] bg-white translate-x-1' : 'bg-white/60 hover:bg-white'}`}
             >
               <div className="flex items-center justify-between">
                 <div>
-                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{task.category}</span>
-                   <h3 className="text-lg font-bold mt-1">{task.title}</h3>
-                   <div className="flex items-center gap-4 mt-2">
-                      <div className="flex items-center gap-1 text-xs text-slate-400"><Clock size={14}/> {task.deadline}</div>
+                   <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{task.category}</span>
+                   <h3 className="text-md font-bold mt-1 text-[#0A4D68]">{task.title}</h3>
+                   <div className="flex items-center gap-3 mt-2">
+                      <div className="flex items-center gap-1 text-[10px] text-slate-400 font-medium"><Clock size={12}/> {task.deadline}</div>
                       <StatusBadge status={task.status} />
                    </div>
                 </div>
-                <ChevronRight className={selected.id === task.id ? 'text-[#86C232]' : 'text-slate-200'} />
+                <ChevronRight className={selected.id === task.id ? 'text-[#86C232]' : 'text-slate-200'} size={20} />
               </div>
             </Card>
           ))}
         </div>
 
-        <div className="xl:col-span-4">
-          <Card className="p-8 border-none shadow-xl bg-[#0A4D68] text-white rounded-[2.5rem] sticky top-8">
-            <h2 className="text-2xl font-bold mb-2">Submit Work</h2>
-            <p className="text-white/50 text-xs mb-8">Upload files for: <span className="text-white">{selected.title}</span></p>
+        <div className="xl:col-span-4 order-1 xl:order-2">
+          <Card className="p-6 md:p-8 border-none shadow-xl bg-[#0A4D68] text-white rounded-[2rem] sticky top-24">
+            <h2 className="text-xl font-bold mb-1">Submit Work</h2>
+            <p className="text-white/40 text-xs mb-8">Current: <span className="text-white font-medium">{selected.title}</span></p>
             
             <div className="space-y-6">
-              <div className="p-10 border-2 border-dashed border-white/10 rounded-[2rem] flex flex-col items-center justify-center text-center hover:bg-white/5 cursor-pointer">
+              <div className="p-8 border-2 border-dashed border-white/10 rounded-[1.5rem] flex flex-col items-center justify-center text-center hover:bg-white/5 transition-all cursor-pointer">
                 <Paperclip className="text-[#86C232] mb-3" size={24} />
-                <p className="text-xs font-bold text-white">Attach Assets</p>
-                <p className="text-[10px] text-white/30 mt-1">PDF, ZIP, PNG (Max 10MB)</p>
+                <p className="text-xs font-bold text-white">Upload Documents</p>
+                <p className="text-[9px] text-white/30 mt-1 uppercase tracking-tighter font-bold">PDF • ZIP • MP4 (MAX 15MB)</p>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">Repository Link</label>
-                <input className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 ring-[#86C232] placeholder:text-white/20" placeholder="https://github.com/..." />
+              <div className="space-y-1.5">
+                <label className="text-[9px] font-black text-white/40 uppercase tracking-widest">Repository / External Link</label>
+                <div className="relative">
+                    <input className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:ring-1 ring-[#86C232] placeholder:text-white/20" placeholder="GitHub or Figma link" />
+                </div>
               </div>
 
-              <Button className="w-full bg-[#86C232] text-[#0A4D68] font-black py-7 rounded-2xl shadow-lg shadow-[#86C232]/10 hover:scale-[1.02] transition-transform">
-                <Send size={18} className="mr-2" /> SEND SUBMISSION
+              <Button className="w-full bg-[#86C232] text-[#0A4D68] font-black py-7 rounded-2xl shadow-xl shadow-[#86C232]/5 hover:scale-[1.01] transition-transform text-sm tracking-wide">
+                <Send size={18} className="mr-2" /> SUBMIT NOW
               </Button>
             </div>
           </Card>
