@@ -87,6 +87,8 @@ export default function GetBlueprintPage() {
                       <option>college admissions</option>
                       <option>digital marketing growth</option>
                       <option>web development & tech</option>
+                      <option>internship - webdev</option>
+                      <option>internship - marketing</option>
                     </select>
                   </div>
 
