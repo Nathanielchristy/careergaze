@@ -209,7 +209,7 @@ const [isOpen, setIsOpen] = useState(false)
       {/* 6. FOOTER */}
       <footer className="py-12 text-center">
         <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-slate-300">
-          © 2026 CAREERGIZE DIGITAL. BUILT FOR EXCELLENCE.
+          © 2026 Careergize LLP. All rights reserved.
         </p>
       </footer>
     </div>
