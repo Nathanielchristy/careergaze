@@ -70,9 +70,6 @@ export default function DigitalMarketingPage() {
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#86C232]/5 -skew-x-12 translate-x-1/4" />
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-10">
           <FadeIn>
-            <div className="inline-block px-3 py-1 mb-6 rounded bg-[#86C232]/10 text-[#86C232] text-[10px] font-bold uppercase tracking-[0.2em] border border-[#86C232]/20">
-              Growth Analytics 2026
-            </div>
             <h1 className="text-5xl lg:text-7xl font-bold tracking-tighter leading-[1.1] mb-8 text-[#0A4D68]">
               Data-Driven <br /> <span className="text-[#86C232]">Marketing.</span>
             </h1>

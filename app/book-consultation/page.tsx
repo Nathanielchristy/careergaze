@@ -4,7 +4,14 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { CalendarCheck, GraduationCap, Phone, Mail, ArrowRight } from 'lucide-react'
+import { 
+  CalendarCheck, 
+  GraduationCap, 
+  Phone, 
+  Mail, 
+  ArrowRight, 
+  ChevronLeft // Added for the back button
+} from 'lucide-react'
 
 const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => (
   <motion.div
@@ -21,8 +28,15 @@ export default function BookConsultationPage() {
   return (
     <div className="min-h-screen bg-white text-[#0A4D68] font-sans">
 
+      {/* HEADER NAV - Added Back Button */}
+      <nav className="p-6">
+        <Link href="/services/college-admission" className="flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-[#86C232] transition-colors">
+          <ChevronLeft size={16} /> BACK TO COLLEGE ADMISSION
+        </Link>
+      </nav>
+
       {/* HERO */}
-      <section className="pt-28 pb-24 px-6 relative overflow-hidden">
+      <section className="pt-12 pb-24 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-[#86C232]/5 -skew-x-12 translate-x-1/3" />
         <div className="max-w-5xl mx-auto relative z-10 text-center">
           <FadeIn>
@@ -61,7 +75,7 @@ export default function BookConsultationPage() {
             },
           ].map((item, i) => (
             <FadeIn key={i} delay={i * 0.1}>
-              <div className="bg-white p-8 rounded-2xl border border-slate-200 hover:shadow-xl transition-all">
+              <div className="bg-white p-8 rounded-2xl border border-slate-200 hover:shadow-xl transition-all h-full">
                 <div className="w-12 h-12 bg-[#86C232]/10 rounded-xl flex items-center justify-center mb-6">
                   <item.icon className="text-[#86C232]" />
                 </div>
@@ -77,7 +91,9 @@ export default function BookConsultationPage() {
       <section className="py-24 px-6">
         <div className="max-w-4xl mx-auto">
           <FadeIn>
-            <div className="bg-white border border-slate-200 rounded-[2.5rem] p-10 md:p-14 shadow-xl">
+            <div className="bg-white border border-slate-200 rounded-[2.5rem] p-10 md:p-14 shadow-xl relative">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-[#86C232] rounded-b-full" />
+              
               <h2 className="text-3xl font-bold mb-8 text-center tracking-tight">
                 Tell Us About Yourself
               </h2>
@@ -118,7 +134,7 @@ export default function BookConsultationPage() {
 
                 <Button
                   size="lg"
-                  className="mt-4 bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white h-16 rounded-xl font-black text-lg flex items-center justify-center gap-2"
+                  className="mt-4 bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white h-16 rounded-xl font-black text-lg flex items-center justify-center gap-2 transition-all shadow-lg"
                 >
                   Book Free Consultation <ArrowRight />
                 </Button>
@@ -139,11 +155,11 @@ export default function BookConsultationPage() {
             Prefer to talk directly?
           </p>
           <div className="flex justify-center gap-6 text-sm font-bold">
-            <a href="tel:+916282744675" className="flex items-center gap-2 text-[#86C232]">
-              <Phone size={16} /> Call Now
+            <a href="tel:+916282744675" className="flex items-center gap-2 text-[#86C232] hover:underline">
+              <Phone size={16} /> +91 6282744675
             </a>
-            <a href="mailto:info@careergize.com" className="flex items-center gap-2 text-[#86C232]">
-              <Mail size={16} /> Email Us
+            <a href="mailto:info@careergize.com" className="flex items-center gap-2 text-[#86C232] hover:underline">
+              <Mail size={16} /> info@careergize.com
             </a>
           </div>
         </FadeIn>

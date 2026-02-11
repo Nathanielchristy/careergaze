@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  CheckCircle2, Loader2, Sparkles, ChevronRight, Calendar, Cpu, Users
+  CheckCircle2, Loader2, Sparkles, ChevronRight, Calendar, Cpu, Users,ChevronLeft
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-
+import Link from 'next/link'
 // YOUR NEW DEPLOYMENT URL
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwlTCslhGYMdb60DJT_6SSIGWlmFFSGu5omo6Rb3JvY92y5bg_KsWRHp6W6AKnWdkOv/exec'
 
@@ -63,9 +63,15 @@ export default function Internship2026() {
   if (!mounted) return <div className="min-h-screen bg-[#FDFEFF]" />;
 
   return (
+    
     <div className="min-h-screen bg-[#FDFEFF] text-[#0A4D68] pb-20">
       <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-[#86C232]/5 rounded-full blur-[120px] -z-10" />
       <div className="fixed bottom-0 left-0 w-[500px] h-[500px] bg-[#0A4D68]/5 rounded-full blur-[120px] -z-10" />
+         <nav className="p-6">
+        <Link href="/services/college-admission" className="flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-[#86C232] transition-colors">
+          <ChevronLeft size={16} /> BACK TO COLLEGE ADMISSION
+        </Link>
+      </nav>
 
       <main className="max-w-4xl mx-auto pt-16 px-6">
         <header className="mb-12 text-center md:text-left">
