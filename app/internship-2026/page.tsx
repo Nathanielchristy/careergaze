@@ -102,7 +102,7 @@ export default function Internship2026() {
               <section className="bg-white p-8 md:p-12 rounded-[3rem] shadow-2xl shadow-slate-200/50 border border-slate-50">
                 <h2 className="text-2xl font-black mb-8 flex items-center gap-3">
                   <div className="w-8 h-8 bg-[#0A4D68] rounded-lg flex items-center justify-center text-[#86C232]"><Users size={18}/></div>
-                  Personal Identity
+                Candidate Identity
                 </h2>
                 <div className="grid md:grid-cols-2 gap-8">
                   <CustomInput label="Full Name" name="name" placeholder="John Doe" required />

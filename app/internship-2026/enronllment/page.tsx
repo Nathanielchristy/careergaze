@@ -74,8 +74,8 @@ export default function Internship2026() {
       <div className="fixed bottom-0 left-0 w-[500px] h-[500px] bg-[#0A4D68]/5 rounded-full blur-[120px] -z-10" />
       
       <nav className="p-6">
-        <Link href="/" className="flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-[#86C232] transition-colors">
-          <ChevronLeft size={16} /> BACK TO HOME
+        <Link href="/services/college-admission" className="flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-[#86C232] transition-colors">
+          <ChevronLeft size={16} /> BACK TO COLLEGE ADMISSION
         </Link>
       </nav>
 
@@ -91,7 +91,7 @@ export default function Internship2026() {
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-4"> 
             Internship <span className="text-[#86C232]">Enrollment</span>
           </h1>
-          <p className="text-slate-500 font-medium text-lg italic">Reserve your spot in the upcoming cohort.</p>
+          <p className="text-slate-500 font-medium text-lg italic">Registerd Students Entroll here.</p>
         </header>
 
         <AnimatePresence mode="wait">
@@ -154,7 +154,7 @@ export default function Internship2026() {
                   </span>
                 ) : (
                   <>
-                    <span>REGISTER NOW</span>
+                    <span>Entroll NOW</span>
                     <ArrowRight size={32} className="group-hover:translate-x-2 transition-transform" />
                   </>
                 )}
