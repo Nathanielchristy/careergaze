@@ -41,7 +41,7 @@ export default function BrandedRegistration() {
     };
 
     try {
-      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrRTnz03T-H9YGKquwnnv17eAK-EnBhhBKMDgptF3rjiVw6c6yWykpdanornPRsRDs/exec';
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyzcAwKEl-Exd2E5SzhoPLBcvO2uF9Ezviphs71y_OvSLDZEvIP7gPGmS6X_IlURe5H/exec';
       
       await fetch(SCRIPT_URL, {
         method: 'POST',
