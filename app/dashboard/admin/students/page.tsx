@@ -8,7 +8,7 @@ import {
   LayoutGrid, Users, LogOut, School, 
   Handshake, GraduationCap, Loader2,
   Menu, X, RefreshCw, Search, Mail, 
-  ShieldCheck, Download
+  ShieldCheck, Download,PlusCircle
 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -23,6 +23,8 @@ export default function StudentDatabasePage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [refreshing, setRefreshing] = useState(false)
   const [userName, setUserName] = useState('Admin')
+  const [selectedStudent, setSelectedStudent] = useState<any>(null)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   useEffect(() => {
     const loggedIn = localStorage.getItem('isLoggedIn')
@@ -49,6 +51,10 @@ export default function StudentDatabasePage() {
     }
   }
 
+  const openTaskDrawer = (student: any) => {
+    setSelectedStudent(student)
+    setIsDrawerOpen(true)
+  }
   const handleLogout = () => {
     localStorage.clear()
     router.push('/login')
@@ -157,6 +163,7 @@ export default function StudentDatabasePage() {
                   <th className="px-8 py-5 text-[11px] font-black uppercase text-black tracking-widest">Specialization</th>
                   <th className="px-8 py-5 text-[11px] font-black uppercase text-black tracking-widest">Institution</th>
                   <th className="px-8 py-5 text-[11px] font-black uppercase text-black tracking-widest text-center">Status</th>
+                  <th className="px-8 py-5 text-[11px] font-black uppercase text-black tracking-widest text-right">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -204,6 +211,14 @@ export default function StudentDatabasePage() {
                             </span>
                          </div>
                       </td>
+                       <td className="px-8 py-6 text-right">
+                       <Button 
+                         onClick={() => openTaskDrawer(s)}
+                         className="bg-[#0A4D68] hover:bg-black text-[#86C232] text-[10px] font-black uppercase h-9 rounded-lg"
+                       >
+                         <PlusCircle size={14} className="mr-2" /> Assign Task
+                       </Button>
+                    </td>
                     </motion.tr>
                   ))}
                 </AnimatePresence>
@@ -212,6 +227,92 @@ export default function StudentDatabasePage() {
           </div>
         </Card>
       </main>
+       {/* TASK ASSIGNMENT DRAWER */}
+            <AnimatePresence>
+              {isDrawerOpen && (
+                <>
+                  <motion.div 
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                    onClick={() => setIsDrawerOpen(false)}
+                    className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[80]"
+                  />
+                  <motion.div 
+                    initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
+                    className="fixed right-0 top-0 h-full w-full max-w-md bg-white z-[90] shadow-2xl p-8 overflow-y-auto"
+                  >
+                    <div className="flex justify-between items-center mb-8">
+                      <h2 className="text-2xl font-black text-[#0A4D68]">New <span className="text-[#86C232]">Task</span></h2>
+                      <button onClick={() => setIsDrawerOpen(false)} className="p-2 hover:bg-slate-100 rounded-full"><X /></button>
+                    </div>
+      
+                    {selectedStudent && (
+                      <div className="mb-8 p-5 bg-[#0A4D68] rounded-2xl text-white shadow-lg">
+                        <p className="text-[10px] font-black text-[#86C232] uppercase tracking-widest mb-1">Assigning to</p>
+                        <p className="text-xl font-bold leading-none">{selectedStudent.fullName}</p>
+                        <p className="text-xs font-medium mt-2 opacity-70">{selectedStudent.email}</p>
+                      </div>
+                    )}
+      
+                   <div className="space-y-6">
+  {/* TASK NAME */}
+  <div>
+    <label className="text-[11px] font-black uppercase text-black mb-2 block tracking-widest">Task Name</label>
+    <input 
+      type="text" 
+      placeholder="e.g. Dashboard Navigation Fix"
+      className="w-full h-12 border-2 border-slate-100 rounded-xl px-4 font-bold text-black focus:border-[#86C232] outline-none shadow-sm placeholder:font-normal" 
+    />
+  </div>
+
+  {/* TASK CATEGORY */}
+  <div>
+    <label className="text-[11px] font-black uppercase text-black mb-2 block tracking-widest">Task Category</label>
+    <select className="w-full h-12 border-2 border-slate-100 rounded-xl px-4 font-bold text-black focus:border-[#86C232] outline-none bg-white cursor-pointer shadow-sm">
+      <option>Frontend Development</option>
+      <option>Backend API Integration</option>
+      <option>UI/UX Design Kit</option>
+      <option>QA Testing & Bug Reports</option>
+      <option>Content Writing</option>
+    </select>
+  </div>
+
+  {/* DATE GRID */}
+  <div className="grid grid-cols-2 gap-4">
+    <div>
+      <label className="text-[11px] font-black uppercase text-black mb-2 block tracking-widest">Task Start Date</label>
+      <input 
+        type="date" 
+        className="w-full h-12 border-2 border-slate-100 rounded-xl px-4 font-bold text-black focus:border-[#86C232] outline-none shadow-sm" 
+      />
+    </div>
+    <div>
+      <label className="text-[11px] font-black uppercase text-black mb-2 block tracking-widest">Task End Date</label>
+      <input 
+        type="date" 
+        className="w-full h-12 border-2 border-slate-100 rounded-xl px-4 font-bold text-black focus:border-[#86C232] outline-none shadow-sm" 
+      />
+    </div>
+  </div>
+
+  {/* MODULE INSTRUCTIONS */}
+  <div>
+    <label className="text-[11px] font-black uppercase text-black mb-2 block tracking-widest">Module Instructions</label>
+    <textarea 
+      rows={5} 
+      className="w-full border-2 border-slate-100 rounded-xl p-4 font-bold text-black focus:border-[#86C232] outline-none placeholder:font-normal shadow-sm" 
+      placeholder="Step-by-step instructions for the intern..."
+    ></textarea>
+  </div>
+
+  {/* SUBMIT BUTTON */}
+  <Button className="w-full h-14 bg-[#0A4D68] text-[#86C232] font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-[#0A4D68]/20 hover:bg-black transition-all">
+    Deploy Task to Student
+  </Button>
+</div>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
     </div>
   )
 }
