@@ -80,11 +80,20 @@ const InternshipPopup = () => {
                 Join the Careergize Elite Internship 2026. Hands-on projects, expert mentorship, and industry certification await.
               </p>
 
-              <Link href="/internship-2026" className="w-full">
-                <Button className="w-full bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white h-14 rounded-xl font-bold text-lg shadow-lg">
-                  Register Now
-                </Button>
-              </Link>
+            <div className="flex flex-col gap-4 w-full"> {/* Added flex container with gap */}
+  <Link href="/internship-2026" className="w-full">
+    <Button className="w-full bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white h-14 rounded-xl font-bold text-lg shadow-lg">
+      Register Now
+    </Button>
+  </Link>
+  
+  <Link href="/internship-2026/enronllment" className="w-full">
+    <Button className="w-full bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white h-14 rounded-xl font-bold text-lg shadow-lg">
+      Enroll Now
+    </Button>
+  </Link>
+</div>
+
             </div>
           </motion.div>
         </div>
