@@ -10,7 +10,7 @@ const botCampaigns = [
   { text: "need a career roadmap? 🗺️", path: "/get-blueprint" },
   { text: "start your college admission.", path: "/services/college-admission" }, // Or specific admission page
   { text: "build your digital product.", path: "/services/web-development" },
-  { text: "internship programs started 🚀", path: "/internship-2026" },
+  { text: "internship programs started", path: "/internship-2026" },
   { text: "scale with digital marketing.", path: "/services/digital-marketing" },
 ]
 

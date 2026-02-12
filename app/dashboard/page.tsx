@@ -235,7 +235,7 @@ export default function InternDashboard() {
                       </div>
                       <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
                         <p className="text-[10px] text-white/40 uppercase font-bold mb-1">Assigned Mentor</p>
-                        <p className="font-bold text-sm">Engr. Sarah Connor</p>
+                        <p className="font-bold text-sm">Engr. Varun Vasanthan</p>
                       </div>
                     </div>
                   </Card>
@@ -305,7 +305,7 @@ function LearningNotesContent({ onBack }: { onBack: () => void }) {
       </Button>
       <header className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <h1 className="text-3xl font-black text-[#0A4D68]">Knowledge Base</h1>
+          <h1 className="text-3xl font-black text-[#0A4D68]">Careergize Knowledge Hub</h1>
           <p className="text-slate-500 text-sm mt-1">Access all your internship resources.</p>
         </div>
         <div className="relative w-full md:w-72">
