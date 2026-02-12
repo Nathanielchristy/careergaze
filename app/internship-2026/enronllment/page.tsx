@@ -91,7 +91,7 @@ export default function Internship2026() {
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-4"> 
             Internship <span className="text-[#86C232]">Enrollment</span>
           </h1>
-          <p className="text-slate-500 font-medium text-lg italic">Registerd Students Entroll here.</p>
+          <p className="text-slate-500 font-medium text-lg italic">Registered Students Entroll here.</p>
         </header>
 
         <AnimatePresence mode="wait">
@@ -169,7 +169,9 @@ export default function Internship2026() {
               <div className="w-24 h-24 bg-[#86C232]/20 rounded-[2rem] flex items-center justify-center mx-auto mb-8">
                 <Calendar size={48} className="text-[#86C232] animate-pulse" />
               </div>
-              <h2 className="text-5xl font-black mb-4 tracking-tighter text-[#0A4D68]">Registration Saved.</h2>
+              <h2 className="text-5xl font-black mb-4 tracking-tighter text-[#0A4D68]">
+  Entrollment Opens Soon.
+</h2>
               
               <div className="max-w-md mx-auto bg-[#0A4D68] p-8 rounded-[2.5rem] mb-10 text-white shadow-xl shadow-[#0A4D68]/20">
                  <p className="text-[12px] font-black uppercase tracking-[0.2em] text-[#86C232] mb-3">Program Update</p>
