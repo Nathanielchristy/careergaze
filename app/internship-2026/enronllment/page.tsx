@@ -127,9 +127,10 @@ export default function Internship2026() {
                     <Label className="text-xs font-black uppercase text-slate-400">Internship Track</Label>
                     <select name="track" className="w-full h-14 bg-slate-50 border-none rounded-2xl px-6 font-bold text-black" required>
                       <option value="">Select Tech Stack...</option>
-                      <option>AI & Machine Learning</option>
-                      <option>Full-Stack Development</option>
+                      <option>Web Development</option>
+                      <option>Digital Marketing</option>
                       <option>UI/UX Design & Research</option>
+                       <option>Data Science</option>
                     </select>
                   </div>
                   <div className="space-y-3">
