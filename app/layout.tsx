@@ -42,7 +42,7 @@ export default function RootLayout({
               {children}
               
               {/* 4. CONDITIONAL RENDERING */}
-              {/* This ensures the bot only appears on the home page */}
+              {/* This ensures the bot only appears on the home page */}  
               {isHomePage && <FloatingBot />} 
               
               <WhatsAppChat />
