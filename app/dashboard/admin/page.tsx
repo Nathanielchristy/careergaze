@@ -238,7 +238,7 @@ export default function AdminDashboard() {
           </motion.div>
 
           <Card className="p-8 rounded-[2rem] bg-[#0A4D68] text-white shadow-xl flex flex-col justify-between">
-  <h3 className="text-lg font-bold mb-6">Quick Actions</h3>
+  <h3 className="text-lg font-bold mb-6">Quick Actions.</h3>
   <div className="space-y-3">
     {/* Linked to Students Page */}
     <Link href="admin/students" className="block w-full">
