@@ -61,7 +61,7 @@ export default function TaskPageWithSidebar() {
           <Link href="/dashboard/admin">
             <SidebarItem icon={<LayoutGrid className="w-5 h-5"/>} label="Overview" />
           </Link>
-          <Link href="/admin/students">
+          <Link href="students">
             <SidebarItem icon={<Users className="w-5 h-5"/>} label="Students" />
           </Link>
           <SidebarItem icon={<Layers className="w-5 h-5"/>} label="My Tasks" active />
