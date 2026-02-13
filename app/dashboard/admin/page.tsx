@@ -157,6 +157,10 @@ export default function AdminDashboard() {
         <nav className="space-y-2 flex-1">
           <SidebarItem icon={<LayoutGrid size={20}/>} label="Overview" active />
           <Link href="admin/students"><SidebarItem icon={<Users size={20}/>} label="Students" /></Link>
+            <Link href="admin/Tasks"><SidebarItem icon={<Users size={20}/>} label="Tasks" /></Link>
+           
+
+
           <SidebarItem icon={<MessageSquare size={20}/>} label="Chat with Team" />
         </nav>
         <div className="mt-auto pt-6 border-t border-white/10">
@@ -234,13 +238,18 @@ export default function AdminDashboard() {
           </motion.div>
 
           <Card className="p-8 rounded-[2rem] bg-[#0A4D68] text-white shadow-xl flex flex-col justify-between">
-            <h3 className="text-lg font-bold mb-6">Quick Actions</h3>
-            <div className="space-y-3">
-              <ActionButton label="Review Applications" />
-              <ActionButton label="Manage Colleges" />
-              <ActionButton label="System Reports" />
-            </div>
-          </Card>
+  <h3 className="text-lg font-bold mb-6">Quick Actions</h3>
+  <div className="space-y-3">
+    {/* Linked to Students Page */}
+    <Link href="admin/students" className="block w-full">
+      <ActionButton label="Review Applications" />
+    </Link>
+     <Link href="admin/Tasks" className="block w-full">
+      <ActionButton label="Tasks" />
+    </Link>
+    <ActionButton label="Broadcast Message" />
+  </div>
+</Card>
         </div>
       </main>
 
