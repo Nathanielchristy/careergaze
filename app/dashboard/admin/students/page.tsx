@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { 
   LayoutGrid, Users, LogOut, GraduationCap, Loader2,
   X, RefreshCw, Search, PlusCircle, Trash2, Edit3, AlertTriangle,
-  FileText, UserCheck, Menu, MessageSquare, ChevronRight
+  FileText, UserCheck, Menu, MessageSquare, ChevronRight,Banknote
 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -113,7 +113,10 @@ export default function StudentDatabasePage() {
         <nav className="space-y-2 flex-1">
           <Link href="/dashboard/admin"><SidebarItem icon={<LayoutGrid size={20}/>} label="Overview" /></Link>
           <Link href="/dashboard/admin/users"><SidebarItem icon={<Users size={20}/>} label="Registered Users" /></Link>
-          <Link href="/dashboard/admin/students"><SidebarItem icon={<Users size={20}/>} label="Students" active /></Link>
+          <Link href="/dashboard/admin/students"><SidebarItem icon={<Users size={20}/>} label="Students"/></Link>
+          <Link href="/dashboard/admin/payrolled">
+           <SidebarItem icon={<Banknote size={20}/>} label="Student Payrolled" />
+          </Link>
           <Link href="/dashboard/admin/Tasks"><SidebarItem icon={<Users size={20}/>} label="Tasks" /></Link>
           <SidebarItem icon={<MessageSquare size={20}/>} label="Chat with Team" />
         </nav>

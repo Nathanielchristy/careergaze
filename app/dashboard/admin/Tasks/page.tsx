@@ -7,7 +7,7 @@ import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
 import { 
   Zap, Flame, Layers, Check, Star, Menu,
   LayoutGrid, Users, LogOut, GraduationCap, X, MessageSquare,
-  Clock, MoreHorizontal, AlertCircle, Plus
+  Clock, MoreHorizontal, AlertCircle, Plus,Banknote
 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -50,14 +50,16 @@ export default function TaskPageWithSidebar() {
           <button onClick={() => setIsMobileMenuOpen(false)} className="lg:hidden p-1 hover:bg-white/10 rounded"><X size={20}/></button>
         </div>
         
-        <nav className="space-y-2 flex-1">
+          <nav className="space-y-2 flex-1">
           <Link href="/dashboard/admin"><SidebarItem icon={<LayoutGrid size={20}/>} label="Overview" /></Link>
           <Link href="/dashboard/admin/users"><SidebarItem icon={<Users size={20}/>} label="Registered Users" /></Link>
-          <Link href="/dashboard/admin/students"><SidebarItem icon={<Users size={20}/>} label="Students" /></Link>
-          <Link href="/dashboard/admin/Tasks"><SidebarItem icon={<Layers size={20}/>} label="My Tasks" active /></Link>
+          <Link href="/dashboard/admin/students"><SidebarItem icon={<Users size={20}/>} label="Students"/></Link>
+          <Link href="/dashboard/admin/payrolled">
+           <SidebarItem icon={<Banknote size={20}/>} label="Student Payrolled" />
+          </Link>
+          <Link href="/dashboard/admin/Tasks"><SidebarItem icon={<Users size={20}/>} label="Tasks" /></Link>
           <SidebarItem icon={<MessageSquare size={20}/>} label="Chat with Team" />
         </nav>
-
         <div className="pt-6 border-t border-white/10">
           <SidebarItem icon={<LogOut size={18} />} label="Logout" onClick={() => { localStorage.clear(); router.push('/login'); }} />
         </div>

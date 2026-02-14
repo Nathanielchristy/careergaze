@@ -6,7 +6,7 @@ import {
   Loader2, Search, Mail, ShieldCheck, 
   Trash2, RefreshCw, Menu, Users, 
   LogOut, CheckCircle2, AlertCircle, X, 
-  ChevronRight, GraduationCap, LayoutGrid, MessageSquare 
+  ChevronRight, GraduationCap, LayoutGrid, MessageSquare,Banknote
 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import Link from 'next/link'
@@ -125,10 +125,13 @@ export default function RegisteredUsers() {
           <button onClick={() => setIsMobileMenuOpen(false)} className="lg:hidden p-1 hover:bg-white/10 rounded"><X size={20}/></button>
         </div>
         
-         <nav className="space-y-2 flex-1">
-          <SidebarItem icon={<LayoutGrid size={20}/>} label="Overview" active />
-           <Link href="/dashboard/admin/users"><SidebarItem icon={<Users size={20}/>} label="Registred Users" /></Link>
-          <Link href="/dashboard/admin/students"><SidebarItem icon={<Users size={20}/>} label="Students" /></Link>
+        <nav className="space-y-2 flex-1">
+          <Link href="/dashboard/admin"><SidebarItem icon={<LayoutGrid size={20}/>} label="Overview" /></Link>
+          <Link href="/dashboard/admin/users"><SidebarItem icon={<Users size={20}/>} label="Registered Users" /></Link>
+          <Link href="/dashboard/admin/students"><SidebarItem icon={<Users size={20}/>} label="Students"/></Link>
+          <Link href="/dashboard/admin/payrolled">
+           <SidebarItem icon={<Banknote size={20}/>} label="Student Payrolled" />
+          </Link>
           <Link href="/dashboard/admin/Tasks"><SidebarItem icon={<Users size={20}/>} label="Tasks" /></Link>
           <SidebarItem icon={<MessageSquare size={20}/>} label="Chat with Team" />
         </nav>

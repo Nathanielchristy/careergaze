@@ -8,7 +8,7 @@ import {
   LayoutGrid, Users, LogOut, School, 
   Handshake, Clock, GraduationCap, Loader2,
   TrendingUp, Menu, X, RefreshCw, MessageSquare,
-  Bell, AlertTriangle, Info, CheckCircle
+  Bell, AlertTriangle, Info, CheckCircle,Banknote
 } from 'lucide-react'
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, 
@@ -208,6 +208,10 @@ export default function AdminDashboard() {
           <SidebarItem icon={<LayoutGrid size={20}/>} label="Overview" active />
            <Link href="admin/users"><SidebarItem icon={<Users size={20}/>} label="Registred Users" /></Link>
           <Link href="admin/students"><SidebarItem icon={<Users size={20}/>} label="Students" /></Link>
+          {/* NEW PAYROLLED OPTION */}
+  <Link href="admin/payrolled">
+    <SidebarItem icon={<Banknote size={20}/>} label="Student Payrolled" />
+  </Link>
           <Link href="admin/Tasks"><SidebarItem icon={<Users size={20}/>} label="Tasks" /></Link>
           <SidebarItem icon={<MessageSquare size={20}/>} label="Chat with Team" />
         </nav>
