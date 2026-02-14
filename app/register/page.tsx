@@ -83,7 +83,7 @@ export default function BrandedRegistration() {
                     <ShieldCheck size={14} className="text-[#86C232]" />
                     <span className="text-[10px] font-black uppercase text-[#86C232] tracking-widest">Secure Registration</span>
                   </div>
-                  <h1 className="text-3xl font-black text-[#0A4D68]">Create Account</h1>
+                  <h1 className="text-3xl font-black text-[#0A4D68]">Register Here</h1>
                   <p className="text-slate-400 text-sm mt-1">Join the Careergize community today</p>
                 </div>
 

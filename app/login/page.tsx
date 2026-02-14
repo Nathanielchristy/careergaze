@@ -16,7 +16,6 @@ import { useRouter } from 'next/navigation'
 export default function CareergizeLogin() {
   const router = useRouter()
   
-  // STATE MANAGEMENT
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState('')
@@ -38,7 +37,6 @@ export default function CareergizeLogin() {
     y.set((e.clientY - rect.top) / rect.height - 0.5)
   }
 
-  // LOGIN HANDLER
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -54,26 +52,22 @@ export default function CareergizeLogin() {
       const data = await response.json()
 
       if (data.result === 'success') {
-        // 1. Save Session Data
         localStorage.setItem('userName', data.name)
         localStorage.setItem('userEmail', email)
         localStorage.setItem('isLoggedIn', 'true')
         
-        // 2. ROLE-BASED ROUTING
-        // Check if the name in the Google Sheet is exactly "Varun"
-       if (data.name && (data.name.toLowerCase() === 'varun' || data.name.toLowerCase() === 'adithyan')) {
-    localStorage.setItem('userRole', 'admin')
-    router.push('/dashboard/admin') // Redirect to Admin Page
-} else {
-    localStorage.setItem('userRole', 'intern')
-    router.push('/dashboard') // Redirect to Normal Dashboard
-}
+        if (data.name && (data.name.toLowerCase() === 'varun' || data.name.toLowerCase() === 'adithyan')) {
+          localStorage.setItem('userRole', 'admin')
+          router.push('/dashboard/admin')
+        } else {
+          localStorage.setItem('userRole', 'intern')
+          router.push('/dashboard')
+        }
       } else {
         setError(data.message || 'Access Denied. Please check your credentials.')
       }
     } catch (err) {
-      console.error("Login Error:", err)
-      setError('Connection failed. Please check your internet or try again.')
+      setError('Connection failed. Please try again.')
     } finally {
       setIsLoading(false)
     }
@@ -82,7 +76,6 @@ export default function CareergizeLogin() {
   return (
     <div className="min-h-screen bg-[#FDFDFD] flex items-center justify-center p-6 overflow-hidden font-sans">
       
-      {/* BRANDED BACKGROUND ELEMENTS */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] bg-[#86C232]/10 rounded-full blur-[120px]" />
         <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-[#0A4D68]/10 rounded-full blur-[120px]" />
@@ -98,7 +91,6 @@ export default function CareergizeLogin() {
           style={{ transform: "translateZ(50px)" }}
           className="bg-white/70 backdrop-blur-2xl border border-slate-100 p-8 md:p-12 rounded-[3rem] shadow-[0_40px_80px_-15px_rgba(10,77,104,0.15)]"
         >
-          {/* LOGO & BRANDING */}
           <div className="flex flex-col items-center mb-10 text-center" style={{ transform: "translateZ(40px)" }}>
             <div className="w-20 h-20 relative p-1 rounded-3xl bg-gradient-to-tr from-[#0A4D68] to-[#86C232] shadow-lg mb-6">
               <div className="w-full h-full bg-white rounded-[22px] overflow-hidden relative">
@@ -111,23 +103,20 @@ export default function CareergizeLogin() {
             <p className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.3em] mt-2">Member Portal Access</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6" style={{ transform: "translateZ(30px)" }}>
+          <form onSubmit={handleLogin} className="space-y-5" style={{ transform: "translateZ(30px)" }}>
             
             {error && (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 text-red-600 text-xs font-bold"
-              >
+              <div className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 text-red-600 text-xs font-bold">
                 <AlertCircle size={16} />
                 {error}
-              </motion.div>
+              </div>
             )}
 
+            {/* Email Field */}
             <div className="group space-y-2">
-              <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-focus-within:text-[#0A4D68] ml-1">Email</Label>
+              <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Email</Label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0A4D68] transition-colors" size={18} />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 transition-colors" size={18} />
                 <Input 
                   required
                   type="email" 
@@ -139,10 +128,11 @@ export default function CareergizeLogin() {
               </div>
             </div>
 
+            {/* Password Field */}
             <div className="group space-y-2">
-              <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-focus-within:text-[#0A4D68] ml-1">Password</Label>
+              <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Password</Label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0A4D68] transition-colors" size={18} />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 transition-colors" size={18} />
                 <Input 
                   required
                   type={showPassword ? "text" : "password"}
@@ -159,24 +149,32 @@ export default function CareergizeLogin() {
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
+              
+              {/* UPDATED: Forgot Password placed below input */}
+              <div className="flex justify-end pr-1">
+                <Link 
+                  href="/forgot-password" 
+                  className="text-[10px] font-black text-[#86C232] hover:text-[#0A4D68] uppercase tracking-tighter transition-colors"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
             </div>
 
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button 
-                type="submit" 
-                disabled={isLoading}
-                className="w-full h-14 bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white font-bold text-lg rounded-2xl shadow-xl shadow-[#0A4D68]/20 transition-all border-none"
-              >
-                {isLoading ? (
-                  <Loader2 className="animate-spin" size={20} />
-                ) : (
-                  <>Log In <ArrowRight className="ml-2" size={20} /></>
-                )}
-              </Button>
-            </motion.div>
+            <Button 
+              type="submit" 
+              disabled={isLoading}
+              className="w-full h-14 bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white font-bold text-lg rounded-2xl shadow-xl shadow-[#0A4D68]/20 transition-all border-none"
+            >
+              {isLoading ? (
+                <Loader2 className="animate-spin" size={20} />
+              ) : (
+                <>Log In <ArrowRight className="ml-2" size={20} /></>
+              )}
+            </Button>
           </form>
 
-          <div className="mt-10 pt-6 border-t border-slate-50 flex flex-col items-center gap-4" style={{ transform: "translateZ(20px)" }}>
+          <div className="mt-8 pt-6 border-t border-slate-50 flex flex-col items-center gap-4" style={{ transform: "translateZ(20px)" }}>
             <Link href="/register" className="text-xs font-bold text-[#86C232] hover:text-[#0A4D68] transition-colors">
               Request Portal Access →
             </Link>

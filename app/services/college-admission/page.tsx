@@ -81,7 +81,7 @@ const InternshipPopup = () => {
               </p>
 
             <div className="flex flex-col gap-4 w-full"> {/* Added flex container with gap */}
-  <Link href="/internship-2026" className="w-full">
+  <Link href="/register" className="w-full">
     <Button className="w-full bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white h-14 rounded-xl font-bold text-lg shadow-lg">
       Register Now
     </Button>
@@ -252,9 +252,9 @@ export default function CollegeAdmissionPage() {
                 </ul>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Link href="/internship-2026">
+                <Link href="/internship-2026/enronllment">
                   <Button size="lg" className="bg-[#86C232] hover:bg-white hover:text-[#0A4D68] text-[#0A4D68] font-black rounded-2xl h-16 px-10 transition-all border-none">
-                    Apply Now <ExternalLink className="ml-2" size={20} />
+                    Entroll Now <ExternalLink className="ml-2" size={20} />
                   </Button>
                 </Link>
               </div>
