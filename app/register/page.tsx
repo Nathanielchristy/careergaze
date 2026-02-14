@@ -41,7 +41,7 @@ export default function BrandedRegistration() {
     };
 
     try {
-      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyzcAwKEl-Exd2E5SzhoPLBcvO2uF9Ezviphs71y_OvSLDZEvIP7gPGmS6X_IlURe5H/exec';
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyN3pJ89QNfLVGUHIo2osxNewnnWOLI3AC3x1a7kRxGvoCjCquNMhVJL2FMazEeboU/exec';
       
       await fetch(SCRIPT_URL, {
         method: 'POST',
@@ -145,11 +145,14 @@ export default function BrandedRegistration() {
                 <div className="w-20 h-20 bg-[#86C232]/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <CheckCircle2 size={40} className="text-[#86C232]" />
                 </div>
-                <h2 className="text-2xl font-black text-[#0A4D68]">Welcome Aboard!</h2>
-                <p className="text-slate-400 mt-2 mb-8">Your account has been created successfully.</p>
-                <Link href="/login">
-                  <Button className="bg-[#0A4D68] rounded-xl px-8">Login</Button>
-                </Link>
+               <h2 className="text-2xl font-black text-[#0A4D68]">Request Received!</h2>
+    <p className="text-slate-500 mt-2 mb-8">
+      Your registration is <b>Pending Approval</b>. <br/> 
+      You will be able to login once an admin approves your account.
+    </p>
+    <Link href="/login">
+      <Button className="bg-[#0A4D68] rounded-xl px-8">Back to Login</Button>
+    </Link>
               </motion.div>
             )}
           </AnimatePresence>

@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { 
   Lock, Mail, Eye, EyeOff, Loader2, 
-  ArrowRight, AlertCircle 
+  ArrowRight, AlertCircle, Clock
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -21,6 +21,7 @@ export default function CareergizeLogin() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [isPending, setIsPending] = useState(false)
   
   // 3D PARALLAX LOGIC
   const x = useMotionValue(0)
@@ -41,8 +42,10 @@ export default function CareergizeLogin() {
     e.preventDefault()
     setIsLoading(true)
     setError('')
+    setIsPending(false)
 
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw88Ck1hh6Z78G5wYYvEtD9mlvEv-U4eQ7NrRmDjRsl2WbPKBdhgqCVpt7tqJucDAG0/exec'
+    // YOUR UPDATED SCRIPT URL
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyN3pJ89QNfLVGUHIo2osxNewnnWOLI3AC3x1a7kRxGvoCjCquNMhVJL2FMazEeboU/exec'
 
     try {
       const response = await fetch(
@@ -52,22 +55,30 @@ export default function CareergizeLogin() {
       const data = await response.json()
 
       if (data.result === 'success') {
+        // 1. SAVE USER DATA
         localStorage.setItem('userName', data.name)
         localStorage.setItem('userEmail', email)
         localStorage.setItem('isLoggedIn', 'true')
         
-        if (data.name && (data.name.toLowerCase() === 'varun' || data.name.toLowerCase() === 'adithyan')) {
+        // 2. ROLE BASED ROUTING
+        const nameLower = data.name?.toLowerCase() || ''
+        if (nameLower === 'varun' || nameLower === 'adithyan') {
           localStorage.setItem('userRole', 'admin')
           router.push('/dashboard/admin')
         } else {
           localStorage.setItem('userRole', 'intern')
           router.push('/dashboard')
         }
+      } else if (data.result === 'pending') {
+        // 3. HANDLE PENDING STATUS
+        setIsPending(true)
+        setError('Your account is awaiting approval from an administrator.')
       } else {
-        setError(data.message || 'Access Denied. Please check your credentials.')
+        // 4. HANDLE INVALID CREDENTIALS
+        setError(data.message || 'Invalid email or password. Please try again.')
       }
     } catch (err) {
-      setError('Connection failed. Please try again.')
+      setError('Connection failed. Please check your internet connection.')
     } finally {
       setIsLoading(false)
     }
@@ -76,6 +87,7 @@ export default function CareergizeLogin() {
   return (
     <div className="min-h-screen bg-[#FDFDFD] flex items-center justify-center p-6 overflow-hidden font-sans">
       
+      {/* Background Blurs */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] bg-[#86C232]/10 rounded-full blur-[120px]" />
         <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-[#0A4D68]/10 rounded-full blur-[120px]" />
@@ -91,6 +103,7 @@ export default function CareergizeLogin() {
           style={{ transform: "translateZ(50px)" }}
           className="bg-white/70 backdrop-blur-2xl border border-slate-100 p-8 md:p-12 rounded-[3rem] shadow-[0_40px_80px_-15px_rgba(10,77,104,0.15)]"
         >
+          {/* Logo & Header */}
           <div className="flex flex-col items-center mb-10 text-center" style={{ transform: "translateZ(40px)" }}>
             <div className="w-20 h-20 relative p-1 rounded-3xl bg-gradient-to-tr from-[#0A4D68] to-[#86C232] shadow-lg mb-6">
               <div className="w-full h-full bg-white rounded-[22px] overflow-hidden relative">
@@ -105,18 +118,27 @@ export default function CareergizeLogin() {
 
           <form onSubmit={handleLogin} className="space-y-5" style={{ transform: "translateZ(30px)" }}>
             
+            {/* Feedback Message */}
             {error && (
-              <div className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 text-red-600 text-xs font-bold">
-                <AlertCircle size={16} />
-                {error}
-              </div>
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }} 
+                animate={{ opacity: 1, y: 0 }}
+                className={`p-4 border rounded-2xl flex items-start gap-3 text-xs font-bold ${
+                  isPending 
+                  ? "bg-amber-50 border-amber-100 text-amber-700" 
+                  : "bg-red-50 border-red-100 text-red-600"
+                }`}
+              >
+                {isPending ? <Clock size={16} className="mt-0.5" /> : <AlertCircle size={16} className="mt-0.5" />}
+                <span>{error}</span>
+              </motion.div>
             )}
 
             {/* Email Field */}
             <div className="group space-y-2">
-              <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Email</Label>
+              <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Email Address</Label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 transition-colors" size={18} />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#86C232] transition-colors" size={18} />
                 <Input 
                   required
                   type="email" 
@@ -130,9 +152,9 @@ export default function CareergizeLogin() {
 
             {/* Password Field */}
             <div className="group space-y-2">
-              <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Password</Label>
+              <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Security Key</Label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 transition-colors" size={18} />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#86C232] transition-colors" size={18} />
                 <Input 
                   required
                   type={showPassword ? "text" : "password"}
@@ -150,7 +172,6 @@ export default function CareergizeLogin() {
                 </button>
               </div>
               
-              {/* UPDATED: Forgot Password placed below input */}
               <div className="flex justify-end pr-1">
                 <Link 
                   href="/forgot-password" 
@@ -169,14 +190,16 @@ export default function CareergizeLogin() {
               {isLoading ? (
                 <Loader2 className="animate-spin" size={20} />
               ) : (
-                <>Log In <ArrowRight className="ml-2" size={20} /></>
+                <div className="flex items-center justify-center gap-2">
+                  Secure Log In <ArrowRight size={20} />
+                </div>
               )}
             </Button>
           </form>
 
           <div className="mt-8 pt-6 border-t border-slate-50 flex flex-col items-center gap-4" style={{ transform: "translateZ(20px)" }}>
             <Link href="/register" className="text-xs font-bold text-[#86C232] hover:text-[#0A4D68] transition-colors">
-              Request Portal Access →
+              New user? Request Portal Access →
             </Link>
           </div>
         </div>
