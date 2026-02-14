@@ -12,7 +12,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzkWvfmy0rupfbtAXcQ5vBD5Y4fyB5kJ94PToi5dZ5zD6sSTrcyN_Kh1bF216fvNOxI/exec'
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwfikop7AY4_J4Ip42UWYZytOt3RWFSsquuyKBfpgayUDOVdhD7oqfCYCem86qpb3CZpg/exec'
 
 export default function PaymentPage() {
   const router = useRouter()

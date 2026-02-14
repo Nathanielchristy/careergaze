@@ -22,7 +22,7 @@ const SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbxCxoa1SnNeZtptdCuaAVLfGd3YGppx7jHoIigs6aaVLXgTbAfvdYMSyOJ2nsv92fM/exec'
 
 const SCRIPT_URL_TWO =
-  'https://script.google.com/macros/s/AKfycbzkWvfmy0rupfbtAXcQ5vBD5Y4fyB5kJ94PToi5dZ5zD6sSTrcyN_Kh1bF216fvNOxI/exec'
+  'https://script.google.com/macros/s/AKfycbwfikop7AY4_J4Ip42UWYZytOt3RWFSsquuyKBfpgayUDOVdhD7oqfCYCem86qpb3CZpg/exec'
 
 export default function PayrollPage() {
   const [data, setData] = useState<any[]>([])
