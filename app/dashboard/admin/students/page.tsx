@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button'
 
 // SCRIPT URLS
 const STUDENT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxbNlH0TSKqYSQgcw4OUfuuoEy8kCPeccPk53-0-DmBPKJtyfgcWdbAqFt0c09DxdJg3Q/exec'
-const TASK_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqpmcrYXG_bLhg_LBdHG9P5T0jbMp7d9TeFFZP_skP7VXjWo08pTRKeb_C-Pi6BkPe/exec'
+const TASK_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwcHhaOYVNyHduevNR5QoTFBR0TDc0TUFnEmkVXtJSAUJz9-hPTCAJUj3IIEFZuqdET/exec'
 
 export default function StudentDatabasePage() {
   const router = useRouter()
