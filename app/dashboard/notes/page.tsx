@@ -136,7 +136,7 @@ export default function LearningNotesPage() {
 
         {/* CATEGORY FILTER */}
         <div className="flex gap-3 mb-10 overflow-x-auto pb-2 no-scrollbar">
-          {['All', 'React', 'Backend', 'UI/UX', 'Soft Skills'].map((cat) => (
+          {['All', 'Backend', 'Frontend', 'UI/UX', 'Soft Skills'].map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
