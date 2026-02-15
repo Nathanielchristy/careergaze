@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { 
   Search, BookOpen, FileText, PlayCircle, 
@@ -48,11 +49,17 @@ const NOTES = [
   }
 ]
 
+
 export default function LearningNotesPage() {
+  const router = useRouter()
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('') // New search state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
+ const handleLogout = () => {
+    localStorage.clear()
+    router.push('/login')
+  }
   // Combined Filter Logic: Category + Search Query
   const filteredNotes = useMemo(() => {
     return NOTES.filter((note) => {
@@ -108,8 +115,8 @@ export default function LearningNotesPage() {
           <SidebarItem icon={<Award size={20} />} label="Final Certification" />
         </nav>
         
-        <div className="mt-auto pt-6 border-t border-white/10">
-          <SidebarItem icon={<LogOut size={20} />} label="Logout" />
+         <div className="mt-auto pt-6 border-t border-white/10">
+                  <SidebarItem icon={<LogOut size={20} />} label="Logout" onClick={handleLogout} />
         </div>
       </aside>
 
