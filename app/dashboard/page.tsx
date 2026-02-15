@@ -1,19 +1,19 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { 
-  Calendar, CheckCircle, GraduationCap, LayoutGrid, 
+  Calendar, GraduationCap, LayoutGrid, 
   Clock, LogOut, FileText, CheckSquare, 
-  MessageSquare, Award, Loader2, Menu 
+  Loader2, Zap, TrendingUp 
 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
-// YOUR NEW API URL
-const ATTENDANCE_API_URL = "https://script.google.com/macros/s/AKfycbwL3bdZeM_-QlLrZPXYnWvanA_rdP79-rc61Qr5CH1BIEUegR5xQABex5qFqjiitimP2Q/exec"
+const ATTENDANCE_API_URL = "https://script.google.com/macros/s/AKfycbyRwg3rXbUEjhsOujm_7hxqDyObJxHu6fvuos44o1AYl-VckOOrQmr80EbSWHrgCz35ow/exec"
+const TASK_API_URL = "https://script.google.com/macros/s/AKfycbwcHhaOYVNyHduevNR5QoTFBR0TDc0TUFnEmkVXtJSAUJz9-hPTCAJUj3IIEFZuqdET/exec"
 
 export default function InternDashboard() {
   const router = useRouter()
@@ -23,10 +23,13 @@ export default function InternDashboard() {
   const [userEmail, setUserEmail] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [attendanceMarked, setAttendanceMarked] = useState(false)
+  // NEW: State to hold the specific status string from the database
+  const [serverStatus, setServerStatus] = useState('Pending') 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoadingStatus, setIsLoadingStatus] = useState(true)
   const [currentTime, setCurrentTime] = useState('')
   const [totalHours, setTotalHours] = useState('0')
+  const [rawTasks, setRawTasks] = useState<any[]>([])
 
   useEffect(() => {
     const loggedIn = localStorage.getItem('isLoggedIn')
@@ -37,96 +40,110 @@ export default function InternDashboard() {
       router.push('/login')
     } else {
       setUserName(storedName || 'Intern')
-      setUserEmail(storedEmail || '')
+      const email = storedEmail || ''
+      setUserEmail(email)
       setIsAuthorized(true)
       
-      // Check if already marked for today in this session
       const today = new Date().toLocaleDateString()
-      if (localStorage.getItem(`marked_${storedEmail}_${today}`)) {
+      if (localStorage.getItem(`marked_${email}_${today}`)) {
         setAttendanceMarked(true)
       }
 
-      if (storedEmail) checkServerStatus(storedEmail)
+      if (email) refreshDashboardData(email)
     }
 
     const timer = setInterval(() => setCurrentTime(new Date().toLocaleTimeString()), 1000)
     return () => clearInterval(timer)
   }, [router])
 
-  const checkServerStatus = async (email: string) => {
+  const { filteredTasks, totalPoints } = useMemo(() => {
+    const myTasks = rawTasks.filter(t => 
+      t.studentEmail?.toLowerCase() === userEmail.toLowerCase() || 
+      t.studentName?.toLowerCase() === userName.toLowerCase()
+    )
+
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    const points = myTasks.reduce((acc, task) => {
+      if (task.status?.toLowerCase() === 'completed') {
+        let deadlineDate: Date;
+        if (typeof task.endDate === 'string' && task.endDate.includes('/')) {
+          const parts = task.endDate.split('/')
+          deadlineDate = new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]))
+        } else {
+          deadlineDate = new Date(task.endDate)
+        }
+        deadlineDate.setHours(23, 59, 59, 999)
+        if (!isNaN(deadlineDate.getTime()) && today <= deadlineDate) {
+          return acc + 20
+        }
+      }
+      return acc
+    }, 0)
+
+    return { filteredTasks: myTasks, totalPoints: points }
+  }, [rawTasks, userEmail, userName])
+
+  const refreshDashboardData = async (email: string) => {
+    setIsLoadingStatus(true)
     try {
-      const res = await fetch(`${ATTENDANCE_API_URL}?email=${encodeURIComponent(email)}&t=${Date.now()}`, {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-store'
-      })
-      const data = await res.json()
-      
-      if (data.status === "Present") {
-        setAttendanceMarked(true)
-        const today = new Date().toLocaleDateString()
-        localStorage.setItem(`marked_${email}_${today}`, 'true')
-      }
-      
-      if (data.totalHours !== undefined) {
-        setTotalHours(data.totalHours.toString())
-      }
-    } catch (e) {
-      console.error("Sync error:", e)
+      await Promise.all([
+        fetchAttendance(email),
+        fetchTasks()
+      ])
+    } catch (err) {
+      console.error("Dashboard Sync Error:", err)
     } finally {
       setIsLoadingStatus(false)
     }
   }
 
-  const handleAttendance = async () => {
-    if (attendanceMarked || isSubmitting) return
-    setIsSubmitting(true)
-
+  const fetchAttendance = async (email: string) => {
     try {
-      // 1. STEP ONE: Verify with server one last time before posting
-      const verifyRes = await fetch(`${ATTENDANCE_API_URL}?email=${encodeURIComponent(userEmail)}&t=${Date.now()}`)
-      const verifyData = await verifyRes.json()
-
-      if (verifyData.status === "Present") {
-        alert("⚠️ Access Denied: You have already checked in for today!")
-        setAttendanceMarked(true)
-        const today = new Date().toLocaleDateString()
-        localStorage.setItem(`marked_${userEmail}_${today}`, 'true')
-        setIsSubmitting(false)
-        return // CANCEL THE PROCESS
-      }
-
-      // 2. STEP TWO: Proceed with Check-in if not already marked
-      await fetch(ATTENDANCE_API_URL, {
-        method: 'POST',
-        mode: 'no-cors', 
-        body: JSON.stringify({
-          name: userName,
-          email: userEmail,
-          status: 'Present',
-          hours: 8 
-        }),
-      })
-
-      // 3. STEP THREE: Success Logic
-      setAttendanceMarked(true)
-      const today = new Date().toLocaleDateString()
-      localStorage.setItem(`marked_${userEmail}_${today}`, 'true')
-      alert("✅ Success! Your attendance for today has been recorded.")
+      const res = await fetch(`${ATTENDANCE_API_URL}?email=${encodeURIComponent(email)}&t=${Date.now()}`)
+      const data = await res.json()
       
-      // Refresh totals
-      checkServerStatus(userEmail)
-
-    } catch (error) {
-      alert("Connection error. Please check your internet.")
-    } finally {
-      setIsSubmitting(false)
+      // FIX: Use the data.status from your API response
+      if (data.status) {
+    
+        setServerStatus(data.status)
+        if (data.status === "Present" || data.status === "Active") {
+          setAttendanceMarked(true)
+        }
+      }
+      if (data.totalHours !== undefined) setTotalHours(data.totalHours.toString())
+    } catch (e) {
+      setServerStatus("Offline")
     }
   }
 
-  const handleLogout = () => {
-    localStorage.clear()
-    router.push('/login')
+  const fetchTasks = async () => {
+    const res = await fetch(`${TASK_API_URL}?t=${Date.now()}`)
+    const data = await res.json()
+    setRawTasks(data.tasks || [])
+  }
+
+  const handleAttendance = async () => {
+    if (attendanceMarked || isSubmitting) return
+    setIsSubmitting(true)
+    try {
+      await fetch(ATTENDANCE_API_URL, {
+        method: 'POST',
+        mode: 'no-cors', 
+        body: JSON.stringify({ name: userName, email: userEmail, status: 'Present', hours: 8 }),
+      })
+      
+      // Optimistically update UI
+      setAttendanceMarked(true)
+      setServerStatus("Present") 
+      localStorage.setItem(`marked_${userEmail}_${new Date().toLocaleDateString()}`, 'true')
+      refreshDashboardData(userEmail)
+    } catch (error) {
+      console.error("Attendance sync failed:", error)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (!isAuthorized) return (
@@ -137,85 +154,70 @@ export default function InternDashboard() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#0A4D68]">
-      {/* MOBILE HEADER */}
-      <div className="lg:hidden flex items-center justify-between p-4 bg-[#0A4D68] text-white sticky top-0 z-[60]">
-        <div className="flex items-center gap-2">
-          <GraduationCap className="text-[#86C232]" size={24} />
-          <span className="font-bold">Careergize</span>
-        </div>
-        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}><Menu size={24} /></button>
-      </div>
-
-      {/* SIDEBAR */}
       <aside className={`fixed left-0 top-0 h-full w-64 bg-[#0A4D68] text-white p-6 z-[70] transition-transform lg:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex items-center gap-3 mb-10 hidden lg:flex">
+        <div className="flex items-center gap-3 mb-10">
           <GraduationCap className="text-[#86C232]" size={28} />
           <span className="text-xl font-bold">Careergize</span>
         </div>
-        <nav className="space-y-2 flex-1 mt-8 lg:mt-0">
+        <nav className="space-y-2">
           <Link href="/dashboard"><SidebarItem icon={<LayoutGrid size={20} />} label="My Workspace" active /></Link>
-          <Link href="/dashboard/notes"><SidebarItem icon={<FileText size={20} />} label="Learning Notes" /></Link>
           <Link href="/dashboard/interntask"><SidebarItem icon={<CheckSquare size={20} />} label="Tasks & Projects" /></Link>
-          <SidebarItem icon={<MessageSquare size={20} />} label="Mentor Chat" />
-          <SidebarItem icon={<Award size={20} />} label="Final Certification" />
+          <SidebarItem icon={<FileText size={20} />} label="Notes" />
+          <SidebarItem icon={<LogOut size={20} />} label="Logout" onClick={() => { localStorage.clear(); router.push('/login'); }} />
         </nav>
-        <div className="absolute bottom-6 left-6 right-6 border-t border-white/10 pt-6">
-           <SidebarItem icon={<LogOut size={20} />} label="Logout" onClick={handleLogout} />
-        </div>
       </aside>
 
-      {/* MAIN CONTENT */}
       <main className="lg:ml-64 p-4 md:p-12">
         <header className="flex flex-col md:flex-row justify-between items-start gap-4 mb-8">
           <div>
             <h1 className="text-3xl font-extrabold">Welcome, <span className="text-[#86C232]">{userName}</span> 👋</h1>
-            <p className="text-slate-500 italic">Careergize Internship Portal</p>
+            <p className="text-slate-500 italic text-[10px] font-bold uppercase tracking-widest">Intern Performance Hub</p>
           </div>
-
+          
           <Card className="p-4 bg-white border-none shadow-sm flex items-center gap-6 rounded-2xl">
             <div className="text-right">
-              <p className="text-[10px] font-bold text-slate-400 uppercase">Clock</p>
+              <p className="text-[10px] font-bold text-slate-400 uppercase">Live Clock</p>
               <p className="font-mono font-bold text-lg">{currentTime}</p>
             </div>
             <Button 
               disabled={attendanceMarked || isSubmitting || isLoadingStatus}
               onClick={handleAttendance}
-              className={`rounded-xl font-bold px-8 h-12 transition-all shadow-md ${
-                attendanceMarked 
-                ? 'bg-green-100 text-green-600' 
-                : 'bg-[#86C232] text-[#0A4D68] hover:scale-105 active:scale-95'
-              }`}
+              className={`rounded-xl font-bold px-8 h-12 transition-all ${attendanceMarked ? 'bg-green-50 text-green-600' : 'bg-[#86C232] text-[#0A4D68]'}`}
             >
-              {isLoadingStatus ? (
-                <Loader2 className="animate-spin" size={20} />
-              ) : attendanceMarked ? (
-                <div className="flex items-center gap-2"><CheckCircle size={18} /> Checked In</div>
-              ) : (
-                'Check In'
-              )}
+              {isLoadingStatus ? <Loader2 className="animate-spin" size={20} /> : attendanceMarked ? '✓ Present' : 'Check In'}
             </Button>
           </Card>
         </header>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-          <StatBox title="Status" value={attendanceMarked ? "Active" : "Pending"} icon={<Calendar size={18}/>} />
-          <StatBox title="Tasks" value="12" icon={<CheckSquare size={18}/>} />
-          <StatBox title="Grade" value="A-" icon={<Award size={18}/>} />
+          {/* FIX: Value now uses serverStatus instead of a local boolean toggle */}
+          <StatBox 
+            title="Status" 
+            value={isLoadingStatus ? "Checking..." : serverStatus} 
+            icon={<Calendar size={18}/>} 
+          />
+          <StatBox title="Assignments" value={isLoadingStatus ? "..." : filteredTasks.length} icon={<CheckSquare size={18}/>} />
+          <StatBox title="Reward Points" value={isLoadingStatus ? "..." : `${totalPoints} XP`} icon={<Zap size={18} className="fill-[#86C232]"/>} highlight />
           <StatBox title="Total Hours" value={isLoadingStatus ? "..." : `${totalHours}h`} icon={<Clock size={18}/>} />
         </div>
 
-        <Card className="p-8 rounded-[2rem] bg-[#0A4D68] text-white border-none shadow-xl">
-          <h3 className="font-bold text-lg mb-4">Program Progress</h3>
-          <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
-             <motion.div 
-               initial={{ width: 0 }} 
-               animate={{ width: `${Math.min((parseFloat(totalHours)/200)*100, 100)}%` }} 
-               className="h-full bg-[#86C232]" 
-             />
+        <Card className="p-8 rounded-[2rem] bg-[#0A4D68] text-white border-none shadow-xl relative overflow-hidden">
+          <div className="relative z-10">
+            <div className="flex justify-between items-end mb-4">
+              <h3 className="font-bold text-lg text-[#86C232]">Internship Progress</h3>
+              <span className="text-[10px] font-black bg-white/10 px-3 py-1 rounded-full uppercase tracking-tighter">Goal: 200 Hours</span>
+            </div>
+            <div className="h-3 bg-white/10 rounded-full overflow-hidden">
+               <motion.div initial={{ width: 0 }} animate={{ width: `${Math.min((parseFloat(totalHours)/200)*100, 100)}%` }} className="h-full bg-[#86C232] shadow-[0_0_15px_rgba(134,194,50,0.5)]" />
+            </div>
+            <div className="mt-6 flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <TrendingUp size={16} className="text-[#86C232]" />
+                <p className="text-sm font-bold">{totalPoints} Experience Points Earned</p>
+              </div>
+            </div>
           </div>
-          <p className="mt-4 text-sm text-white/60">
-            {Math.min(((parseFloat(totalHours)/200)*100), 100).toFixed(1)}% of Internship Completed
-          </p>
+          <Zap className="absolute -bottom-6 -right-6 text-white/5 w-40 h-40" />
         </Card>
       </main>
     </div>
@@ -224,20 +226,20 @@ export default function InternDashboard() {
 
 function SidebarItem({ icon, label, active, onClick }: any) {
   return (
-    <div onClick={onClick} className={`flex items-center gap-4 px-4 py-3 rounded-xl cursor-pointer transition-all ${active ? 'bg-[#86C232] text-[#0A4D68] font-bold shadow-lg' : 'text-white/60 hover:bg-white/10 hover:text-white'}`}>
+    <div onClick={onClick} className={`flex items-center gap-4 px-4 py-3 rounded-xl cursor-pointer transition-all ${active ? 'bg-[#86C232] text-[#0A4D68] font-bold' : 'text-white/60 hover:bg-white/10 hover:text-white'}`}>
       {icon} <span className="text-sm">{label}</span>
     </div>
   )
 }
 
-function StatBox({ title, value, icon }: any) {
+function StatBox({ title, value, icon, highlight }: any) {
   return (
-    <Card className="p-6 rounded-2xl border-none shadow-sm bg-white flex justify-between items-center">
+    <Card className={`p-6 rounded-2xl border-none shadow-sm flex justify-between items-center transition-all ${highlight ? 'bg-white border-b-4 border-[#86C232]' : 'bg-white'}`}>
       <div>
-        <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">{title}</p>
-        <p className="text-xl font-black text-[#0A4D68]">{value}</p>
+        <p className="text-[10px] uppercase font-bold text-slate-400 mb-1 tracking-tighter">{title}</p>
+        <p className={`text-xl font-black text-[#0A4D68]`}>{value}</p>
       </div>
-      <div className="bg-slate-50 p-3 rounded-xl text-[#86C232]">{icon}</div>
+      <div className={`p-3 rounded-xl bg-slate-50 text-[#86C232]`}>{icon}</div>
     </Card>
   )
 }
