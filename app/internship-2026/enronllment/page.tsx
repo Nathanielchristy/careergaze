@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 // --- CONFIGURATION ---
-const ENROLLMENT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx2gdjV00ysWEsD2rjNO_Y4BoK4WW0Md2qy3QhUcISfxkBpQlSEDE1953dWAoCmJnzv/exec'
+const ENROLLMENT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxbNlH0TSKqYSQgcw4OUfuuoEy8kCPeccPk53-0-DmBPKJtyfgcWdbAqFt0c09DxdJg3Q/exec'
 const DATABASE_CHECK_URL = 'https://script.google.com/macros/s/AKfycbxCEYMCGy05ldMm0hJ2RIcyX1bsxvPPo6mc4AQvBzNcgWcXHu481hfc3qw97-i1231I/exec'
 
 export default function InternshipEnrollment() {
