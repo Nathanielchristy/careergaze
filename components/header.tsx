@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Menu, X, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import Link from "next/link" // Import Link for page navigation
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -39,6 +40,15 @@ export default function Header() {
     }
   }
 
+  // Navigation Links Data
+  const navLinks = [
+    { name: "Home", id: "about", type: "scroll" },
+    { name: "Services", id: "services", type: "scroll" },
+    { name: "Why Us", id: "why", type: "scroll" },
+    { name: "How It Works", id: "how", type: "scroll" },
+    { name: "Login", href: "/login", type: "link" } // Changed to a link type
+  ]
+
   return (
     <header 
       className={`sticky top-0 z-50 transition-all duration-500 ${
@@ -65,7 +75,6 @@ export default function Header() {
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
-              {/* Decorative Pulse Effect */}
               <span className="absolute inset-0 rounded-2xl bg-blue-400 animate-ping opacity-0 group-hover:opacity-20 transition-opacity duration-700"></span>
             </div>
             
@@ -78,21 +87,26 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-10">
-            {[
-              
-              {name: "Home", id: "about" },
-              { name: "Services", id: "services" },
-              { name: "Why Us", id: "why" },
-              { name: "How It Works", id: "how" }
-            ].map((link) => (
-              <button
-                key={link.id}
-                onClick={() => scrollToSection(link.id)}
-                className="text-sm font-bold text-slate-500 hover:text-blue-600 transition-all duration-300 relative group"
-              >
-                {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300" />
-              </button>
+            {navLinks.map((link) => (
+              link.type === "scroll" ? (
+                <button
+                  key={link.id}
+                  onClick={() => scrollToSection(link.id!)}
+                  className="text-sm font-bold text-slate-500 hover:text-blue-600 transition-all duration-300 relative group"
+                >
+                  {link.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300" />
+                </button>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href!}
+                  className="text-sm font-bold text-slate-500 hover:text-blue-600 transition-all duration-300 relative group"
+                >
+                  {link.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300" />
+                </Link>
+              )
             ))}
           </nav>
 
@@ -120,18 +134,28 @@ export default function Header() {
         {/* Mobile Navigation Menu */}
         <div 
           className={`md:hidden absolute left-0 right-0 bg-white border-b border-slate-100 transition-all duration-500 ease-in-out overflow-hidden shadow-2xl ${
-            isOpen ? "max-h-[500px] opacity-100 py-8" : "max-h-0 opacity-0 py-0"
+            isOpen ? "max-h-[600px] opacity-100 py-8" : "max-h-0 opacity-0 py-0"
           }`}
         >
           <div className="flex flex-col gap-6 px-6">
-            {["about", "Services", "Why Us", "How It Works"].map((item) => (
-              <button
-                key={item}
-                onClick={() => scrollToSection(item === "about" ? "about" : item.toLowerCase().replace(/\s+/g, ""))}
-                className="text-2xl font-black text-slate-900 hover:text-blue-600 transition-colors text-left lowercase tracking-tighter"
-              >
-                {item}
-              </button>
+            {navLinks.map((link) => (
+               link.type === "scroll" ? (
+                <button
+                  key={link.id}
+                  onClick={() => scrollToSection(link.id!)}
+                  className="text-2xl font-black text-slate-900 hover:text-blue-600 transition-colors text-left lowercase tracking-tighter"
+                >
+                  {link.name}
+                </button>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href!}
+                  className="text-2xl font-black text-slate-900 hover:text-blue-600 transition-colors text-left lowercase tracking-tighter"
+                >
+                  {link.name}
+                </Link>
+              )
             ))}
             <Button
               onClick={() => scrollToSection("cta")}
