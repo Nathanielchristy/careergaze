@@ -6,14 +6,14 @@ import { useRouter } from 'next/navigation'
 import { 
   Calendar, CheckCircle, GraduationCap, LayoutGrid, 
   Clock, LogOut, FileText, CheckSquare, 
-  MessageSquare, Award, Loader2, Menu, X 
+  MessageSquare, Award, Loader2, Menu 
 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
-// YOUR NEW URL
-const ATTENDANCE_API_URL = "https://script.google.com/macros/s/AKfycbwcC_ihJoNF8Y8424IbWVY41_H5CEgzmAL2YPXcqOeGjvaZ9v8nC2JKv7RMJM5jurCtvw/exec"
+// YOUR NEW API URL
+const ATTENDANCE_API_URL = "https://script.google.com/macros/s/AKfycbwL3bdZeM_-QlLrZPXYnWvanA_rdP79-rc61Qr5CH1BIEUegR5xQABex5qFqjiitimP2Q/exec"
 
 export default function InternDashboard() {
   const router = useRouter()
@@ -39,6 +39,13 @@ export default function InternDashboard() {
       setUserName(storedName || 'Intern')
       setUserEmail(storedEmail || '')
       setIsAuthorized(true)
+      
+      // Check if already marked for today in this session
+      const today = new Date().toLocaleDateString()
+      if (localStorage.getItem(`marked_${storedEmail}_${today}`)) {
+        setAttendanceMarked(true)
+      }
+
       if (storedEmail) checkServerStatus(storedEmail)
     }
 
@@ -51,13 +58,16 @@ export default function InternDashboard() {
       const res = await fetch(`${ATTENDANCE_API_URL}?email=${encodeURIComponent(email)}&t=${Date.now()}`, {
         method: 'GET',
         mode: 'cors',
-        redirect: 'follow'
+        cache: 'no-store'
       })
       const data = await res.json()
       
       if (data.status === "Present") {
         setAttendanceMarked(true)
+        const today = new Date().toLocaleDateString()
+        localStorage.setItem(`marked_${email}_${today}`, 'true')
       }
+      
       if (data.totalHours !== undefined) {
         setTotalHours(data.totalHours.toString())
       }
@@ -73,6 +83,20 @@ export default function InternDashboard() {
     setIsSubmitting(true)
 
     try {
+      // 1. STEP ONE: Verify with server one last time before posting
+      const verifyRes = await fetch(`${ATTENDANCE_API_URL}?email=${encodeURIComponent(userEmail)}&t=${Date.now()}`)
+      const verifyData = await verifyRes.json()
+
+      if (verifyData.status === "Present") {
+        alert("⚠️ Access Denied: You have already checked in for today!")
+        setAttendanceMarked(true)
+        const today = new Date().toLocaleDateString()
+        localStorage.setItem(`marked_${userEmail}_${today}`, 'true')
+        setIsSubmitting(false)
+        return // CANCEL THE PROCESS
+      }
+
+      // 2. STEP TWO: Proceed with Check-in if not already marked
       await fetch(ATTENDANCE_API_URL, {
         method: 'POST',
         mode: 'no-cors', 
@@ -84,11 +108,17 @@ export default function InternDashboard() {
         }),
       })
 
+      // 3. STEP THREE: Success Logic
       setAttendanceMarked(true)
-      // Refresh hours locally after checking in (optional: call checkServerStatus again)
-      setTotalHours((prev) => (parseFloat(prev) + 8).toString())
+      const today = new Date().toLocaleDateString()
+      localStorage.setItem(`marked_${userEmail}_${today}`, 'true')
+      alert("✅ Success! Your attendance for today has been recorded.")
+      
+      // Refresh totals
+      checkServerStatus(userEmail)
+
     } catch (error) {
-      alert("Failed to connect. Check your internet.")
+      alert("Connection error. Please check your internet.")
     } finally {
       setIsSubmitting(false)
     }
@@ -151,10 +181,18 @@ export default function InternDashboard() {
               disabled={attendanceMarked || isSubmitting || isLoadingStatus}
               onClick={handleAttendance}
               className={`rounded-xl font-bold px-8 h-12 transition-all shadow-md ${
-                attendanceMarked ? 'bg-green-100 text-green-600' : 'bg-[#86C232] text-[#0A4D68] hover:scale-105'
+                attendanceMarked 
+                ? 'bg-green-100 text-green-600' 
+                : 'bg-[#86C232] text-[#0A4D68] hover:scale-105 active:scale-95'
               }`}
             >
-              {isLoadingStatus ? <Loader2 className="animate-spin" size={20} /> : attendanceMarked ? 'Present' : 'Check In'}
+              {isLoadingStatus ? (
+                <Loader2 className="animate-spin" size={20} />
+              ) : attendanceMarked ? (
+                <div className="flex items-center gap-2"><CheckCircle size={18} /> Checked In</div>
+              ) : (
+                'Check In'
+              )}
             </Button>
           </Card>
         </header>
@@ -169,9 +207,15 @@ export default function InternDashboard() {
         <Card className="p-8 rounded-[2rem] bg-[#0A4D68] text-white border-none shadow-xl">
           <h3 className="font-bold text-lg mb-4">Program Progress</h3>
           <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
-             <motion.div initial={{ width: 0 }} animate={{ width: '40%' }} className="h-full bg-[#86C232]" />
+             <motion.div 
+               initial={{ width: 0 }} 
+               animate={{ width: `${Math.min((parseFloat(totalHours)/200)*100, 100)}%` }} 
+               className="h-full bg-[#86C232]" 
+             />
           </div>
-          <p className="mt-4 text-sm text-white/60">40% of Internship Completed</p>
+          <p className="mt-4 text-sm text-white/60">
+            {Math.min(((parseFloat(totalHours)/200)*100), 100).toFixed(1)}% of Internship Completed
+          </p>
         </Card>
       </main>
     </div>
