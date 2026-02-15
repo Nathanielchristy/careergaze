@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { 
   Calendar, CheckCircle, GraduationCap, LayoutGrid, 
@@ -11,9 +11,8 @@ import {
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-
-// YOUR NEW URL
-const ATTENDANCE_API_URL = "https://script.google.com/macros/s/AKfycbwcC_ihJoNF8Y8424IbWVY41_H5CEgzmAL2YPXcqOeGjvaZ9v8nC2JKv7RMJM5jurCtvw/exec"
+// UPDATE THIS URL
+const ATTENDANCE_API_URL = "https://script.google.com/macros/s/AKfycbzek8RhvWTHBY2HJJDuqgt1T_mDd84CY4ztGL7aH1MCzisZBMga16SKuosdWKcE0TCa/exec"
 
 export default function InternDashboard() {
   const router = useRouter()
@@ -26,7 +25,6 @@ export default function InternDashboard() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoadingStatus, setIsLoadingStatus] = useState(true)
   const [currentTime, setCurrentTime] = useState('')
-  const [totalHours, setTotalHours] = useState('0')
 
   useEffect(() => {
     const loggedIn = localStorage.getItem('isLoggedIn')
@@ -54,15 +52,15 @@ export default function InternDashboard() {
         redirect: 'follow'
       })
       const data = await res.json()
-      
       if (data.status === "Present") {
         setAttendanceMarked(true)
-      }
-      if (data.totalHours !== undefined) {
-        setTotalHours(data.totalHours.toString())
+        localStorage.setItem('lastAttendanceDate', new Date().toLocaleDateString())
       }
     } catch (e) {
       console.error("Sync error:", e)
+      if (localStorage.getItem('lastAttendanceDate') === new Date().toLocaleDateString()) {
+        setAttendanceMarked(true)
+      }
     } finally {
       setIsLoadingStatus(false)
     }
@@ -85,10 +83,9 @@ export default function InternDashboard() {
       })
 
       setAttendanceMarked(true)
-      // Refresh hours locally after checking in (optional: call checkServerStatus again)
-      setTotalHours((prev) => (parseFloat(prev) + 8).toString())
+      localStorage.setItem('lastAttendanceDate', new Date().toLocaleDateString())
     } catch (error) {
-      alert("Failed to connect. Check your internet.")
+      alert("Failed to connect. Check your internet or AdBlocker.")
     } finally {
       setIsSubmitting(false)
     }
@@ -122,10 +119,20 @@ export default function InternDashboard() {
           <GraduationCap className="text-[#86C232]" size={28} />
           <span className="text-xl font-bold">Careergize</span>
         </div>
-        <nav className="space-y-2 flex-1 mt-8 lg:mt-0">
-          <Link href="/dashboard"><SidebarItem icon={<LayoutGrid size={20} />} label="My Workspace" active /></Link>
-          <Link href="/dashboard/notes"><SidebarItem icon={<FileText size={20} />} label="Learning Notes" /></Link>
-          <Link href="/dashboard/interntask"><SidebarItem icon={<CheckSquare size={20} />} label="Tasks & Projects" /></Link>
+          <nav className="space-y-2 flex-1 mt-8 lg:mt-0">
+          <Link href="/dashboard">
+            <SidebarItem icon={<LayoutGrid size={20} />} label="My Workspace" active />
+          </Link>
+          
+          <Link href="/dashboard/notes">
+            <SidebarItem icon={<FileText size={20} />} label="Learning Notes" />
+          </Link>
+
+          {/* REDIRECTS TO INTERNTASK PAGE */}
+          <Link href="/dashboard/interntask">
+            <SidebarItem icon={<CheckSquare size={20} />} label="Tasks & Projects" />
+          </Link>
+
           <SidebarItem icon={<MessageSquare size={20} />} label="Mentor Chat" />
           <SidebarItem icon={<Award size={20} />} label="Final Certification" />
         </nav>
@@ -163,7 +170,7 @@ export default function InternDashboard() {
           <StatBox title="Status" value={attendanceMarked ? "Active" : "Pending"} icon={<Calendar size={18}/>} />
           <StatBox title="Tasks" value="12" icon={<CheckSquare size={18}/>} />
           <StatBox title="Grade" value="A-" icon={<Award size={18}/>} />
-          <StatBox title="Total Hours" value={isLoadingStatus ? "..." : `${totalHours}h`} icon={<Clock size={18}/>} />
+          <StatBox title="Hours" value="92h" icon={<Clock size={18}/>} />
         </div>
 
         <Card className="p-8 rounded-[2rem] bg-[#0A4D68] text-white border-none shadow-xl">
