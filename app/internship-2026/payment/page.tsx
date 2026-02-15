@@ -81,7 +81,7 @@ export default function PaymentPage() {
           </div>
           <h2 className="text-3xl font-black text-[#0A4D68] mb-4 text-balance">Details Logged</h2>
           <p className="text-slate-500 font-medium mb-8 text-sm text-balance">
-            Hi {studentInfo?.fullName?.split(' ')[0] || 'there'}, your Transaction ID has been submitted. Verification will be completed within 24-48 hours.
+            Hi {studentInfo?.fullName?.split(' ')[0] || 'there'}, your Transaction ID has been submitted. Verification will be completed within 1-24 hours.
           </p>
           <Link href="/"><Button className="w-full h-14 bg-[#0A4D68] text-[#86C232] rounded-2xl font-black">EXIT PORTAL</Button></Link>
         </motion.div>

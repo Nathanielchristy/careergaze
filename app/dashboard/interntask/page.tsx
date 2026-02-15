@@ -146,7 +146,7 @@ export default function InternTaskPage() {
         <nav className="space-y-2 flex-1 mt-8 lg:mt-0">
           <Link href="/dashboard"><SidebarItem icon={<LayoutGrid size={20} />} label="My Workspace" /></Link>
           <Link href="/dashboard/notes"><SidebarItem icon={<FileText size={20} />} label="Learning Notes" /></Link>
-          <Link href="/dashboard/interntask"><SidebarItem icon={<CheckSquare size={20} />} label="Tasks & Projects" active /></Link>
+          <Link href="/dashboard/interntask"><SidebarItem icon={<CheckSquare size={20} />} label="Tasks & Projects"/></Link>
           <SidebarItem icon={<MessageSquare size={20} />} label="Mentor Chat" />
           <SidebarItem icon={<Award size={20} />} label="Final Certification" />
         </nav>

@@ -5,62 +5,66 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { 
-  Search, BookOpen, FileText, PlayCircle, 
+  Search, FileText, PlayCircle, 
   Download, Star, Clock, GraduationCap, LayoutGrid,
-  CheckSquare, MessageSquare, Award, LogOut, Menu, X
+  CheckSquare, MessageSquare, Award, LogOut, Menu, X, ArrowLeft
 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
 /* =====================
-   MOCK DATA
+   MOCK DATA (Updated)
 ===================== */
 const NOTES = [
   {
-    id: '1',
-    title: 'Advanced State Management',
-    category: 'React',
-    description: 'Deep dive into useReducer, Context API, and Zustand patterns.',
-    updated: '2 hours ago',
-    type: 'PDF',
-    color: 'bg-blue-500',
+    id: 'python-vid-1',
+    title: 'Python Learning Reference Video',
+    category: 'Backend',
+    description: 'Comprehensive guide to Python fundamentals and advanced concepts for backend development.',
+    updated: 'Just now',
+    type: 'Video',
+    videoUrl: 'https://www.youtube.com/embed/K5KVEU3aaeQ?si=UzXMAGO5_dJE8hZh',
+    color: 'bg-red-500',
     featured: true
   },
   {
-    id: '2',
-    title: 'Database Schema Design',
-    category: 'Backend',
-    description: 'Normalization vs Denormalization and scaling PostgreSQL.',
-    updated: 'Yesterday',
+    id: '1',
+    title: 'HTML CSS Learning Reference Video',
+    category:'Frontend',
+    description: 'Comprehensive guide to Python fundamentals and advanced concepts for backend development.',
+    updated: 'Just now',
     type: 'Video',
-    color: 'bg-purple-500',
-    featured: false
+    videoUrl:'https://www.youtube.com/embed/Ney9znuEn_U?si=3cDBVNzqdNTRUzQu',
+    color: 'bg-red-500',
+    featured: true
   },
-  {
-    id: '3',
-    title: 'Modern CSS Frameworks',
-    category: 'UI/UX',
-    description: 'Why Tailwind is winning and how to use Radix UI.',
-    updated: '3 days ago',
-    type: 'Article',
-    color: 'bg-pink-500',
-    featured: false
-  }
-]
+  
+{
+    id: 'Django-vid-1',
+    title: 'Django Framework Learning Reference Video',
+    category: 'Backend',
+    description: 'Comprehensive guide to Django fundamentals and advanced concepts for backend development.',
+    updated: 'Just now',
+    type: 'Video',
+    videoUrl: 'https://www.youtube.com/embed/HRLIEgwYSHc?si=eXbr7ykfS_cCa9wQ',
+    color: 'bg-red-500',
+    featured: true
+  },
 
+]
 
 export default function LearningNotesPage() {
   const router = useRouter()
   const [activeCategory, setActiveCategory] = useState('All')
-  const [searchQuery, setSearchQuery] = useState('') // New search state
+  const [searchQuery, setSearchQuery] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
- const handleLogout = () => {
+  const handleLogout = () => {
     localStorage.clear()
     router.push('/login')
   }
-  // Combined Filter Logic: Category + Search Query
+
   const filteredNotes = useMemo(() => {
     return NOTES.filter((note) => {
       const matchesCategory = activeCategory === 'All' || note.category === activeCategory;
@@ -102,21 +106,17 @@ export default function LearningNotesPage() {
           <span className="text-xl font-bold tracking-tight text-white">Careergize</span>
         </div>
 
-        <nav className="space-y-2 flex-1 mt-8 lg:mt-0">
-          <Link href="/dashboard">
-            <SidebarItem icon={<LayoutGrid size={20} />} label="My Workspace" />
-          </Link>
-          <SidebarItem icon={<FileText size={20} />} label="Learning Notes" active />
-          <Link href='interntask'>
-            <SidebarItem icon={<CheckSquare size={20} />} label="Tasks & Projects" />
-          </Link>
-          
+          <nav className="space-y-2 flex-1 mt-8 lg:mt-0">
+          <Link href="/dashboard"><SidebarItem icon={<LayoutGrid size={20} />} label="My Workspace" /></Link>
+          <Link href="/dashboard/notes"><SidebarItem icon={<FileText size={20} />} label="Learning Notes" /></Link>
+          <Link href="/dashboard/interntask"><SidebarItem icon={<CheckSquare size={20} />} label="Tasks & Projects"/></Link>
           <SidebarItem icon={<MessageSquare size={20} />} label="Mentor Chat" />
           <SidebarItem icon={<Award size={20} />} label="Final Certification" />
         </nav>
         
-         <div className="mt-auto pt-6 border-t border-white/10">
-                  <SidebarItem icon={<LogOut size={20} />} label="Logout" onClick={handleLogout} />
+        
+        <div className="mt-auto pt-6 border-t border-white/10">
+          <SidebarItem icon={<LogOut size={20} />} label="Logout" onClick={handleLogout} />
         </div>
       </aside>
 
@@ -133,7 +133,7 @@ export default function LearningNotesPage() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
               <Input 
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)} // Update search state
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search topics, keywords..." 
                 className="pl-12 h-14 bg-white border-none shadow-sm rounded-2xl ring-1 ring-slate-100 focus-visible:ring-[#86C232]"
               />
@@ -158,7 +158,7 @@ export default function LearningNotesPage() {
           ))}
         </div>
 
-        {/* SEARCH RESULTS COUNT & GRID */}
+        {/* SEARCH RESULTS GRID */}
         {filteredNotes.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredNotes.map((note) => (
@@ -219,44 +219,86 @@ function SidebarItem({ icon, label, active, onClick }: any) {
 }
 
 function NoteCard({ note }: { note: any }) {
+  const [isPlaying, setIsPlaying] = useState(false)
+
   return (
     <motion.div whileHover={{ y: -8 }} transition={{ type: 'spring', stiffness: 300 }}>
-      <Card className="h-full border-none shadow-sm hover:shadow-xl transition-shadow bg-white rounded-[2.5rem] p-8 flex flex-col group">
-        <div className="flex justify-between items-start mb-6">
-          <div className={`p-4 rounded-2xl ${note.color} text-white shadow-lg`}>
-            {note.type === 'Video' ? <PlayCircle size={24} /> : <FileText size={24} />}
+      <Card className="h-full border-none shadow-sm hover:shadow-xl transition-shadow bg-white rounded-[2.5rem] p-8 flex flex-col group overflow-hidden">
+        
+        {/* VIDEO PLAYER MODE */}
+        {isPlaying && note.videoUrl ? (
+          <div className="flex flex-col h-full animate-in fade-in zoom-in duration-300">
+            <div className="flex justify-between items-center mb-4">
+              <button 
+                onClick={() => setIsPlaying(false)} 
+                className="flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-[#0A4D68] transition-colors"
+              >
+                <ArrowLeft size={14} /> Back to Details
+              </button>
+              <span className="text-[10px] font-black text-red-500 uppercase tracking-widest bg-red-50 px-2 py-1 rounded-md">
+                Playing
+              </span>
+            </div>
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black ring-4 ring-slate-50">
+              <iframe 
+                width="100%" 
+                height="100%" 
+                src={note.videoUrl} 
+                title={note.title}
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerPolicy="strict-origin-when-cross-origin" 
+                allowFullScreen
+              ></iframe>
+            </div>
+            <h3 className="text-lg font-bold text-[#0A4D68] mt-4 line-clamp-1">{note.title}</h3>
+            <p className="text-xs text-slate-400 mt-1">Resource Type: YouTube Reference</p>
           </div>
-          {note.featured && (
-            <span className="flex items-center gap-1 text-[10px] font-black text-amber-500 bg-amber-50 px-2 py-1 rounded-full uppercase">
-              <Star size={10} fill="currentColor" /> Essential
-            </span>
-          )}
-        </div>
+        ) : (
+          /* STANDARD INFO MODE */
+          <>
+            <div className="flex justify-between items-start mb-6">
+              <div className={`p-4 rounded-2xl ${note.color} text-white shadow-lg`}>
+                {note.type === 'Video' ? <PlayCircle size={24} /> : <FileText size={24} />}
+              </div>
+              {note.featured && (
+                <span className="flex items-center gap-1 text-[10px] font-black text-amber-500 bg-amber-50 px-2 py-1 rounded-full uppercase">
+                  <Star size={10} fill="currentColor" /> Essential
+                </span>
+              )}
+            </div>
 
-        <div className="flex-1">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{note.category}</span>
-          <h3 className="text-xl font-bold text-[#0A4D68] mt-1 mb-3 group-hover:text-[#86C232] transition-colors">
-            {note.title}
-          </h3>
-          <p className="text-sm text-slate-500 leading-relaxed mb-6 line-clamp-2">
-            {note.description}
-          </p>
-        </div>
+            <div className="flex-1">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{note.category}</span>
+              <h3 className="text-xl font-bold text-[#0A4D68] mt-1 mb-3 group-hover:text-[#86C232] transition-colors">
+                {note.title}
+              </h3>
+              <p className="text-sm text-slate-500 leading-relaxed mb-6 line-clamp-2">
+                {note.description}
+              </p>
+            </div>
 
-        <div className="pt-6 border-t border-slate-50 flex items-center justify-between mt-auto">
-          <div className="flex items-center gap-2 text-slate-400">
-            <Clock size={14} />
-            <span className="text-[10px] font-medium">{note.updated}</span>
-          </div>
-          <div className="flex gap-2">
-            <Button size="icon" variant="ghost" className="rounded-full text-slate-400 hover:text-[#86C232] hover:bg-[#86C232]/10">
-              <Download size={18} />
-            </Button>
-            <Button className="rounded-xl bg-[#F8FAFC] text-[#0A4D68] hover:bg-[#86C232] hover:text-[#0A4D68] border-none font-bold text-xs px-5">
-              Open
-            </Button>
-          </div>
-        </div>
+            <div className="pt-6 border-t border-slate-50 flex items-center justify-between mt-auto">
+              <div className="flex items-center gap-2 text-slate-400">
+                <Clock size={14} />
+                <span className="text-[10px] font-medium">{note.updated}</span>
+              </div>
+              <div className="flex gap-2">
+                {note.type !== 'Video' && (
+                  <Button size="icon" variant="ghost" className="rounded-full text-slate-400 hover:text-[#86C232] hover:bg-[#86C232]/10">
+                    <Download size={18} />
+                  </Button>
+                )}
+                <Button 
+                  onClick={() => note.type === 'Video' && note.videoUrl ? setIsPlaying(true) : null}
+                  className="rounded-xl bg-[#F8FAFC] text-[#0A4D68] hover:bg-[#86C232] hover:text-[#0A4D68] border-none font-bold text-xs px-5"
+                >
+                  {note.type === 'Video' ? 'Watch Now' : 'Open'}
+                </Button>
+              </div>
+            </div>
+          </>
+        )}
       </Card>
     </motion.div>
   )
