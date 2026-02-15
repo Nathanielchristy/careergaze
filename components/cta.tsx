@@ -161,7 +161,7 @@ export default function CTA() {
                     className="w-full h-15 bg-slate-900 hover:bg-[#005A8D] text-white font-black text-xl rounded-2xl transition-all duration-500 group mt-4 border-none shadow-2xl relative overflow-hidden"
                   >
                     <span className="relative z-10 flex items-center justify-center">
-                      {isSubmitting ? "Initiating..." : "Sumbit"}
+                      {isSubmitting ? "Initiating..." : "Submit"}
                       <ArrowUpRight className="ml-3 w-6 h-6 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                     </span>
                     {/* Hover Gradient Effect */}
