@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { 
-  ShieldCheck, CheckCircle2, ArrowLeft, Loader2, Copy, Check, Hash 
+  ShieldCheck, CheckCircle2, ArrowLeft, Loader2, Copy, Check, Hash, AlertCircle 
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -19,10 +19,11 @@ export default function PaymentPage() {
   const [isUploading, setIsUploading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [txnId, setTxnId] = useState('')
+  const [error, setError] = useState('')
   const [copied, setCopied] = useState(false)
   const [studentInfo, setStudentInfo] = useState<any>(null)
 
-  // Load the full object from the enrollment step
+  // Load user data from previous step
   useEffect(() => {
     const stored = localStorage.getItem('internshipData')
     if (!stored) {
@@ -39,14 +40,23 @@ export default function PaymentPage() {
   }
 
   const handleFinish = async () => {
+    setError('')
+    
+    // 1. Check if empty
     if (!txnId.trim()) {
-      alert("Please enter the Transaction ID to continue.")
+      setError("Please enter the Transaction ID.")
+      return
+    }
+
+    // 2. Validate for exactly 12 digits (Standard UPI UTR length)
+    const utrRegex = /^\d{12}$/
+    if (!utrRegex.test(txnId.trim())) {
+      setError("Transaction number not valid. Must be exactly 12 digits.")
       return
     }
     
     setIsUploading(true)
 
-    // Spread the existing studentInfo so we don't lose College, Track, Phone, etc.
     const payload = {
       ...studentInfo,
       status: "Verifying Transaction",
@@ -55,6 +65,7 @@ export default function PaymentPage() {
     }
 
     try {
+      // Use standard fetch (Note: mode 'no-cors' prevents reading the response body, but sends data to Google Apps Script)
       await fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -66,7 +77,7 @@ export default function PaymentPage() {
       setIsSuccess(true)
     } catch (err) {
       console.error("Upload error:", err)
-      alert("Submission failed. Please check your connection.")
+      setError("Submission failed. Please check your internet connection.")
     } finally {
       setIsUploading(false)
     }
@@ -141,24 +152,40 @@ export default function PaymentPage() {
             </div>
 
             <div className="space-y-4">
-              <Label className="text-[10px] font-black uppercase text-slate-400 tracking-widest ml-1">UPI Transaction ID (UTR)</Label>
+              <Label className={`text-[10px] font-black uppercase tracking-widest ml-1 ${error ? 'text-red-500' : 'text-slate-400'}`}>
+                UPI Transaction ID (UTR)
+              </Label>
               <div className="relative group">
-                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#86C232] transition-colors">
+                <div className={`absolute left-5 top-1/2 -translate-y-1/2 transition-colors ${error ? 'text-red-400' : 'text-slate-300 group-focus-within:text-[#86C232]'}`}>
                   <Hash size={20} />
                 </div>
                 <Input 
                   type="text" 
+                  inputMode="numeric"
                   placeholder="e.g. 412300998811"
                   value={txnId}
-                  onChange={(e) => setTxnId(e.target.value)}
-                  className="h-16 pl-14 bg-white border-2 border-slate-100 rounded-2xl font-bold text-lg focus:border-[#86C232] transition-all shadow-inner text-black"
+                  maxLength={12}
+                  onChange={(e) => {
+                    setError('')
+                    // Only allow numbers to be typed
+                    const value = e.target.value.replace(/\D/g, "");
+                    setTxnId(value);
+                  }}
+                  className={`h-16 pl-14 bg-white border-2 rounded-2xl font-bold text-lg transition-all shadow-inner text-black ${
+                    error ? 'border-red-500 focus:ring-red-500' : 'border-slate-100 focus:border-[#86C232]'
+                  }`}
                 />
               </div>
+              {error && (
+                <p className="flex items-center gap-1.5 text-red-500 text-[11px] font-bold mt-1 ml-1 animate-in slide-in-from-top-1">
+                  <AlertCircle size={14} /> {error}
+                </p>
+              )}
             </div>
 
             <Button 
               onClick={handleFinish} 
-              disabled={!txnId || isUploading} 
+              disabled={isUploading} 
               className="w-full h-20 bg-[#0A4D68] hover:bg-black text-[#86C232] rounded-[2rem] text-xl font-black shadow-lg shadow-black/10 transition-all disabled:opacity-50"
             >
               {isUploading ? (
