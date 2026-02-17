@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { 
   ArrowLeft, CheckCircle2, Cpu, Stethoscope, BookOpen, 
   Building2, DollarSign, Palette, ExternalLink, ShieldCheck, 
-  Target, Zap, X 
+  Target, Zap, X, Info, LogIn, ClipboardCheck, Rocket
 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -33,7 +33,6 @@ const InternshipPopup = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
-    // Show popup after 1.5 seconds
     const timer = setTimeout(() => setIsOpen(true), 1500)
     return () => clearTimeout(timer)
   }, [])
@@ -76,24 +75,69 @@ const InternshipPopup = () => {
                 <span className="text-[#86C232]">Started!</span>
               </h2>
               
-              <p className="text-slate-500 mb-8 text-sm leading-relaxed">
-                Join the Careergize Elite Internship 2026. Hands-on projects, expert mentorship, and industry certification await.
+              <p className="text-slate-500 mb-6 text-sm leading-relaxed">
+                Join the Careergize Elite Internship 2026. Hands-on projects and industry certification await.
               </p>
 
-            <div className="flex flex-col gap-4 w-full"> {/* Added flex container with gap */}
-  <Link href="/register" className="w-full">
-    <Button className="w-full bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white h-14 rounded-xl font-bold text-lg shadow-lg">
-      Register Now
-    </Button>
-  </Link>
-  
-  <Link href="/internship-2026/enronllment" className="w-full">
-    <Button className="w-full bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white h-14 rounded-xl font-bold text-lg shadow-lg">
-      Enroll Now
-    </Button>
-  </Link>
-</div>
+              {/* --- NEW: STEPS INFO SECTION --- */}
+              <div className="bg-slate-50 rounded-2xl p-4 mb-8 border border-slate-100">
+                <div className="flex items-center gap-2 mb-4 text-[#0A4D68] font-bold text-sm">
+                  <Info size={16} className="text-[#86C232]" />
+                  How to Enroll (3 Simple Steps)
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="flex gap-3">
+                    <div className="flex flex-col items-center">
+                      <div className="w-6 h-6 rounded-full bg-[#0A4D68] text-white text-[10px] flex items-center justify-center font-bold">1</div>
+                      <div className="w-0.5 h-full bg-slate-200 my-1"></div>
+                    </div>
+                    <div className="pb-2">
+                      <p className="text-xs font-bold text-[#0A4D68]">Register</p>
+                      <p className="text-[11px] text-slate-500">Create your basic profile first.</p>
+                    </div>
+                  </div>
 
+                  <div className="flex gap-3">
+                    <div className="flex flex-col items-center">
+                      <div className="w-6 h-6 rounded-full bg-[#0A4D68] text-white text-[10px] flex items-center justify-center font-bold">2</div>
+                      <div className="w-0.5 h-full bg-slate-200 my-1"></div>
+                    </div>
+                    <div className="pb-2">
+                      <p className="text-xs font-bold text-[#0A4D68]">Enroll</p>
+                      <p className="text-[11px] text-slate-500">Complete the internship application.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="w-6 h-6 rounded-full bg-[#86C232] text-white text-[10px] flex items-center justify-center font-bold">3</div>
+                    <div>
+                      <p className="text-xs font-bold text-[#0A4D68]">Access Dashboard</p>
+                      <p className="text-[11px] text-slate-500">Login to start your journey.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3 w-full">
+                <Link href="/register" className="w-full">
+                  <Button className="w-full bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white h-12 rounded-xl font-bold text-md shadow-md flex gap-2">
+                    <ClipboardCheck size={18} /> Step 1: Register
+                  </Button>
+                </Link>
+                
+                <Link href="/internship-2026/enrollment" className="w-full">
+                  <Button variant="outline" className="w-full border-2 border-[#0A4D68] text-[#0A4D68] hover:bg-[#0A4D68] hover:text-white h-12 rounded-xl font-bold text-md flex gap-2">
+                    <Rocket size={18} /> Step 2: Enroll Now
+                  </Button>
+                </Link>
+
+                <Link href="/login" className="w-full">
+                  <Button variant="ghost" className="w-full text-slate-500 hover:text-[#86C232] h-10 font-bold text-sm flex gap-2">
+                    <LogIn size={16} /> Already Enrolled? Login to Dashboard
+                  </Button>
+                </Link>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -252,9 +296,9 @@ export default function CollegeAdmissionPage() {
                 </ul>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Link href="/internship-2026/enronllment">
+                <Link href="/internship-2026/enrollment">
                   <Button size="lg" className="bg-[#86C232] hover:bg-white hover:text-[#0A4D68] text-[#0A4D68] font-black rounded-2xl h-16 px-10 transition-all border-none">
-                    Entroll Now <ExternalLink className="ml-2" size={20} />
+                    Enroll Now <ExternalLink className="ml-2" size={20} />
                   </Button>
                 </Link>
               </div>
@@ -297,12 +341,12 @@ export default function CollegeAdmissionPage() {
         <div className="max-w-4xl mx-auto">
           <FadeIn>
             <div className="p-12 rounded-[2.5rem] bg-slate-50 border border-slate-100 relative overflow-hidden">
-               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#86C232] to-transparent" />
-               <h2 className="text-4xl font-bold text-[#0A4D68] mb-4 tracking-tight">Ready to Begin Your Journey?</h2>
-               <p className="text-lg text-slate-500 mb-10 max-w-xl mx-auto">
-                 Connect with our experts for personalized college admission and career guidance today.
-               </p>
-               <Link href="/book-consultation">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#86C232] to-transparent" />
+              <h2 className="text-4xl font-bold text-[#0A4D68] mb-4 tracking-tight">Ready to Begin Your Journey?</h2>
+              <p className="text-lg text-slate-500 mb-10 max-w-xl mx-auto">
+                Connect with our experts for personalized college admission and career guidance today.
+              </p>
+              <Link href="/book-consultation">
                 <Button size="lg" className="bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white px-12 rounded-full h-16 font-bold text-lg shadow-xl shadow-[#0A4D68]/20">
                   Get Free Consultation
                 </Button>
