@@ -7,14 +7,25 @@ import Link from 'next/link'
 import { 
   Search, FileText, PlayCircle, 
   Download, Star, Clock, GraduationCap, LayoutGrid,
-  CheckSquare, MessageSquare, Award, LogOut, Menu, X, ArrowLeft
+  CheckSquare, MessageSquare, Award, LogOut, Menu, X, ArrowLeft, Send
 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { useToast } from "@/components/ui/use-toast"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 /* =====================
-   MOCK DATA (Updated)
+   MOCK DATA (Updated with Python GFG & Others)
 ===================== */
 const NOTES = [
   {
@@ -29,54 +40,28 @@ const NOTES = [
     featured: true
   },
   {
-    id: '1',
-    title: 'HTML CSS Learning Reference Video',
-    category:'Frontend',
-    description: 'Comprehensive guide to Python fundamentals and advanced concepts for backend development.',
-    updated: 'Just now',
-    type: 'Video',
-    videoUrl:'https://www.youtube.com/embed/Ney9znuEn_U?si=3cDBVNzqdNTRUzQu',
-    color: 'bg-red-500',
-    featured: true
-  },
-  {
     id: 'python-gfg-notes',
     title: 'Python Introduction & Documentation',
     category: 'Backend',
     description: 'Master Python basics through GeeksforGeeks documentation. Covers variables, data types, and control flow.',
     updated: '2 days ago',
-    type: 'Link', // Changed type to handle external link
+    type: 'Link',
     externalUrl: 'https://www.geeksforgeeks.org/python/introduction-to-python/',
     color: 'bg-green-600',
     featured: false
   },
-  
   {
     id: 'django-gfg-notes',
     title: 'Django Introduction & Documentation',
     category: 'Backend',
     description: 'Master Django basics through GeeksforGeeks documentation. Covers models, views, and templates.',
     updated: '2 days ago',
-    type: 'Link', // Changed type to handle external link
+    type: 'Link',
     externalUrl: 'https://www.geeksforgeeks.org/python/django-tutorial/',
     color: 'bg-green-600',
     featured: false
   },
-    
   {
-    id: 'react-w3schools-notes',
-    title: 'React Learning Reference Notes',
-    category: 'Frontend',
-    description: 'Comprehensive guide to React fundamentals and advanced concepts for frontend development.',
-    updated: 'Just now',
-    type: 'Link', // Changed type to handle external link
-    externalUrl: 'https://www.w3schools.com/react/default.asp',
-    color: 'bg-green-600',
-    featured: false
-  },
-
-
-{
     id: 'Django-vid-1',
     title: 'Django Framework Learning Reference Video',
     category: 'Backend',
@@ -87,18 +72,60 @@ const NOTES = [
     color: 'bg-red-500',
     featured: true
   },
-
+  {
+    id: '1',
+    title: 'HTML CSS Learning Reference Video',
+    category: 'Frontend',
+    description: 'Master the building blocks of the web with this HTML and CSS reference guide.',
+    updated: 'Just now',
+    type: 'Video',
+    videoUrl: 'https://www.youtube.com/embed/Ney9znuEn_U?si=3cDBVNzqdNTRUzQu',
+    color: 'bg-red-500',
+    featured: true
+  },
+  {
+    id: 'react-w3schools-notes',
+    title: 'React Learning Reference Notes',
+    category: 'Frontend',
+    description: 'Comprehensive guide to React fundamentals and hooks for modern frontend development.',
+    updated: 'Just now',
+    type: 'Link',
+    externalUrl: 'https://www.w3schools.com/react/default.asp',
+    color: 'bg-blue-500',
+    featured: false
+  }
 ]
 
 export default function LearningNotesPage() {
   const router = useRouter()
+  const { toast } = useToast()
+  
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  
+  // Request Topic State
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [requestTopic, setRequestTopic] = useState('')
 
   const handleLogout = () => {
     localStorage.clear()
     router.push('/login')
+  }
+
+  const handleRequestSubmit = () => {
+    if (!requestTopic.trim()) return;
+    
+    // Simulate API Call
+    console.log("Requesting topic:", requestTopic)
+    
+    toast({
+      title: "Request Received!",
+      description: "Thank you for your interest. Our team will add this topic soon!",
+    })
+
+    setRequestTopic('')
+    setIsDialogOpen(false)
   }
 
   const filteredNotes = useMemo(() => {
@@ -144,12 +171,11 @@ export default function LearningNotesPage() {
 
          <nav className="space-y-2 flex-1 mt-8 lg:mt-0">
           <Link href="/dashboard"><SidebarItem icon={<LayoutGrid size={20} />} label="My Workspace" /></Link>
-          <Link href="/dashboard/notes"><SidebarItem icon={<FileText size={20} />} label="Learning Notes" /></Link>
-          <Link href="/dashboard/interntask"><SidebarItem icon={<CheckSquare size={20} />} label="Tasks & Projects"  /></Link>
-         <Link href='/menter-chat/'><SidebarItem icon={<MessageSquare size={20} />} label="Mentor Chat" /></Link>
+          <Link href="/dashboard/notes"><SidebarItem icon={<FileText size={20} />} label="Learning Notes" active /></Link>
+          <Link href="/dashboard/interntask"><SidebarItem icon={<CheckSquare size={20} />} label="Tasks & Projects" /></Link>
+          <Link href='/menter-chat/'><SidebarItem icon={<MessageSquare size={20} />} label="Mentor Chat" /></Link>
           <SidebarItem icon={<Award size={20} />} label="Final Certification" />
         </nav>
-        
         
         <div className="mt-auto pt-6 border-t border-white/10">
           <SidebarItem icon={<LogOut size={20} />} label="Logout" onClick={handleLogout} />
@@ -208,24 +234,48 @@ export default function LearningNotesPage() {
             </div>
             <h3 className="text-lg font-bold">No notes found</h3>
             <p className="text-slate-500 text-sm">Try adjusting your search or category filter.</p>
-            <Button 
-              variant="link" 
-              onClick={() => {setSearchQuery(''); setActiveCategory('All')}}
-              className="text-[#86C232] mt-2 font-bold"
-            >
-              Clear all filters
-            </Button>
           </div>
         )}
 
-        {/* FOOTER SECTION */}
+        {/* FOOTER SECTION WITH DIALOG */}
         <section className="mt-20 p-10 bg-[#0A4D68] rounded-[2.5rem] md:rounded-[4rem] text-center text-white relative overflow-hidden shadow-2xl">
           <div className="relative z-10">
             <h2 className="text-2xl md:text-3xl font-bold mb-2">Can't find what you're looking for?</h2>
             <p className="text-white/60 mb-8 text-sm max-w-lg mx-auto">Request a specific topic or ask your mentor for custom documentation.</p>
-            <Button className="bg-[#86C232] text-[#0A4D68] font-black rounded-xl px-10 h-14 hover:scale-105 transition-transform uppercase tracking-wider text-xs">
-              Request New Topic
-            </Button>
+            
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="bg-[#86C232] text-[#0A4D68] font-black rounded-xl px-10 h-14 hover:scale-105 transition-transform uppercase tracking-wider text-xs">
+                  Request New Topic
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px] rounded-[2.5rem] p-8 border-none bg-white">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-black text-[#0A4D68] flex items-center gap-2">
+                    <Send className="text-[#86C232]" size={24} /> Request Content
+                  </DialogTitle>
+                  <DialogDescription className="text-slate-500 pt-2 text-base">
+                    What would you like to learn next? Our team will review your request and add the documentation.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="py-6">
+                  <Textarea 
+                    placeholder="e.g. Advanced Python Generators, Next.js Middleware, etc." 
+                    value={requestTopic}
+                    onChange={(e) => setRequestTopic(e.target.value)}
+                    className="min-h-[120px] rounded-2xl border-slate-100 bg-slate-50 focus:ring-[#86C232] text-[#0A4D68]"
+                  />
+                </div>
+                <DialogFooter>
+                  <Button 
+                    onClick={handleRequestSubmit}
+                    className="w-full bg-[#0A4D68] hover:bg-black text-white font-bold h-14 rounded-2xl text-lg shadow-xl"
+                  >
+                    Send Request
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#86C232]/10 rounded-full blur-[100px] -mr-32 -mt-32" />
         </section>
@@ -257,12 +307,11 @@ function SidebarItem({ icon, label, active, onClick }: any) {
 function NoteCard({ note }: { note: any }) {
   const [isPlaying, setIsPlaying] = useState(false)
 
-  // Function to handle the action button
   const handleAction = () => {
     if (note.type === 'Video' && note.videoUrl) {
       setIsPlaying(true);
     } else if (note.type === 'Link' && note.externalUrl) {
-      window.open(note.externalUrl, '_blank'); // Opens GFG in a new tab
+      window.open(note.externalUrl, '_blank');
     }
   }
 
@@ -270,37 +319,20 @@ function NoteCard({ note }: { note: any }) {
     <motion.div whileHover={{ y: -8 }} transition={{ type: 'spring', stiffness: 300 }}>
       <Card className="h-full border-none shadow-sm hover:shadow-xl transition-shadow bg-white rounded-[2.5rem] p-8 flex flex-col group overflow-hidden">
         
-        {/* VIDEO PLAYER MODE */}
         {isPlaying && note.videoUrl ? (
           <div className="flex flex-col h-full animate-in fade-in zoom-in duration-300">
             <div className="flex justify-between items-center mb-4">
-              <button 
-                onClick={() => setIsPlaying(false)} 
-                className="flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-[#0A4D68] transition-colors"
-              >
-                <ArrowLeft size={14} /> Back to Details
+              <button onClick={() => setIsPlaying(false)} className="flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-[#0A4D68]">
+                <ArrowLeft size={14} /> Back
               </button>
-              <span className="text-[10px] font-black text-red-500 uppercase tracking-widest bg-red-50 px-2 py-1 rounded-md">
-                Playing
-              </span>
+              <span className="text-[10px] font-black text-red-500 uppercase tracking-widest bg-red-50 px-2 py-1 rounded-md">Playing</span>
             </div>
-            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black ring-4 ring-slate-50">
-              <iframe 
-                width="100%" 
-                height="100%" 
-                src={note.videoUrl} 
-                title={note.title}
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerPolicy="strict-origin-when-cross-origin" 
-                allowFullScreen
-              ></iframe>
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black">
+              <iframe width="100%" height="100%" src={note.videoUrl} title={note.title} frameBorder="0" allowFullScreen></iframe>
             </div>
-            <h3 className="text-lg font-bold text-[#0A4D68] mt-4 line-clamp-1">{note.title}</h3>
-            <p className="text-xs text-slate-400 mt-1">Resource Type: YouTube Reference</p>
+            <h3 className="text-lg font-bold text-[#0A4D68] mt-4">{note.title}</h3>
           </div>
         ) : (
-          /* STANDARD INFO MODE */
           <>
             <div className="flex justify-between items-start mb-6">
               <div className={`p-4 rounded-2xl ${note.color} text-white shadow-lg`}>
@@ -315,12 +347,8 @@ function NoteCard({ note }: { note: any }) {
 
             <div className="flex-1">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{note.category}</span>
-              <h3 className="text-xl font-bold text-[#0A4D68] mt-1 mb-3 group-hover:text-[#86C232] transition-colors">
-                {note.title}
-              </h3>
-              <p className="text-sm text-slate-500 leading-relaxed mb-6 line-clamp-2">
-                {note.description}
-              </p>
+              <h3 className="text-xl font-bold text-[#0A4D68] mt-1 mb-3 group-hover:text-[#86C232] transition-colors">{note.title}</h3>
+              <p className="text-sm text-slate-500 leading-relaxed mb-6 line-clamp-2">{note.description}</p>
             </div>
 
             <div className="pt-6 border-t border-slate-50 flex items-center justify-between mt-auto">
@@ -329,16 +357,11 @@ function NoteCard({ note }: { note: any }) {
                 <span className="text-[10px] font-medium">{note.updated}</span>
               </div>
               <div className="flex gap-2">
-                {note.type !== 'Video' && note.type !== 'Link' && (
-                  <Button size="icon" variant="ghost" className="rounded-full text-slate-400 hover:text-[#86C232] hover:bg-[#86C232]/10">
-                    <Download size={18} />
-                  </Button>
-                )}
                 <Button 
                   onClick={handleAction}
                   className="rounded-xl bg-[#F8FAFC] text-[#0A4D68] hover:bg-[#86C232] hover:text-[#0A4D68] border-none font-bold text-xs px-5"
                 >
-                  {note.type === 'Video' ? 'Watch Now' : note.type === 'Link' ? 'Read Notes' : 'Open'}
+                  {note.type === 'Video' ? 'Watch Now' : 'Read Notes'}
                 </Button>
               </div>
             </div>
