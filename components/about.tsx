@@ -123,7 +123,7 @@ export default function KineticAbout() {
               <Plus size={32} />
             </div>
             {/* Hover effect background */}
-            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duraton-500" />
           </div>
 
           <div className="bg-[#0f172a] p-8 rounded-[2rem] border border-slate-800 flex flex-col justify-between">
