@@ -39,7 +39,43 @@ const NOTES = [
     color: 'bg-red-500',
     featured: true
   },
+  {
+    id: 'python-gfg-notes',
+    title: 'Python Introduction & Documentation',
+    category: 'Backend',
+    description: 'Master Python basics through GeeksforGeeks documentation. Covers variables, data types, and control flow.',
+    updated: '2 days ago',
+    type: 'Link', // Changed type to handle external link
+    externalUrl: 'https://www.geeksforgeeks.org/python/introduction-to-python/',
+    color: 'bg-green-600',
+    featured: false
+  },
   
+  {
+    id: 'django-gfg-notes',
+    title: 'Django Introduction & Documentation',
+    category: 'Backend',
+    description: 'Master Django basics through GeeksforGeeks documentation. Covers models, views, and templates.',
+    updated: '2 days ago',
+    type: 'Link', // Changed type to handle external link
+    externalUrl: 'https://www.geeksforgeeks.org/python/django-tutorial/',
+    color: 'bg-green-600',
+    featured: false
+  },
+    
+  {
+    id: 'react-w3schools-notes',
+    title: 'React Learning Reference Notes',
+    category: 'Frontend',
+    description: 'Comprehensive guide to React fundamentals and advanced concepts for frontend development.',
+    updated: 'Just now',
+    type: 'Link', // Changed type to handle external link
+    externalUrl: 'https://www.w3schools.com/react/default.asp',
+    color: 'bg-green-600',
+    featured: false
+  },
+
+
 {
     id: 'Django-vid-1',
     title: 'Django Framework Learning Reference Video',
@@ -221,6 +257,15 @@ function SidebarItem({ icon, label, active, onClick }: any) {
 function NoteCard({ note }: { note: any }) {
   const [isPlaying, setIsPlaying] = useState(false)
 
+  // Function to handle the action button
+  const handleAction = () => {
+    if (note.type === 'Video' && note.videoUrl) {
+      setIsPlaying(true);
+    } else if (note.type === 'Link' && note.externalUrl) {
+      window.open(note.externalUrl, '_blank'); // Opens GFG in a new tab
+    }
+  }
+
   return (
     <motion.div whileHover={{ y: -8 }} transition={{ type: 'spring', stiffness: 300 }}>
       <Card className="h-full border-none shadow-sm hover:shadow-xl transition-shadow bg-white rounded-[2.5rem] p-8 flex flex-col group overflow-hidden">
@@ -284,16 +329,16 @@ function NoteCard({ note }: { note: any }) {
                 <span className="text-[10px] font-medium">{note.updated}</span>
               </div>
               <div className="flex gap-2">
-                {note.type !== 'Video' && (
+                {note.type !== 'Video' && note.type !== 'Link' && (
                   <Button size="icon" variant="ghost" className="rounded-full text-slate-400 hover:text-[#86C232] hover:bg-[#86C232]/10">
                     <Download size={18} />
                   </Button>
                 )}
                 <Button 
-                  onClick={() => note.type === 'Video' && note.videoUrl ? setIsPlaying(true) : null}
+                  onClick={handleAction}
                   className="rounded-xl bg-[#F8FAFC] text-[#0A4D68] hover:bg-[#86C232] hover:text-[#0A4D68] border-none font-bold text-xs px-5"
                 >
-                  {note.type === 'Video' ? 'Watch Now' : 'Open'}
+                  {note.type === 'Video' ? 'Watch Now' : note.type === 'Link' ? 'Read Notes' : 'Open'}
                 </Button>
               </div>
             </div>
