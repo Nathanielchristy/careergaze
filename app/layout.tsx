@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation" // <--- 1. ADDED THIS IMPORT
 import "./globals.css"
 import WhatsAppChat from "@/components/WhatsAppChat"
 import SplashScreen from "@/components/SplashScreen"
-import FloatingBot from "@/components/FloatingBot"
+// import FloatingBot from "@/components/FloatingBot"
 
 const geist = Geist({ subsets: ["latin"] })
 const geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -43,8 +43,8 @@ export default function RootLayout({
               
               {/* 4. CONDITIONAL RENDERING */}
               {/* This ensures the bot only appears on the home page */}  
-              {isHomePage && <FloatingBot />} 
-              
+              {/* {isHomePage && <FloatingBot />} 
+               */}
               <WhatsAppChat />
               <Analytics />
             </motion.div>

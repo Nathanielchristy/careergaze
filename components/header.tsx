@@ -1,10 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Menu, X, ArrowRight } from "lucide-react"
+import { Menu, X, ArrowRight, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import Link from "next/link" // Import Link for page navigation
+import Link from "next/link"
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -40,32 +40,33 @@ export default function Header() {
     }
   }
 
-  // Navigation Links Data
+  // UPDATED Navigation Links Data
   const navLinks = [
     { name: "Home", id: "about", type: "scroll" },
     { name: "Services", id: "services", type: "scroll" },
+    { name: "Careers", href: "/careers", type: "link" }, // Added Careers
     { name: "Why Us", id: "why", type: "scroll" },
     { name: "How It Works", id: "how", type: "scroll" },
-    { name: "Login", href: "/login", type: "link" } // Changed to a link type
+    { name: "Login", href: "/login", type: "link" }
   ]
 
   return (
     <header 
-      className={`sticky top-0 z-50 transition-all duration-500 ${
+      className={`sticky top-0 z-[100] transition-all duration-500 ${
         scrolled 
-          ? "bg-white/90 backdrop-blur-xl border-b border-slate-100 shadow-sm py-2" 
+          ? "bg-white/80 backdrop-blur-xl border-b border-slate-100 shadow-sm py-2" 
           : "bg-white border-transparent py-4"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           
-          {/* Enhanced Logo Section */}
+          {/* Logo Section */}
           <div 
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="flex items-center gap-4 group cursor-pointer"
           >
-            <div className="relative w-12 h-12 md:w-14 md:h-14 p-0.5 rounded-2xl bg-gradient-to-tr from-blue-600 to-blue-400 shadow-blue-200 shadow-lg group-hover:shadow-blue-300 transition-all duration-500 group-hover:rotate-3">
+            <div className="relative w-12 h-12 md:w-14 md:h-14 p-0.5 rounded-2xl bg-gradient-to-tr from-[#005A8D] to-[#22C55E] shadow-blue-100 shadow-lg group-hover:shadow-[#A7FF00]/20 transition-all duration-500 group-hover:rotate-3">
               <div className="relative w-full h-full overflow-hidden rounded-[14px] bg-white">
                 <Image 
                   src="/logo.jpeg" 
@@ -75,36 +76,38 @@ export default function Header() {
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
-              <span className="absolute inset-0 rounded-2xl bg-blue-400 animate-ping opacity-0 group-hover:opacity-20 transition-opacity duration-700"></span>
             </div>
             
             <div className="flex flex-col">
               <span className="font-black text-xl md:text-2xl tracking-tighter text-slate-900 leading-none">
-                Careergize<span className="text-blue-600">.</span>
+                Careergize<span className="text-[#22C55E]">.</span>
               </span>
             </div>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-10">
+          <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               link.type === "scroll" ? (
                 <button
                   key={link.id}
                   onClick={() => scrollToSection(link.id!)}
-                  className="text-sm font-bold text-slate-500 hover:text-blue-600 transition-all duration-300 relative group"
+                  className="text-xs font-black uppercase tracking-widest text-slate-500 hover:text-[#005A8D] transition-all duration-300 relative group"
                 >
                   {link.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#A7FF00] group-hover:w-full transition-all duration-300" />
                 </button>
               ) : (
                 <Link
                   key={link.href}
                   href={link.href!}
-                  className="text-sm font-bold text-slate-500 hover:text-blue-600 transition-all duration-300 relative group"
+                  className={`text-xs font-black uppercase tracking-widest transition-all duration-300 relative group flex items-center gap-1 ${
+                    link.featured ? "text-[#22C55E]" : "text-slate-500 hover:text-[#005A8D]"
+                  }`}
                 >
                   {link.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300" />
+                  {link.featured && <Sparkles size={12} className="animate-pulse" />}
+                  <span className={`absolute -bottom-1 left-0 w-0 h-0.5 ${link.featured ? "bg-[#22C55E]" : "bg-[#005A8D]"} group-hover:w-full transition-all duration-300`} />
                 </Link>
               )
             ))}
@@ -114,7 +117,7 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-4">
             <Button
               onClick={() => scrollToSection("cta")}
-              className="bg-slate-900 hover:bg-blue-600 text-white rounded-2xl px-8 py-6 h-auto font-black tracking-tight transition-all shadow-xl shadow-slate-200 flex items-center gap-2 group border-none"
+              className="bg-[#005A8D] hover:bg-slate-900 text-white rounded-2xl px-8 py-6 h-auto font-black tracking-tighter transition-all shadow-xl shadow-blue-50 flex items-center gap-2 group border-none"
             >
               Consult Now
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -134,7 +137,7 @@ export default function Header() {
         {/* Mobile Navigation Menu */}
         <div 
           className={`md:hidden absolute left-0 right-0 bg-white border-b border-slate-100 transition-all duration-500 ease-in-out overflow-hidden shadow-2xl ${
-            isOpen ? "max-h-[600px] opacity-100 py-8" : "max-h-0 opacity-0 py-0"
+            isOpen ? "max-h-[700px] opacity-100 py-8" : "max-h-0 opacity-0 py-0"
           }`}
         >
           <div className="flex flex-col gap-6 px-6">
@@ -143,7 +146,7 @@ export default function Header() {
                 <button
                   key={link.id}
                   onClick={() => scrollToSection(link.id!)}
-                  className="text-2xl font-black text-slate-900 hover:text-blue-600 transition-colors text-left lowercase tracking-tighter"
+                  className="text-3xl font-black text-slate-900 hover:text-[#22C55E] transition-colors text-left tracking-tighter"
                 >
                   {link.name}
                 </button>
@@ -151,17 +154,24 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href!}
-                  className="text-2xl font-black text-slate-900 hover:text-blue-600 transition-colors text-left lowercase tracking-tighter"
+                  onClick={() => setIsOpen(false)}
+                  className={`text-3xl font-black transition-colors text-left tracking-tighter flex items-center gap-2 ${
+                    link.featured ? "text-[#22C55E]" : "text-slate-900"
+                  }`}
                 >
                   {link.name}
+                  {link.featured && <span className="text-[10px] bg-[#A7FF00] text-slate-900 px-2 py-1 rounded-lg uppercase tracking-widest">Hiring</span>}
                 </Link>
               )
             ))}
             <Button
-              onClick={() => scrollToSection("cta")}
-              className="bg-blue-600 hover:bg-blue-700 text-white rounded-2xl w-full py-7 mt-4 font-black text-lg shadow-xl shadow-blue-100"
+              onClick={() => {
+                setIsOpen(false);
+                scrollToSection("cta");
+              }}
+              className="bg-[#005A8D] hover:bg-slate-900 text-white rounded-2xl w-full py-8 mt-4 font-black text-xl shadow-xl shadow-blue-50"
             >
-              Get Free Consultation
+              Free Consultation
             </Button>
           </div>
         </div>

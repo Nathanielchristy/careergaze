@@ -1,136 +1,140 @@
 "use client"
 
 import { 
-  Rocket, ShieldCheck, Zap, ArrowRight, 
-  Code2, GraduationCap, Building2, 
-  Cpu, Network, BarChart3, Globe2, Plus, 
-  TrendingUp, Layers
+  ArrowUpRight, 
+  ChevronRight, 
+  Fingerprint, 
+  Globe, 
+  Lock, 
+  Maximize, 
+  Zap,
+  Activity,
+  Command,
+  Plus
 } from "lucide-react";
 import { motion } from "framer-motion";
 
-export default function About() {
+export default function KineticAbout() {
   return (
-    <section id="about" className="py-32 bg-[#fafafa] text-slate-900 relative overflow-hidden">
-      {/* Brand Aesthetic: Subtle top-right glow using Logo Lime */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#A7FF00]/10 blur-[120px] rounded-full pointer-events-none" />
+    <section id="about" className="py-24 lg:py-44 bg-[#020617] text-white relative overflow-hidden">
+      {/* Dynamic Background Grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20" />
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
-        {/* HEADER SECTION: THE BRAND SYNERGY */}
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-16 mb-32">
-          <div className="max-w-4xl">
+        {/* TOP TIER: BRAND PHILOSOPHY */}
+        <div className="flex flex-col lg:flex-row gap-12 lg:items-end justify-between mb-32">
+          <div className="max-w-3xl">
             <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-3 mb-8"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#A7FF00]/10 border border-[#A7FF00]/20 text-[#A7FF00] text-xs font-bold tracking-widest uppercase mb-6"
             >
-               <div className="w-12 h-[2px] bg-[#005A8D]" />
-               <span className="text-xs font-black uppercase tracking-[0.4em] text-[#005A8D]">Foundational Identity</span>
+              <Activity size={14} /> The Careergize Standard
             </motion.div>
-            
-            <h2 className="text-6xl lg:text-[100px] font-black tracking-tighter leading-[0.85] text-slate-900">
-              Engineering <br /> 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#005A8D] via-[#22C55E] to-[#A7FF00]">
-                Total Synergy.
-              </span>
+            <h2 className="text-6xl lg:text-8xl font-black tracking-[ -0.04em] leading-none mb-8">
+              Protocol for <br />
+              <span className="text-[#A7FF00]">Hyper-Growth.</span>
             </h2>
           </div>
-          <div className="lg:max-w-xs lg:pt-10">
-             <p className="text-slate-500 text-lg leading-relaxed font-medium border-l-4 border-[#22C55E] pl-6">
-               Careergize architects the bridge between <span className="text-slate-900 font-bold">raw technical talent</span> and <span className="text-slate-900 font-bold">corporate excellence</span>.
-             </p>
+          <div className="lg:max-w-sm pb-4">
+            <p className="text-slate-400 text-lg leading-relaxed border-l border-slate-800 pl-8">
+              We bridge the gap between <span className="text-white font-semibold">theoretical code</span> and <span className="text-white font-semibold">deployed impact</span>. Our framework is engineered to scale human capital at the speed of the market.
+            </p>
           </div>
         </div>
 
-        {/* BENTO GRID: BRANDED SOLUTIONS */}
-        <div className="grid lg:grid-cols-12 gap-6">
+        {/* MIDDLE TIER: FEATURE ARCHITECTURE */}
+        <div className="grid lg:grid-cols-3 gap-1px bg-slate-800 border border-slate-800 rounded-[2.5rem] overflow-hidden shadow-2xl">
           
-          {/* PRIMARY CARD: THE ECOSYSTEM (Deep Corporate Blue Focus) */}
-          <div className="lg:col-span-7 bg-[#005A8D] text-white rounded-[3rem] p-12 relative overflow-hidden shadow-2xl shadow-[#005A8D]/20 group">
+          {/* Card 1: SEO & Authority */}
+          <div className="bg-[#020617] p-12 hover:bg-slate-900/50 transition-colors group">
+            <div className="mb-20 flex justify-between items-start">
+              <div className="w-12 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-[#A7FF00]">
+                <Globe size={20} />
+              </div>
+              <ArrowUpRight className="text-slate-700 group-hover:text-[#A7FF00] transition-colors" />
+            </div>
+            <h3 className="text-2xl font-black mb-4 uppercase tracking-tighter">Algorithmic <br />Dominance</h3>
+            <p className="text-slate-500 text-sm leading-relaxed mb-8">
+              Beyond simple keywords. We deploy semantic mapping and technical SEO audits to ensure your digital presence commands the first page.
+            </p>
+            <div className="flex gap-2">
+              <span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-900 border border-slate-800 text-slate-400">INDEXING</span>
+              <span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-900 border border-slate-800 text-slate-400">SEMANTICS</span>
+            </div>
+          </div>
+
+          {/* Card 2: Development & Systems */}
+          <div className="bg-[#020617] p-12 hover:bg-slate-900/50 transition-colors group relative">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-[1px] bg-gradient-to-r from-transparent via-[#22C55E] to-transparent" />
+            <div className="mb-20 flex justify-between items-start">
+              <div className="w-12 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-[#22C55E]">
+                <Command size={20} />
+              </div>
+              <ArrowUpRight className="text-slate-700 group-hover:text-[#22C55E] transition-colors" />
+            </div>
+            <h3 className="text-2xl font-black mb-4 uppercase tracking-tighter">Enterprise <br />Buildouts</h3>
+            <p className="text-slate-500 text-sm leading-relaxed mb-8">
+              Custom software solutions designed for high-concurrency and global scale. We build the tools that internal corporate teams rely on.
+            </p>
+            <div className="flex gap-2">
+              <span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-900 border border-slate-800 text-slate-400">NEXT.JS</span>
+              <span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-900 border border-slate-800 text-slate-400">AWS</span>
+            </div>
+          </div>
+
+          {/* Card 3: Placement & Talent */}
+          <div className="bg-[#020617] p-12 hover:bg-slate-900/50 transition-colors group">
+            <div className="mb-20 flex justify-between items-start">
+              <div className="w-12 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-[#005A8D]">
+                <Fingerprint size={20} />
+              </div>
+              <ArrowUpRight className="text-slate-700 group-hover:text-[#005A8D] transition-colors" />
+            </div>
+            <h3 className="text-2xl font-black mb-4 uppercase tracking-tighter">Strategic <br />Onboarding</h3>
+            <p className="text-slate-500 text-sm leading-relaxed mb-8">
+              Our mentorship pipeline isn't a course—it's a corporate simulation. We produce candidates that Tier-1 companies compete for.
+            </p>
+            <div className="flex gap-2">
+              <span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-900 border border-slate-800 text-slate-400">B2B RELATIONS</span>
+              <span className="text-[10px] font-bold px-2 py-1 rounded bg-slate-900 border border-slate-800 text-slate-400">PLACEMENT</span>
+            </div>
+          </div>
+        </div>
+
+        {/* BOTTOM TIER: DATA-DRIVEN VALIDATION */}
+        <div className="mt-12 grid lg:grid-cols-4 gap-6">
+          <div className="bg-[#0f172a] p-8 rounded-[2rem] border border-slate-800 flex flex-col justify-between">
+            <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">Global Reach</span>
+            <div className="mt-4">
+              <h4 className="text-4xl font-black text-white">10+</h4>
+              <p className="text-slate-500 text-xs">Countries Served</p>
+            </div>
+          </div>
+          
+          <div className="bg-[#A7FF00] p-8 rounded-[2rem] border border-slate-800 lg:col-span-2 flex items-center justify-between group cursor-pointer overflow-hidden relative">
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 mb-12 backdrop-blur-md">
-                <Layers size={14} className="text-[#A7FF00]" />
-                <span className="text-[10px] font-bold uppercase tracking-widest">Unified Framework</span>
-              </div>
-              
-              <h3 className="text-4xl font-black mb-6 tracking-tight">Technical Ecosystem Architecture</h3>
-              <p className="text-blue-100/80 text-xl max-w-lg leading-relaxed mb-10">
-                We build high-performance SEO portfolios and custom enterprise solutions that function as <span className="text-[#A7FF00] font-bold underline decoration-2 underline-offset-4">competitive assets.</span>
-              </p>
-              
-              <div className="flex items-center gap-6">
-                 <div className="flex -space-x-3">
-                    {[1,2,3].map(i => (
-                      <div key={i} className="w-10 h-10 rounded-full border-2 border-[#005A8D] bg-slate-200" />
-                    ))}
-                 </div>
-                 <span className="text-xs font-bold text-blue-200 uppercase tracking-tighter">Joined by 100+ High Achievers</span>
-              </div>
+              <h4 className="text-slate-900 text-3xl font-black tracking-tighter uppercase leading-none">
+                Start the <br />Acceleration
+              </h4>
             </div>
-            {/* Abstract Vector */}
-            <Cpu size={350} className="absolute -bottom-10 -right-10 text-white/5 rotate-12 group-hover:rotate-0 transition-transform duration-1000" />
+            <div className="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center text-[#A7FF00] group-hover:scale-110 transition-transform relative z-10">
+              <Plus size={32} />
+            </div>
+            {/* Hover effect background */}
+            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
           </div>
 
-          {/* SECONDARY CARD: SEO DOMINANCE (Lime Focus) */}
-          <div className="lg:col-span-5 bg-white border-2 border-slate-100 rounded-[3rem] p-12 flex flex-col justify-between hover:border-[#A7FF00]/50 transition-all duration-500 shadow-xl shadow-slate-200/50">
-            <div>
-              <div className="w-16 h-16 rounded-2xl bg-[#A7FF00] flex items-center justify-center mb-8 shadow-lg shadow-[#A7FF00]/30">
-                <TrendingUp className="text-slate-900" size={32} />
-              </div>
-              <h3 className="text-3xl font-black leading-tight mb-4">Digital Dominance</h3>
-              <p className="text-slate-500 font-medium text-lg leading-snug">
-                SEO is not an afterthought. We engineer search authority into your digital DNA, ensuring you lead the conversation.
-              </p>
-            </div>
-            
-            <div className="mt-8 flex items-center justify-between bg-slate-50 p-4 rounded-2xl border border-slate-100">
-               <span className="text-sm font-black text-[#005A8D]">RANKING POTENTIAL</span>
-               <div className="h-2 w-24 bg-slate-200 rounded-full overflow-hidden">
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "95%" }}
-                    className="h-full bg-[#22C55E]" 
-                  />
-               </div>
-               <span className="text-xs font-bold text-[#22C55E]">95%</span>
+          <div className="bg-[#0f172a] p-8 rounded-[2rem] border border-slate-800 flex flex-col justify-between">
+            <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">Efficiency Rate</span>
+            <div className="mt-4">
+              <h4 className="text-4xl font-black text-white">98%</h4>
+              <p className="text-slate-500 text-xs">Project Completion</p>
             </div>
           </div>
-
-          {/* PILLAR TRIO: USING LOGO GREEN & BLUE */}
-          {[
-            { icon: <Network size={28} />, color: "#22C55E", title: "Global Network", desc: "Connecting talent to tier-1 corporate breakthroughs." },
-            { icon: <BarChart3 size={28} />, color: "#005A8D", title: "Analytics First", desc: "Data-driven roadmaps to bypass career plateaus." },
-            { icon: <Code2 size={28} />, color: "#A7FF00", title: "Elite Code", desc: "Custom software built for the future of work." }
-          ].map((item, i) => (
-            <div key={i} className="lg:col-span-4 bg-white p-10 rounded-[2.5rem] border border-slate-100 hover:shadow-2xl hover:shadow-slate-200 transition-all group">
-               <div 
-                 className="w-12 h-12 rounded-xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform"
-                 style={{ backgroundColor: `${item.color}15`, color: item.color }}
-               >
-                 {item.icon}
-               </div>
-               <h4 className="text-xl font-black mb-3">{item.title}</h4>
-               <p className="text-slate-500 text-sm font-medium leading-relaxed">{item.desc}</p>
-            </div>
-          ))}
         </div>
 
-        {/* FOOTER CTA: HIGH-IMPACT GRADIENT */}
-        <div className="mt-32 p-1 rounded-[3rem] bg-gradient-to-r from-[#005A8D] via-[#22C55E] to-[#A7FF00]">
-           <div className="bg-white rounded-[2.9rem] px-10 py-16 flex flex-col md:flex-row items-center justify-between gap-10">
-              <div className="text-center md:text-left">
-                 <h4 className="text-3xl md:text-5xl font-black tracking-tighter mb-4">
-                   Ready to <span className="text-[#005A8D]">Energize</span> your future?
-                 </h4>
-                 <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Join the Careergize Collective Today</p>
-              </div>
-              
-              <button className="px-12 py-6 bg-[#005A8D] text-white font-black rounded-2xl hover:bg-slate-900 transition-all flex items-center gap-4 shadow-xl shadow-[#005A8D]/20">
-                 START YOUR JOURNEY
-                 <ArrowRight size={20} />
-              </button>
-           </div>
-        </div>
       </div>
     </section>
   );

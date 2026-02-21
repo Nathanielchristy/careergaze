@@ -152,10 +152,19 @@ export default function Hero() {
                 <div className="w-10 h-10 bg-[#005A8D] rounded-full flex items-center justify-center shadow-lg shadow-blue-200">
                   <Briefcase size={20} className="text-white" />
                 </div>
-                <div>
-                  <p className="text-xs font-black text-slate-400 uppercase leading-none">Openings</p>
-                  <p className="text-lg font-black text-slate-900 tracking-tighter">Apply Now</p>
-                </div>
+                <Link href="/careers" className="group flex items-center gap-3 cursor-pointer">
+  {/* Optional: Add a small decorative element to show it's clickable */}
+  <div className="w-1 h-8 bg-slate-100 group-hover:bg-[#A7FF00] transition-colors rounded-full" />
+  
+  <div>
+    <p className="text-xs font-black text-slate-400 uppercase leading-none group-hover:text-[#005A8D] transition-colors">
+      Openings
+    </p>
+    <p className="text-lg font-black text-slate-900 tracking-tighter group-hover:translate-x-1 transition-transform duration-300">
+      Apply Now
+    </p>
+  </div>
+</Link>
               </div>
 
               <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-50 flex items-center gap-3 animate-bounce-slow">
