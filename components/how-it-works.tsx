@@ -1,30 +1,30 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ArrowRight, CheckCircle2, MoveRight } from "lucide-react"
+import { CheckCircle2, ChevronRight, GraduationCap, Map, Send } from "lucide-react"
 import { useRef } from "react"
 
 const steps = [
   {
     number: "01",
-    title: "Strategic Consultation",
-    description: "Connect with our experts to audit your goals and map out your unique competitive advantages.",
-    image: "/consultation-meeting-discussion-career-goals.jpg",
-    accent: "#005A8D" // Logo Blue
+    title: "Profile Assessment",
+    description: "Our experts evaluate your academic history and extracurriculars to identify your strongest university matches.",
+    image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=800",
+    accent: "#002147" // Navy
   },
   {
     number: "02",
-    title: "The Growth Blueprint",
-    description: "We architect a personalized roadmap combining technical assets and career strategy.",
-    image: "/strategic-planning-roadmap-business-strategy.jpg",
-    accent: "#22C55E" // Mid-way Green
+    title: "Strategic Blueprint",
+    description: "We craft a personalized application roadmap, including SOP drafting and scholarship strategy.",
+    image: "https://images.unsplash.com/photo-1523050335392-93851179ae22?auto=format&fit=crop&q=80&w=800",
+    accent: "#D4AF37" // Gold
   },
   {
     number: "03",
-    title: "Guided Execution",
-    description: "Launch your strategy with end-to-end support to ensure your success is permanent.",
-    image: "/team-support-mentoring-professional-guidance.jpg",
-    accent: "#A7FF00" // Logo Lime
+    title: "Final Enrollment",
+    description: "Navigate interview prep, visa processing, and document filing with end-to-end counselor support.",
+    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=800",
+    accent: "#22C55E" // Success Green
   },
 ]
 
@@ -32,7 +32,7 @@ export default function HowItWorks() {
   const containerRef = useRef(null)
   
   return (
-    <section id="how" className="py-24 bg-white overflow-hidden" ref={containerRef}>
+    <section id="how" className="py-24 bg-[#FDFDFD] overflow-hidden" ref={containerRef}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Section Header */}
@@ -44,18 +44,18 @@ export default function HowItWorks() {
             className="max-w-2xl"
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="h-px w-12 bg-gradient-to-r from-[#005A8D] to-[#A7FF00]" />
-              <span className="text-xs font-black uppercase tracking-[0.3em] text-[#005A8D]">
-                the process
+              <div className="h-px w-12 bg-[#D4AF37]" />
+              <span className="text-xs font-bold uppercase tracking-[0.3em] text-[#002147]">
+                The Journey
               </span>
             </div>
             
-            <h3 className="text-5xl md:text-6xl font-black text-slate-900 tracking-tighter leading-none mb-8">
-              Engineered for <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#005A8D] to-[#22C55E]">Success.</span>
+            <h3 className="text-5xl md:text-6xl font-serif font-medium text-[#002147] tracking-tight leading-none mb-8">
+              Your Path to <br />
+              <span className="italic text-[#005A8D]">Acceptance.</span>
             </h3>
-            <p className="text-xl text-slate-500 font-medium max-w-lg">
-              A high-precision framework designed to take you from vision to undisputed authority.
+            <p className="text-xl text-slate-500 font-medium max-w-lg border-l-4 border-[#D4AF37] pl-6">
+              A structured, stress-free framework designed to secure your place in the world's leading institutions.
             </p>
           </motion.div>
         </div>
@@ -63,10 +63,9 @@ export default function HowItWorks() {
         {/* Steps Grid */}
         <div className="grid lg:grid-cols-3 gap-10 relative">
           
-          {/* Brand Gradient Connector Path (Desktop) */}
-          <div className="hidden lg:block absolute top-[20%] left-[10%] right-[10%] z-0 h-[2px]">
-            <div className="w-full h-full bg-gradient-to-r from-[#005A8D] via-[#22C55E] to-[#A7FF00] opacity-20" />
-            <div className="absolute top-0 left-0 w-full h-full border-b-2 border-dashed border-slate-300 opacity-30" />
+          {/* Connector Path (Desktop) */}
+          <div className="hidden lg:block absolute top-[20%] left-[10%] right-[10%] z-0 h-[1px]">
+            <div className="w-full h-full border-b-2 border-dashed border-slate-200" />
           </div>
 
           {steps.map((step, index) => (
@@ -78,69 +77,61 @@ export default function HowItWorks() {
               transition={{ duration: 0.5, delay: index * 0.15 }}
               className="group relative z-10"
             >
-              <div className="relative bg-white rounded-[3rem] border border-slate-50 p-6 transition-all duration-500 hover:shadow-[0_40px_80px_-20px_rgba(0,90,141,0.08)]">
+              <div className="relative bg-white rounded-[2.5rem] border border-slate-100 p-5 transition-all duration-500 hover:shadow-2xl">
                 
-                {/* Image Section with Logo-Gradient Frame */}
-                <div className="relative h-64 w-full rounded-[2.2rem] overflow-hidden mb-8 border-4 border-white shadow-sm">
+                {/* Image Section */}
+                <div className="relative h-72 w-full rounded-[2rem] overflow-hidden mb-8 border border-slate-50">
                   <motion.img
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.6 }}
+                    whileHover={{ scale: 1.08 }}
+                    transition={{ duration: 0.8 }}
                     src={step.image}
                     alt={step.title}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                    className="w-full h-full object-cover transition-all duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#002147]/60 via-transparent to-transparent" />
                   
                   {/* Floating Step Number */}
                   <div 
-                    className="absolute top-4 left-4 px-4 py-2 rounded-2xl backdrop-blur-md text-white font-black text-sm border border-white/20"
-                    style={{ backgroundColor: `${step.accent}cc` }}
+                    className="absolute top-4 left-4 w-12 h-12 rounded-xl backdrop-blur-md flex items-center justify-center text-white font-bold text-lg border border-white/20"
+                    style={{ backgroundColor: `${step.accent}dd` }}
                   >
                     {step.number}
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="px-4 space-y-4">
+                <div className="px-4 pb-4 space-y-4">
                   <div className="flex items-center justify-between">
-                    <h4 className="text-2xl font-black text-slate-900 tracking-tight transition-colors group-hover:text-[#005A8D]">
+                    <h4 className="text-2xl font-bold text-[#002147] tracking-tight">
                       {step.title}
                     </h4>
                     <div 
-                      className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 opacity-20 group-hover:opacity-100"
+                      className="w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500"
                       style={{ color: step.accent }}
                     >
                       <CheckCircle2 size={24} />
                     </div>
                   </div>
-                  <p className="text-slate-500 font-medium leading-relaxed text-base">
+                  <p className="text-slate-500 font-medium leading-relaxed text-sm">
                     {step.description}
                   </p>
                 </div>
-
-                {/* Action Link Footer */}
-               
               </div>
 
               {/* Mobile Transition Icon */}
               {index < steps.length - 1 && (
                 <div className="lg:hidden flex justify-center py-6 text-slate-200">
-                  <ArrowRight className="rotate-90" size={32} style={{ color: step.accent }} />
+                  <ChevronRight className="rotate-90" size={32} />
                 </div>
               )}
             </motion.div>
           ))}
         </div>
 
-        {/* Brand Bottom Indicator */}
-        <div className="mt-24 h-2 w-full bg-slate-50 rounded-full overflow-hidden relative">
-          <motion.div 
-            initial={{ width: 0 }}
-            whileInView={{ width: "100%" }}
-            viewport={{ once: true }}
-            className="absolute inset-0 bg-gradient-to-r from-[#005A8D] via-[#22C55E] to-[#A7FF00]"
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-          />
+        {/* Bottom CTA Indicator */}
+        <div className="mt-20 flex flex-col items-center gap-6">
+          <div className="h-px w-24 bg-slate-200" />
+          <p className="text-[#002147] font-bold text-sm tracking-widest uppercase">Start your application today</p>
         </div>
       </div>
     </section>
