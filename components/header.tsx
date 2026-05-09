@@ -40,11 +40,10 @@ export default function Header() {
     }
   }
 
-  // UPDATED Navigation Links Data
   const navLinks = [
     { name: "Home", id: "about", type: "scroll" },
     { name: "Services", id: "services", type: "scroll" },
-    { name: "Careers", href: "/careers", type: "link" }, // Added Careers
+    { name: "Careers", href: "/careers", type: "link" },
     { name: "Why Us", id: "why", type: "scroll" },
     { name: "How It Works", id: "how", type: "scroll" },
     { name: "Login", href: "/login", type: "link" }
@@ -54,8 +53,8 @@ export default function Header() {
     <header 
       className={`sticky top-0 z-[100] transition-all duration-500 ${
         scrolled 
-          ? "bg-white/80 backdrop-blur-xl border-b border-slate-100 shadow-sm py-2" 
-          : "bg-white border-transparent py-4"
+          ? "bg-[#0B0E14]/80 backdrop-blur-xl border-b border-white/5 py-3" 
+          : "bg-[#0B0E14] border-transparent py-5"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,10 +63,10 @@ export default function Header() {
           {/* Logo Section */}
           <div 
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="flex items-center gap-4 group cursor-pointer"
+            className="flex items-center gap-3 group cursor-pointer"
           >
-            <div className="relative w-12 h-12 md:w-14 md:h-14 p-0.5 rounded-2xl bg-gradient-to-tr from-[#005A8D] to-[#22C55E] shadow-blue-100 shadow-lg group-hover:shadow-[#A7FF00]/20 transition-all duration-500 group-hover:rotate-3">
-              <div className="relative w-full h-full overflow-hidden rounded-[14px] bg-white">
+            <div className="relative w-10 h-10 md:w-11 md:h-11 p-0.5 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 shadow-cyan-500/10 shadow-lg group-hover:shadow-cyan-500/30 transition-all duration-500">
+              <div className="relative w-full h-full overflow-hidden rounded-[10px] bg-slate-900">
                 <Image 
                   src="/logo.jpeg" 
                   alt="Careergize logo" 
@@ -79,8 +78,8 @@ export default function Header() {
             </div>
             
             <div className="flex flex-col">
-              <span className="font-black text-xl md:text-2xl tracking-tighter text-slate-900 leading-none">
-                Careergize<span className="text-[#22C55E]">.</span>
+              <span className="font-black text-xl md:text-2xl tracking-tighter text-white leading-none">
+                Careergize<span className="text-cyan-400">.</span>
               </span>
             </div>
           </div>
@@ -92,22 +91,19 @@ export default function Header() {
                 <button
                   key={link.id}
                   onClick={() => scrollToSection(link.id!)}
-                  className="text-xs font-black uppercase tracking-widest text-slate-500 hover:text-[#005A8D] transition-all duration-300 relative group"
+                  className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 hover:text-white transition-all duration-300 relative group"
                 >
                   {link.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#A7FF00] group-hover:w-full transition-all duration-300" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 group-hover:w-full transition-all duration-300" />
                 </button>
               ) : (
                 <Link
                   key={link.href}
                   href={link.href!}
-                  className={`text-xs font-black uppercase tracking-widest transition-all duration-300 relative group flex items-center gap-1 ${
-                    link.featured ? "text-[#22C55E]" : "text-slate-500 hover:text-[#005A8D]"
-                  }`}
+                  className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 hover:text-white transition-all duration-300 relative group flex items-center gap-1"
                 >
                   {link.name}
-                  {link.featured && <Sparkles size={12} className="animate-pulse" />}
-                  <span className={`absolute -bottom-1 left-0 w-0 h-0.5 ${link.featured ? "bg-[#22C55E]" : "bg-[#005A8D]"} group-hover:w-full transition-all duration-300`} />
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 group-hover:w-full transition-all duration-300" />
                 </Link>
               )
             ))}
@@ -117,36 +113,36 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-4">
             <Button
               onClick={() => scrollToSection("cta")}
-              className="bg-[#005A8D] hover:bg-slate-900 text-white rounded-2xl px-8 py-6 h-auto font-black tracking-tighter transition-all shadow-xl shadow-blue-50 flex items-center gap-2 group border-none"
+              className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-xl px-6 h-11 font-bold tracking-tight transition-all shadow-lg shadow-cyan-500/10 flex items-center gap-2 group border-none"
             >
               Consult Now
-              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="md:hidden p-3 bg-slate-50 rounded-xl text-slate-900 transition-colors" 
+            className="md:hidden p-2.5 bg-slate-800/50 rounded-xl text-white transition-colors" 
             onClick={() => setIsOpen(!isOpen)} 
             aria-label="Toggle menu"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {isOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
 
         {/* Mobile Navigation Menu */}
         <div 
-          className={`md:hidden absolute left-0 right-0 bg-white border-b border-slate-100 transition-all duration-500 ease-in-out overflow-hidden shadow-2xl ${
-            isOpen ? "max-h-[700px] opacity-100 py-8" : "max-h-0 opacity-0 py-0"
+          className={`md:hidden absolute left-0 right-0 bg-[#0B0E14] border-b border-white/5 transition-all duration-500 ease-in-out overflow-hidden shadow-2xl ${
+            isOpen ? "max-h-[700px] opacity-100 py-10" : "max-h-0 opacity-0 py-0"
           }`}
         >
-          <div className="flex flex-col gap-6 px-6">
+          <div className="flex flex-col gap-8 px-8">
             {navLinks.map((link) => (
                link.type === "scroll" ? (
                 <button
                   key={link.id}
                   onClick={() => scrollToSection(link.id!)}
-                  className="text-3xl font-black text-slate-900 hover:text-[#22C55E] transition-colors text-left tracking-tighter"
+                  className="text-4xl font-black text-white hover:text-cyan-400 transition-colors text-left tracking-tighter"
                 >
                   {link.name}
                 </button>
@@ -155,12 +151,9 @@ export default function Header() {
                   key={link.href}
                   href={link.href!}
                   onClick={() => setIsOpen(false)}
-                  className={`text-3xl font-black transition-colors text-left tracking-tighter flex items-center gap-2 ${
-                    link.featured ? "text-[#22C55E]" : "text-slate-900"
-                  }`}
+                  className="text-4xl font-black text-white hover:text-cyan-400 transition-colors text-left tracking-tighter"
                 >
                   {link.name}
-                  {link.featured && <span className="text-[10px] bg-[#A7FF00] text-slate-900 px-2 py-1 rounded-lg uppercase tracking-widest">Hiring</span>}
                 </Link>
               )
             ))}
@@ -169,7 +162,7 @@ export default function Header() {
                 setIsOpen(false);
                 scrollToSection("cta");
               }}
-              className="bg-[#005A8D] hover:bg-slate-900 text-white rounded-2xl w-full py-8 mt-4 font-black text-xl shadow-xl shadow-blue-50"
+              className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-2xl w-full py-7 mt-4 font-black text-lg"
             >
               Free Consultation
             </Button>
