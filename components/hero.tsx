@@ -96,7 +96,7 @@ export default function AdmissionHero() {
               <div className="relative z-10 overflow-hidden rounded-[3rem] bg-purple-900/20 p-1">
                 <div className="rounded-[2.8rem] overflow-hidden aspect-[1/1] sm:aspect-[4/5]">
                   <img
-                    src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=800"
+                    src="/college.jpg"
                     alt="Careergize Students"
                     className="w-full h-full object-cover"
                   />
@@ -108,7 +108,7 @@ export default function AdmissionHero() {
                     <Award size={20} className="text-white" fill="currentColor" />
                   </div>
                   <div className="pr-2">
-                    <p className="text-white text-sm font-bold leading-tight">Top Rated 2024</p>
+                    <p className="text-white text-sm font-bold leading-tight">Top Rated 2026</p>
                     <p className="text-slate-400 text-[10px] font-medium tracking-wide uppercase">Industry Excellence</p>
                   </div>
                 </div>

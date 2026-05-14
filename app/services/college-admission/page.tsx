@@ -7,17 +7,12 @@ import Image from 'next/image'
 import { 
   ArrowLeft, CheckCircle2, Cpu, Stethoscope, BookOpen, 
   Building2, DollarSign, Palette, ExternalLink, ShieldCheck, 
-  Target, Zap, X, Info, LogIn, ClipboardCheck, Rocket
+  Target, Zap, X, Info, LogIn, ClipboardCheck, Rocket, MessageSquare
 } from 'lucide-react'
 import Link from 'next/link'
 
-// --- TypeScript Interface Fix ---
-interface FadeInProps {
-  children: React.ReactNode;
-  delay?: number;
-}
-
-const FadeIn: React.FC<FadeInProps> = ({ children, delay = 0 }) => (
+// --- Animation Helper ---
+const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -28,12 +23,12 @@ const FadeIn: React.FC<FadeInProps> = ({ children, delay = 0 }) => (
   </motion.div>
 )
 
-// --- Internship Popup Component ---
+// --- Branded Internship Popup ---
 const InternshipPopup = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsOpen(true), 1500)
+    const timer = setTimeout(() => setIsOpen(true), 2000)
     return () => clearTimeout(timer)
   }, [])
 
@@ -46,98 +41,52 @@ const InternshipPopup = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-[#020617]/80 backdrop-blur-md"
           />
           <motion.div 
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative bg-white rounded-[2rem] p-8 md:p-10 max-w-md w-full shadow-2xl overflow-hidden border border-slate-100"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            className="relative bg-[#0f172a] rounded-[2.5rem] p-8 md:p-10 max-w-md w-full shadow-[0_0_50px_-12px_rgba(34,197,94,0.3)] border border-white/10"
           >
-            <button 
-              onClick={() => setIsOpen(false)}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 transition-colors"
-            >
-              <X size={20} />
+            <button onClick={() => setIsOpen(false)} className="absolute top-6 right-6 text-slate-400 hover:text-white">
+              <X size={24} />
             </button>
             
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#86C232]/10 text-[#86C232] text-[10px] font-bold uppercase tracking-widest mb-6">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#86C232] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#86C232]"></span>
-                </span>
-                Registration Live
-              </div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em] mb-6 border border-emerald-500/20">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative rounded-full h-2 w-2 bg-emerald-400"></span>
+              </span>
+              Registration Live
+            </div>
 
-              <h2 className="text-3xl font-black text-[#0A4D68] leading-tight mb-4">
-                Internships <br />
-                <span className="text-[#86C232]">Started!</span>
-              </h2>
-              
-              <p className="text-slate-500 mb-6 text-sm leading-relaxed">
-                Join the Careergize Elite Internship 2026. Hands-on projects and industry certification await.
-              </p>
-
-              {/* --- NEW: STEPS INFO SECTION --- */}
-              <div className="bg-slate-50 rounded-2xl p-4 mb-8 border border-slate-100">
-                <div className="flex items-center gap-2 mb-4 text-[#0A4D68] font-bold text-sm">
-                  <Info size={16} className="text-[#86C232]" />
-                  How to Enroll (3 Simple Steps)
-                </div>
-                
-                <div className="space-y-4">
-                  <div className="flex gap-3">
-                    <div className="flex flex-col items-center">
-                      <div className="w-6 h-6 rounded-full bg-[#0A4D68] text-white text-[10px] flex items-center justify-center font-bold">1</div>
-                      <div className="w-0.5 h-full bg-slate-200 my-1"></div>
-                    </div>
-                    <div className="pb-2">
-                      <p className="text-xs font-bold text-[#0A4D68]">Register</p>
-                      <p className="text-[11px] text-slate-500">Create your basic profile first.</p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3">
-                    <div className="flex flex-col items-center">
-                      <div className="w-6 h-6 rounded-full bg-[#0A4D68] text-white text-[10px] flex items-center justify-center font-bold">2</div>
-                      <div className="w-0.5 h-full bg-slate-200 my-1"></div>
-                    </div>
-                    <div className="pb-2">
-                      <p className="text-xs font-bold text-[#0A4D68]">Enroll</p>
-                      <p className="text-[11px] text-slate-500">Complete the internship application.</p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3">
-                    <div className="w-6 h-6 rounded-full bg-[#86C232] text-white text-[10px] flex items-center justify-center font-bold">3</div>
+            <h2 className="text-4xl font-black text-white tracking-tighter leading-none mb-4">
+              Elite Internships <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Started.</span>
+            </h2>
+            
+            <div className="bg-white/5 rounded-2xl p-5 mb-8 border border-white/5">
+              <div className="space-y-4">
+                {[
+                  { step: "1", t: "Register", d: "Create your student profile." },
+                  { step: "2", t: "Enroll", d: "Apply for 2026 tracks." },
+                  { step: "3", t: "Launch", d: "Access the tech dashboard." }
+                ].map((s) => (
+                  <div key={s.step} className="flex gap-4">
+                    <div className="w-6 h-6 rounded-lg bg-cyan-500 text-black text-[10px] flex items-center justify-center font-black">{s.step}</div>
                     <div>
-                      <p className="text-xs font-bold text-[#0A4D68]">Access Dashboard</p>
-                      <p className="text-[11px] text-slate-500">Login to start your journey.</p>
+                      <p className="text-xs font-black text-white uppercase tracking-tighter">{s.t}</p>
+                      <p className="text-[11px] text-slate-400">{s.d}</p>
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
+            </div>
 
-              <div className="flex flex-col gap-3 w-full">
-                <Link href="/register" className="w-full">
-                  <Button className="w-full bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white h-12 rounded-xl font-bold text-md shadow-md flex gap-2">
-                    <ClipboardCheck size={18} /> Step 1: Register
-                  </Button>
-                </Link>
-                
-                <Link href="/internship-2026/enronllment" className="w-full">
-                  <Button variant="outline" className="w-full border-2 border-[#0A4D68] text-[#0A4D68] hover:bg-[#0A4D68] hover:text-white h-12 rounded-xl font-bold text-md flex gap-2">
-                    <Rocket size={18} /> Step 2: Enroll Now
-                  </Button>
-                </Link>
-
-                <Link href="/login" className="w-full">
-                  <Button variant="ghost" className="w-full text-slate-500 hover:text-[#86C232] h-10 font-bold text-sm flex gap-2">
-                    <LogIn size={16} /> Already Enrolled? Login to Dashboard
-                  </Button>
-                </Link>
-              </div>
+            <div className="flex flex-col gap-3">
+              <Link href="/register"><Button className="w-full bg-cyan-500 hover:bg-cyan-400 text-black h-14 rounded-2xl font-black text-lg">REGISTER NOW</Button></Link>
+              <Link href="/login"><Button variant="ghost" className="w-full text-slate-400 hover:text-white font-bold">Already enrolled? Login</Button></Link>
             </div>
           </motion.div>
         </div>
@@ -147,122 +96,83 @@ const InternshipPopup = () => {
 }
 
 export default function CollegeAdmissionPage() {
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
-
   const tracks = [
-    { icon: Cpu, title: 'Engineering', desc: 'Strategy for IITs, NITs, and IIITs. JEE/GATE specialized counseling.', highlights: ['IIT Strategy', 'Branch Selection'] },
-    { icon: Stethoscope, title: 'Medical', desc: 'Expert NEET guidance for AIIMS and top Government Medical Colleges.', highlights: ['NEET Analysis', 'MBBS/BDS Path'] },
-    { icon: DollarSign, title: 'Management', desc: 'IIM-focused profile building and roadmap for elite MBA/BBA programs.', highlights: ['CAT/GMAT Prep', 'B-School Selection'] },
-    { icon: Building2, title: 'Commerce', desc: 'Strategic entry into SRCC and premier finance and accounting institutions.', highlights: ['CA/CS Guidance', 'Eco/Commerce'] },
-    { icon: BookOpen, title: 'Nursing', desc: 'Comprehensive guidance for nursing education and career advancement.', highlights: ['B.Sc Nursing', 'Clinical Path'] },
-    { icon: Palette, title: 'Arts & Design', desc: 'Portfolio audit and coaching for NID, NIFT, and leading Liberal Arts.', highlights: ['Portfolio Audit', 'NIFT/NID Prep'] },
-  ]
-
-  const benefits = [
-    {
-      icon: Target,
-      title: 'Personalized Approach',
-      description: 'We understand that every student is unique. Our counselors tailor guidance based on your individual profile.',
-    },
-    {
-      icon: ShieldCheck,
-      title: 'Proven Track Record',
-      description: 'Hundreds of students have successfully gained admission to their dream colleges with our support.',
-    },
-    {
-      icon: Zap,
-      title: 'End-to-End Support',
-      description: 'From initial counseling to final admission, we guide you at every step of your academic journey.',
-    },
+    { icon: Cpu, title: 'Engineering', desc: 'IIT/NIT specialization. JEE/GATE counseling.', highlights: ['IIT Strategy', 'Branch Audit'] },
+    { icon: Stethoscope, title: 'Medical', desc: 'Expert NEET guidance for top medical colleges.', highlights: ['NEET Analysis', 'MBBS Path'] },
+    { icon: DollarSign, title: 'Management', desc: 'Elite B-School roadmaps and profile building.', highlights: ['CAT/GMAT Prep', 'MBA Strategy'] },
+    { icon: Building2, title: 'Commerce', desc: 'Strategic entry into SRCC and premier finance hubs.', highlights: ['CA Guidance', 'Finance Hubs'] },
+    { icon: Palette, title: 'Arts & Design', desc: 'Portfolio audit for NID, NIFT, and Liberal Arts.', highlights: ['Portfolio Audit', 'Design Coaching'] },
+    { icon: BookOpen, title: 'Nursing', desc: 'Full guidance for clinical education and careers.', highlights: ['B.Sc Nursing', 'Global Paths'] },
   ]
 
   return (
-    <div className="min-h-screen bg-white text-[#0A4D68] font-sans">
-      
+    <div className="min-h-screen bg-[#020617] text-white selection:bg-cyan-500/30">
       <InternshipPopup />
 
-      {/* 1. NAVIGATION */}
-      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 px-6 py-4">
+      {/* NAVIGATION */}
+      <nav className="sticky top-0 z-50 bg-[#020617]/80 backdrop-blur-xl border-b border-white/5 px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link href="/" className="flex items-center gap-4 group">
-            <div className="relative w-10 h-10 md:w-12 md:h-12 p-0.5 rounded-2xl bg-gradient-to-tr from-blue-600 to-blue-400 shadow-blue-200 shadow-lg group-hover:shadow-blue-300 transition-all duration-500 group-hover:rotate-3">
-              <div className="relative w-full h-full overflow-hidden rounded-[14px] bg-white">
-                <Image 
-                  src="/logo.jpeg" 
-                  alt="Careergize logo" 
-                  fill
-                  priority
-                  className="object-cover group-hover:scale-110 transition-transform duration-700"
-                />
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 relative rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 p-0.5">
+              <div className="w-full h-full bg-slate-900 rounded-[10px] overflow-hidden relative">
+                <Image src="/logo.jpeg" alt="Careergize" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
               </div>
             </div>
-            <div className="flex flex-col">
-              <span className="font-black text-xl md:text-2xl tracking-tighter text-slate-900 leading-none">
-                Careergize<span className="text-blue-600">.</span>
-              </span>
-            </div>
+            <span className="font-black text-2xl tracking-tighter text-white leading-none">Careergize<span className="text-cyan-400">.</span></span>
           </Link>
-          <Link href="/">
-            <Button variant="ghost" size="sm" className="font-bold text-[#0A4D68] hover:text-[#86C232] gap-2">
-              <ArrowLeft size={16} /> BACK
-            </Button>
-          </Link>
+          <Link href="/"><Button variant="ghost" className="font-black text-xs tracking-widest text-slate-400 hover:text-cyan-400 gap-2"><ArrowLeft size={16} /> BACK</Button></Link>
         </div>
       </nav>
 
-      {/* 2. HERO SECTION */}
-      <section className="relative pt-20 pb-24 overflow-hidden px-6">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-[#86C232]/5 -skew-x-12 translate-x-1/4" />
+      {/* HERO SECTION */}
+      <section className="relative pt-20 pb-32 px-6 overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-[120px] -mr-40 -mt-40" />
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-10">
           <FadeIn>
-            <h1 className="text-5xl lg:text-7xl font-bold tracking-tighter leading-[1.1] mb-8 text-[#0A4D68]">
-              Strategize Your <span className="text-[#86C232]">Future.</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-black uppercase tracking-[0.3em] mb-8">
+              <Target size={14} /> Global Admissions 2026
+            </div>
+            <h1 className="text-6xl lg:text-8xl font-black tracking-tighter leading-[0.9] mb-8">
+              Strategize Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Future.</span>
             </h1>
-            <p className="text-lg text-slate-500 mb-10 leading-relaxed max-w-lg">
-              Professional, end-to-end guidance for college admissions and elite internships. We turn academic goals into career milestones.
+            <p className="text-xl text-slate-400 mb-10 leading-relaxed max-w-lg font-medium">
+              Elite guidance for top-tier admissions and technical internships. We architect your path from classroom to boardroom.
             </p>
-            <Link href="/book-consultation">
-              <Button size="lg" className="bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white px-8 rounded-xl h-14 font-bold shadow-lg flex items-center gap-2">
-                Book Consultation
-              </Button>
-            </Link>
+            <Link href="/contact"><Button className="bg-cyan-500 hover:bg-cyan-400 text-black px-10 rounded-2xl h-16 font-black text-lg shadow-2xl shadow-cyan-500/20">BOOK CONSULTATION</Button></Link>
           </FadeIn>
           <FadeIn delay={0.2}>
-            <div className="relative">
-              <div className="absolute -inset-4 bg-[#86C232]/20 rounded-[2.5rem] blur-3xl" />
-              <img
-                src="/student-studying-and-college-admission-process.jpg"
-                alt="Success"
-                className="relative rounded-[2rem] shadow-2xl border-4 border-white object-cover aspect-[4/3]"
-              />
-            </div>
+            <div className="rounded-[2.8rem] overflow-hidden aspect-[1/1] sm:aspect-[4/5]">
+                  <img
+                    src="/collegetwo.jpg"
+                    alt="Careergize Students"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+
           </FadeIn>
         </div>
       </section>
 
-      {/* 3. TRACKS GRID */}
-      <section className="py-24 bg-slate-50/50 px-6 border-y border-slate-100">
+      {/* TRACKS GRID */}
+      <section className="py-32 bg-[#0B1120] px-6 border-y border-white/5 relative">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-16">
-            <h2 className="text-xs font-bold text-[#86C232] uppercase tracking-[0.4em] mb-4 text-center lg:text-left">Admissions</h2>
-            <h3 className="text-4xl font-bold tracking-tight text-[#0A4D68] text-center lg:text-left">Expert Guidance Tracks</h3>
+          <div className="text-center mb-20">
+            <h2 className="text-cyan-400 font-black text-xs uppercase tracking-[0.4em] mb-4">Admissions</h2>
+            <h3 className="text-5xl font-black tracking-tighter">Specialized Guidance Tracks</h3>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {tracks.map((track, i) => (
               <FadeIn key={i} delay={i * 0.1}>
-                <div className="bg-white p-8 rounded-2xl border border-slate-200/60 hover:border-[#86C232]/30 hover:shadow-xl transition-all group flex flex-col h-full">
-                  <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-[#86C232] transition-colors duration-300">
-                    <track.icon className="text-[#0A4D68] group-hover:text-white" size={24} />
+                <div className="bg-white/5 p-8 rounded-[2rem] border border-white/5 hover:border-cyan-500/30 transition-all group h-full">
+                  <div className="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center mb-8 border border-white/5 group-hover:bg-cyan-500 group-hover:text-black transition-all">
+                    <track.icon size={28} />
                   </div>
-                  <h4 className="text-xl font-bold mb-3 text-[#0A4D68]">{track.title}</h4>
-                  <p className="text-slate-500 text-sm mb-6 flex-grow leading-relaxed">{track.desc}</p>
-                  <div className="space-y-2 pt-4 border-t border-slate-50">
+                  <h4 className="text-2xl font-black mb-4 tracking-tight">{track.title}</h4>
+                  <p className="text-slate-400 text-sm mb-8 leading-relaxed font-medium">{track.desc}</p>
+                  <div className="flex flex-wrap gap-2 mt-auto">
                     {track.highlights.map((h, idx) => (
-                      <div key={idx} className="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase tracking-wide">
-                        <CheckCircle2 size={14} className="text-[#86C232]" /> {h}
-                      </div>
+                      <span key={idx} className="px-3 py-1 rounded-lg bg-white/5 border border-white/5 text-[10px] font-black text-cyan-400 uppercase tracking-widest">{h}</span>
                     ))}
                   </div>
                 </div>
@@ -272,63 +182,51 @@ export default function CollegeAdmissionPage() {
         </div>
       </section>
 
-      {/* 4. INTERNSHIP BRIDGE */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto bg-[#0A4D68] rounded-[3rem] p-12 lg:p-20 relative overflow-hidden shadow-2xl">
-          <div className="absolute top-0 right-0 w-1/3 h-full bg-[#86C232] opacity-10 -skew-x-12 translate-x-1/2" />
+      {/* INTERNSHIP BRIDGE */}
+      <section className="py-32 px-6">
+        <div className="max-w-7xl mx-auto bg-gradient-to-br from-[#0f172a] to-[#020617] rounded-[3.5rem] p-12 lg:p-24 border border-white/5 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[100px] -mr-40 -mt-40" />
           <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10">
-            <div className="text-white space-y-8">
-              <h2 className="text-4xl lg:text-6xl font-black leading-tight tracking-tighter">
-                Launch Your Career: <br />
-                <span className="text-[#86C232]">Careergize Internship 2026</span>
+            <div>
+              <h2 className="text-5xl lg:text-7xl font-black leading-none tracking-tighter mb-8">
+                Build. <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Not Just Learn.</span>
               </h2>
-              <div className="space-y-4">
-                <p className="text-white/80 text-lg leading-relaxed max-w-md">
-                  Stop just learning—start building. Our 2026 internship offers hands-on industry projects and 1-on-1 mentorship.
-                </p>
-                <ul className="grid grid-cols-1 gap-3">
-                  {['Industry Certifications', 'Real-world Tech Exposure', 'Professional Networking'].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-sm font-semibold text-[#86C232]">
-                      <div className="w-5 h-5 rounded-full bg-[#86C232]/20 flex items-center justify-center">✓</div>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Link href="/internship-2026/enrollment">
-                  <Button size="lg" className="bg-[#86C232] hover:bg-white hover:text-[#0A4D68] text-[#0A4D68] font-black rounded-2xl h-16 px-10 transition-all border-none">
-                    Enroll Now <ExternalLink className="ml-2" size={20} />
-                  </Button>
-                </Link>
-              </div>
+              <p className="text-slate-400 text-xl leading-relaxed mb-10 font-medium">
+                Our 2026 internship provides deep-tech exposure and industry mentorship. This is the blueprint for your digital dominance.
+              </p>
+              <ul className="space-y-4 mb-10">
+                {['Industry Certifications', 'Real-world Tech Exposure', 'Network Access'].map((item) => (
+                  <li key={item} className="flex items-center gap-4 text-white font-bold tracking-tight">
+                    <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/20">✓</div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/internship"><Button className="bg-emerald-500 hover:bg-emerald-400 text-black px-12 rounded-2xl h-16 font-black text-lg">ENROLL NOW <ExternalLink className="ml-3" /></Button></Link>
             </div>
-            <div className="relative group">
-              <img
-                src="/team-support-mentoring-professional-guidance.jpg"
-                className="relative rounded-[2rem] shadow-2xl border border-white/10"
-                alt="Mentorship"
-              />
+            <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 group">
+              <img src="/team-support-mentoring-professional-guidance.jpg" className="w-full group-hover:scale-105 transition-transform duration-700" alt="Mentorship" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. WHY CHOOSE US */}
-      <section className="py-24 px-6 bg-white">
+      {/* WHY US */}
+      <section className="py-32 px-6">
         <div className="max-w-7xl mx-auto">
-          <FadeIn>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#0A4D68] mb-12 text-center lg:text-left tracking-tight">Why Choose Us</h2>
-          </FadeIn>
-          <div className="grid md:grid-cols-3 gap-8">
-            {benefits.map((item, index) => (
-              <FadeIn key={index} delay={index * 0.1}>
-                <div className="relative p-8 bg-gradient-to-br from-slate-50 to-white border border-slate-100 rounded-2xl hover:border-[#86C232]/20 transition-all h-full">
-                  <div className="w-10 h-10 bg-[#86C232]/10 rounded-lg flex items-center justify-center mb-6">
-                    <item.icon className="text-[#86C232]" size={20} />
-                  </div>
-                  <h3 className="text-xl font-bold text-[#0A4D68] mb-3">{item.title}</h3>
-                  <p className="text-slate-500 text-sm leading-relaxed">{item.description}</p>
+          <div className="grid md:grid-cols-3 gap-10">
+            {[
+              { i: Target, t: 'Precision Mapping', d: 'Every session is a targeted strike toward your specific academic goal.' },
+              { i: ShieldCheck, t: 'Validated Records', d: 'Hundreds of admits into Ivy League and Fortune 500 tech roles.' },
+              { i: Zap, t: 'Real-Time Support', d: 'On-demand mentorship from the first consultation to final admission.' },
+            ].map((item, idx) => (
+              <FadeIn key={idx} delay={idx * 0.1}>
+                <div className="p-10 bg-white/5 border border-white/5 rounded-[2.5rem] hover:bg-white/[0.07] transition-all group">
+                  <item.i className="text-cyan-400 mb-6 group-hover:scale-110 transition-transform" size={32} />
+                  <h3 className="text-2xl font-black mb-4 tracking-tight">{item.t}</h3>
+                  <p className="text-slate-400 font-medium leading-relaxed">{item.d}</p>
                 </div>
               </FadeIn>
             ))}
@@ -336,32 +234,28 @@ export default function CollegeAdmissionPage() {
         </div>
       </section>
 
-      {/* 6. CTA */}
-      <section className="py-24 px-6 text-center">
-        <div className="max-w-4xl mx-auto">
+      {/* FINAL CTA */}
+      <section className="py-32 px-6">
+        <div className="max-w-5xl mx-auto text-center">
           <FadeIn>
-            <div className="p-12 rounded-[2.5rem] bg-slate-50 border border-slate-100 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#86C232] to-transparent" />
-              <h2 className="text-4xl font-bold text-[#0A4D68] mb-4 tracking-tight">Ready to Begin Your Journey?</h2>
-              <p className="text-lg text-slate-500 mb-10 max-w-xl mx-auto">
-                Connect with our experts for personalized college admission and career guidance today.
-              </p>
-              <Link href="/book-consultation">
-                <Button size="lg" className="bg-[#0A4D68] hover:bg-[#0A4D68]/90 text-white px-12 rounded-full h-16 font-bold text-lg shadow-xl shadow-[#0A4D68]/20">
-                  Get Free Consultation
-                </Button>
-              </Link>
+            <div className="p-16 rounded-[3.5rem] bg-gradient-to-b from-white/5 to-transparent border border-white/10 relative">
+              <h2 className="text-5xl font-black tracking-tighter mb-6 leading-none">Ready to Architect Your <span className="text-cyan-400">Success?</span></h2>
+              <p className="text-slate-400 text-xl font-medium mb-12 max-w-xl mx-auto">Connect with our lead strategists for a free audit of your career roadmap today.</p>
+              <Link href="/contact"><Button className="bg-cyan-500 hover:bg-cyan-400 text-black px-12 rounded-2xl h-16 font-black text-xl shadow-[0_20px_50px_rgba(34,197,94,0.2)]">GET STARTED NOW</Button></Link>
             </div>
           </FadeIn>
         </div>
       </section>
 
-      {/* 7. FOOTER */}
-      <footer className="py-12 text-center">
+      {/* FOOTER */}
+      <footer className="py-20 border-t border-white/5 text-center">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-slate-300">
-            © 2026 Careergize LLP. All rights reserved.
-          </p>
+          <div className="flex justify-center gap-8 mb-8 text-slate-500">
+             {/* <Linkedin className="hover:text-cyan-400 cursor-pointer" />
+             <Instagram className="hover:text-cyan-400 cursor-pointer" />
+             <Twitter className="hover:text-cyan-400 cursor-pointer" /> */}
+          </div>
+          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-600">© 2026 Careergize blueprint. All rights reserved.</p>
         </div>
       </footer>
     </div>

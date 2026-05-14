@@ -65,12 +65,16 @@ export default function ServicePillars() {
             whileHover={{ y: -5 }}
             className="md:col-span-4 bg-[#161D2F] rounded-[2.5rem] p-10 border border-white/5 flex flex-col items-center justify-center text-center group"
           >
-            <div className="w-20 h-20 rounded-3xl bg-emerald-500/10 flex items-center justify-center mb-8 border border-emerald-500/20">
-              <Rocket size={40} className="text-emerald-400" />
-            </div>
+             <div className="rounded-[2.8rem] overflow-hidden aspect-[1/1] sm:aspect-[4/5]">
+                  <img
+                    src="/college3.jpg"
+                    alt="Careergize Students"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
             <h3 className="text-3xl font-bold text-emerald-400 mb-6">Internships</h3>
             <p className="text-slate-400 mb-10 leading-relaxed">
-              Exclusive access to high-impact roles at Fortune 500 tech giants and unicorns.
+             We provide internship to college studnets for WebDevelopment
             </p>
             <button className="flex items-center gap-2 text-emerald-400 font-bold hover:gap-4 transition-all">
               View Programs <ArrowRight size={20} />
